@@ -1,0 +1,4 @@
+add_executable(test_path_planner test_path_planner.cpp)
+target_link_libraries(test_path_planner PRIVATE path_planner_lib)
+
+add_test(NAME test_path_planner COMMAND test_path_planner)
