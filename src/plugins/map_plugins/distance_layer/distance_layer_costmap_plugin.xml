@@ -1,0 +1,7 @@
+<class_libraries>
+  <library path="lib/libdistance_layer">
+    <class type="costmap_2d::DistanceLayer" base_class_type="costmap_2d::Layer">
+      <description>A costmap plugin for Euclidean distance field.</description>
+    </class>
+  </library>
+</class_libraries>

@@ -1,0 +1,61 @@
+PathPlanner:
+  rrt:
+    # random sample points
+    sample_points: 1500
+    # max distance between sample points 30
+    sample_max_d: 10.0
+
+  rrt_star:
+    # random sample points
+    sample_points: 1000
+    # max distance between sample points
+    sample_max_d: 10.0
+    # optimization radius
+    optimization_r: 5.0
+
+  rrt_connect:
+    # random sample points
+    sample_points: 1500
+    # max distance between sample points
+    sample_max_d: 30.0
+
+  informed_rrt:
+    # random sample points 1500
+    sample_points: 1500
+    # max distance between sample points 30
+    sample_max_d: 10.0
+    # optimization radius 20
+    optimization_r: 10.0
+  
+  quick_informed_rrt:
+    # random sample points
+    sample_points: 3000
+    # max distance between sample points
+    sample_max_d: 30.0
+    # optimization radius
+    optimization_r: 20.0
+    # radius of priority circles set
+    prior_circle_set_r: 15.0
+    # increased distance of adaptive extend step size
+    step_extend_d: 30.0 # suggest between half and one times sample_max_d
+    # parallel rewire process
+    rewire_threads_num: 4
+    # aggressive or gradual optimizing strategy
+    t_distr_freedom: 1.0 # suggest from 0.2 to 3
+
+  sunshine:
+    # max node expansions (ChooseSun iterations)
+    max_iterations: 20000
+    # angular step for 360-degree illumination sampling [rad]
+    theta_step: 0.17453292519943295
+    # ray marching step [cells]
+    length_step: 1.0
+    # threshold for detecting tangents via adjacent-ray length discontinuity [cells]
+    length_diff_threshold: 8.0
+    # forward distance bias to avoid getting stuck along curved boundaries [cells]
+    forward_distance: 6.0
+    # max ray length for casting [cells]
+    max_ray_length: 200.0
+    # bidirectional bisection-based backend optimization
+    enable_bidirectional_opt: true
+    optimize_iterations: 5

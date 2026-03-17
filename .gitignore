@@ -1,0 +1,13 @@
+# Catkin build artifacts
+build/
+devel/
+logs/
+
+# Conan generated files (machine-specific absolute paths)
+3rd/conanbuildinfo.*
+3rd/conaninfo.txt
+3rd/graph_info.json
+3rd/Find*.cmake
+
+# Conan local caches/output folders
+3rd/build/

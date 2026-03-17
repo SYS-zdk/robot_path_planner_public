@@ -1,0 +1,6 @@
+local_costmap:
+  plugins:
+  - {name: static_map, type: 'costmap_2d::StaticLayer'}
+  - {name: obstacle_layer, type: 'costmap_2d::ObstacleLayer'}
+  - {name: localreachability_layer, type: 'costmap_2d::LocalReachabilityLayer'}
+  - {name: inflation_layer, type: 'costmap_2d::InflationLayer'}

@@ -1,0 +1,12 @@
+shutdown_costmaps: false
+
+planner_frequency: 0.0 # 2.0
+planner_patience: 5.0 #5.0 
+
+controller_frequency: 10.0 #10.0 
+controller_patience: 0.2 # was teb2.0; too small when local planner occasionally needs >200ms
+
+oscillation_timeout: 10.0
+oscillation_distance: 0.2 #配合timeout的含义就是，10s内超过0.2m范围内的运动才不算陷入局部震荡 0.2
+
+conservative_reset_dist: 3.0

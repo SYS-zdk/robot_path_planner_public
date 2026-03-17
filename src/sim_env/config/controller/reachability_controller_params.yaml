@@ -1,0 +1,73 @@
+ReachabilityController:
+  # MPPI trajectory visualization
+  publish_traj_pc: true
+  traj_viz_num_samples: 80
+  # publish one point every N steps (reduces point density / visual clutter)
+  traj_viz_stride: 1
+  # empty means use costmap global frame
+  traj_cloud_frame: ""
+
+  # generic local planner limits (examples; adjust per robot)
+  acc_lim_theta: 2.5
+  acc_lim_trans: 0.2
+  acc_lim_x: 0.2
+  acc_lim_y: 0.0
+
+  max_vel_theta: 2.5
+  max_vel_trans: 0.4
+  max_vel_x: 0.4
+  max_vel_y: 0.0
+
+  # Minimum velocity limits
+  # Note: MPPI uses +/- max_vel_theta as signed bounds; min_vel_theta is treated as magnitude threshold in many configs.
+  min_vel_theta: 0.0
+  min_vel_trans: -0.2
+  min_vel_x: -0.2
+  min_vel_y: 0.0
+
+  # goal/stop tolerances (stop-rotate controller relies on these)
+  theta_stopped_vel: 0.1
+  trans_stopped_vel: 0.1
+  xy_goal_tolerance: 0.1
+  yaw_goal_tolerance: 0.2
+  prune_plan: false
+
+  # MPPI core
+  mppi_num_samples: 300
+  mppi_horizon_steps: 60  # 60
+  mppi_dt: 0.08
+  mppi_iterations: 2
+  # larger lambda -> weights less peaky (usually smoother commands)
+  mppi_lambda: 3.0
+  mppi_noise_v_std: 0.15
+  # key knob for wobble: too large makes angular command jitter 0.25
+  mppi_noise_w_std: 0.3 
+
+  # MPPI cost weights
+  mppi_path_weight: 5.0
+  mppi_goal_weight: 2.0
+  # follow the local plan direction
+  mppi_lookahead_weight: 2.0
+  # avoid over-correcting heading to the lookahead point (can cause wobble)
+  mppi_heading_weight: 0.3
+  # helps cornering (turn earlier) when global path bends
+  mppi_path_heading_weight: 1.0
+  mppi_obstacle_weight: 1.0
+  # increase if you observe spinning / jitter
+  mppi_control_weight: 1.0
+
+  # MPPI path-following geometry
+  mppi_lookahead_dist: 1.2 #0.6
+
+  # MPPI smoothing (reduces left-right wobble)
+  mppi_smooth_weight: 2.0
+  # MPPI update step size (0..1). 1.0 matches the standard MPPI update u <- u + sum w*eps
+  mppi_update_alpha: 0.2
+
+  # reduce stop-and-go (penalize low forward speed)
+  mppi_forward_weight: 0.2
+
+  # reachability critic
+  reachability_scale: 2.0
+  min_reachability: 0.0
+  reachability_use_min: true
