@@ -1,0 +1,8 @@
+<library path="lib/libilqr_controller">
+    <class name="ilqr_controller/ILQRController" type="rpp::controller::ILQRController"
+        base_class_type="nav_core::BaseLocalPlanner">
+        <description>
+            A local controller based on iterative Linear Quadratic Regulator (iLQR / DDP-style).
+        </description>
+    </class>
+</library>

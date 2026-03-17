@@ -1,0 +1,7 @@
+<library path="lib/liblocalreachability_layer">
+	<class name="costmap_2d::LocalReachabilityLayer" type="costmap_2d::LocalReachabilityLayer" base_class_type="costmap_2d::Layer">
+		<description>
+			Local reachability layer providing robot-conditioned reachability scores for local planning.
+		</description>
+	</class>
+</library>

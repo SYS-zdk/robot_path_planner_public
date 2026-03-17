@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<package format="2">
+  <name>social_layer</name>
+  <version>0.0.1</version>
+  <description>Social costmap layer for pedestrian social comfort costs.</description>
+  <maintainer email="384062977@qq.com">you</maintainer>
+  <license>GPL3</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>pedsim_msgs</depend>
+  <depend>costmap_2d</depend>
+  <depend>nav_msgs</depend>
+  <depend>roscpp</depend>
+
+  <export>
+    <costmap_2d plugin="${prefix}/social_layer_costmap_plugin.xml" />
+  </export>
+
+</package>

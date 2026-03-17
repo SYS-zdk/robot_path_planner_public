@@ -1,0 +1,7 @@
+<library path="lib/libglobalreachability_layer">
+	<class name="costmap_2d::GlobalReachabilityLayer" type="costmap_2d::GlobalReachabilityLayer" base_class_type="costmap_2d::Layer">
+		<description>
+			Global reachability layer providing environment-level reachability scores for planning.
+		</description>
+	</class>
+</library>

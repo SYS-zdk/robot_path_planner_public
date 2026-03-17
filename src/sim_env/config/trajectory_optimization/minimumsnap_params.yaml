@@ -1,0 +1,9 @@
+Optimizer:
+  # the maximum iterations for optimization
+  max_iter: 100 
+  # the maximum velocity (m/s)
+  vel_max: 1.0
+  # the maximum acceleration (m/s2)
+  acc_max: 2.0 
+  # the maximum jerk (m/s3)
+  jerk_max: 4.0

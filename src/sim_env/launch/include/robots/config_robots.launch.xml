@@ -1,0 +1,36 @@
+<!-- 
+******************************************************************************************
+*  Copyright (c) 2024 Yang Haodong, All Rights Reserved                                  *
+*                                                                                        *
+*  @brief    Robots parameter configure.                                                 *
+*  @author   Haodong Yang,                                                               *
+*  @version  1.0.0                                                                       *
+*  @date     2024.11.08                                                                  *
+*  @license  GNU General Public License (GPL)                                            *
+******************************************************************************************
+-->
+
+<launch>
+    <!-- robot type -->
+    <arg name="robot" />
+
+    <!-- ridgeback -->
+    <rosparam command="load" file="$(find sim_env)/config/robots/ridgeback/control_ridgeback.yaml"
+        if="$(eval arg('robot')=='ridgeback')"/>
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" if="$(eval arg('robot')=='ridgeback')"
+        args="ridgeback_joint_publisher ridgeback_velocity_controller" />
+    <node pkg="twist_mux" type="twist_mux" name="twist_mux" if="$(eval arg('robot')=='ridgeback')">
+        <rosparam command="load" file="$(find sim_env)/config/robots/ridgeback/twist_mux_ridgeback.yaml" />
+        <remap from="cmd_vel_out" to="ridgeback_velocity_controller/cmd_vel"/>
+    </node>
+
+    <!-- jackal -->
+    <rosparam command="load" file="$(find sim_env)/config/robots/jackal/control_jackal.yaml" 
+        if="$(eval arg('robot')=='jackal')"/>
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" if="$(eval arg('robot')=='jackal')"
+            args="jackal_joint_publisher jackal_velocity_controller" />
+    <node pkg="twist_mux" type="twist_mux" name="twist_mux" if="$(eval arg('robot')=='jackal')">
+        <rosparam command="load" file="$(find sim_env)/config/robots/jackal/twist_mux_jackal.yaml" />
+        <remap from="cmd_vel_out" to="jackal_velocity_controller/cmd_vel"/>
+    </node>
+</launch>

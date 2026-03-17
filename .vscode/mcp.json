@@ -1,0 +1,8 @@
+{
+  "servers": {
+    "copilot-enhance-3211": {
+      "type": "http",
+      "url": "http://127.0.0.1:3211/mcp"
+    }
+  }
+}

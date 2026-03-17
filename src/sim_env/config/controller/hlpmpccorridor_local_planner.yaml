@@ -1,0 +1,74 @@
+HybridMpcCorridorPlannerROS:
+  sim_time: 1.5 #1.5 2.0
+  sim_granularity: 0.025
+  angular_sim_granularity: 0.03
+  path_distance_bias: 32.0 #32.0 90.0
+  goal_distance_bias: 24.0 #20.0 24.0
+  occdist_scale: 0.1 #0.02 0.3
+  twirling_scale: 0.1 #0.02
+  stop_time_buffer: 0.2
+  oscillation_reset_dist: 0.05
+  oscillation_reset_angle: 0.2
+  forward_point_distance: 0.325 #0.325
+  scaling_speed: 0.1 #0.1 0.2
+  max_scaling_factor: 0.2
+  vx_samples: 20
+  vy_samples: 10
+  vth_samples: 40
+  restore_defaults: false
+  acc_lim_theta: 1.57 #0.6 0.3 2.5
+  acc_lim_trans: 0.2
+  # Linear acceleration limit (m/s^2). Increase if robot can accelerate faster to reduce clipping-induced oscillations
+  acc_lim_x: 0.2 # was 0.2
+  acc_lim_y: 0.0
+  # reduce maximum rotational speed to avoid aggressive turns that may cause back-and-forth
+  max_vel_theta: 1.57 # was 2.5
+  max_vel_trans: 0.4 #0.4 0.3
+  max_vel_x: 0.4 #0.4 0.3
+  max_vel_y: 0.0
+  min_vel_theta: 0.0 #0.0 0.1
+  min_vel_trans: 0.0 #0.0 0.1
+  min_vel_x: 0.0 #0.0 0.1
+  min_vel_y: 0.0
+  theta_stopped_vel: 0.1
+  trans_stopped_vel: 0.1
+  xy_goal_tolerance: 0.1
+  yaw_goal_tolerance: 0.2
+  use_dwa: false
+  prune_plan: false
+  # MPC parameters
+  # horizon: number of discrete steps predicted by MPC (longer -> more foresight, more compute)
+  mpc_horizon: 6
+  # mpc_dt: discrete timestep for MPC prediction (s)
+  mpc_dt: 0.05
+  # state tracking costs (higher => track ref more aggressively)
+  mpc_q_v: 1.0
+  mpc_q_w: 1.0
+  # control smoothness costs (higher => penalize changes -> smoother control)
+  mpc_r_v: 0.5
+  mpc_r_w: 0.2
+  # blending / switching
+  # blend_tau: time constant (s) of low-pass filter applied to alpha (larger => slower blending)
+  blend_tau: 0.4
+  # v_switch_threshold: nominal velocity difference threshold used as default for sigmoid center
+  v_switch_threshold: 0.12
+  # Sigmoid mapping parameters for continuous alpha:
+  # - alpha_sigmoid_k: steepness of sigmoid (smaller => gentler transition)
+  # - alpha_sigmoid_thr: center threshold (m/s) where alpha ~= 0.5
+  alpha_sigmoid_k: 4.0
+  alpha_sigmoid_thr: 0.15
+  # OSQP solver options
+  osqp_verbose: false
+  osqp_warm_start: true
+
+  # --------- 动态行人/动态障碍代价（启用）---------
+  # dynamic_obstacle_scale > 0 时启用 DynamicObstacleCostFunction：
+  # - 对每条候选轨迹做时间展开（按轨迹采样时刻）
+  # - 用行人当前速度做匀速预测 p(t)=p0+v*t
+  # - 若任一时刻预测距离 dist < robot_radius + dynamic_safe_distance，则该轨迹直接判非法（score=-1）
+  # - 否则按距离余量 margin=dist-robot_radius-dynamic_safe_distance 计算软惩罚 exp(-margin)
+  dynamic_obstacle_scale: 0.1   # 建议从小到大调；0=关闭
+  robot_radius: 0.3             # 机器人等效圆半径（m），用于动态避碰距离计算
+  dynamic_safe_distance: 0.6    # 额外安全缓冲（m）：在 robot_radius 之外再留 0.6m 安全距离（越大越保守）
+
+  

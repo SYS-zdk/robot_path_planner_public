@@ -1,0 +1,35 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/zhangdingkun/robot_path_planner_public/devel/include/**",
+        "/home/zhangdingkun/workspace/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/zhangdingkun/robot_path_planner_public/src/core/common/include/**",
+        "/home/zhangdingkun/robot_path_planner_public/src/core/controller/controller/include/**",
+        "/home/zhangdingkun/robot_path_planner_public/src/plugins/map_plugins/distance_layer/include/**",
+        "/home/zhangdingkun/robot_path_planner_public/src/plugins/map_plugins/globalreachability_layer/include/**",
+        "/home/zhangdingkun/robot_path_planner_public/src/core/controller/hlpmpccorridor_local_planner/include/**",
+        "/home/zhangdingkun/robot_path_planner_public/src/core/controller/ilqr_controller/include/**",
+        "/home/zhangdingkun/robot_path_planner_public/src/plugins/map_plugins/localreachability_layer/include/**",
+        "/home/zhangdingkun/robot_path_planner_public/src/core/path_planner/path_planner/include/**",
+        "/home/zhangdingkun/robot_path_planner_public/src/core/path_planner/path_processor/include/**",
+        "/home/zhangdingkun/robot_path_planner_public/src/core/controller/reachability_controller/include/**",
+        "/home/zhangdingkun/robot_path_planner_public/src/plugins/map_plugins/social_layer/include/**",
+        "/home/zhangdingkun/robot_path_planner_public/src/core/trajectory_planner/include/**",
+        "/home/zhangdingkun/robot_path_planner_public/src/plugins/map_plugins/voronoi_layer/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

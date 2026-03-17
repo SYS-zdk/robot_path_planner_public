@@ -1,0 +1,8 @@
+<library path="lib/libreachability_controller">
+    <class name="reachability_controller/ReachabilityController" type="rpp::controller::ReachabilityController"
+        base_class_type="nav_core::BaseLocalPlanner">
+        <description>
+            A reachability-aware local controller using MPPI for navigation.
+        </description>
+    </class>
+</library>

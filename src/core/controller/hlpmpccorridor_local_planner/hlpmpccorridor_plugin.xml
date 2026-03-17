@@ -1,0 +1,7 @@
+<library path="lib/libhlpmpccorridor_local_planner">
+        <class name ="hlpmpccorridor_local_planner/HybridMpcCorridorPlannerROS" type ="hlpmpccorridor_local_planner::HybridMpcCorridorPlannerROS" base_class_type= "nav_core::BaseLocalPlanner">
+                <description>
+                        HLP MPC Corridors local planner plugin.
+                </description>
+        </class>
+</library>

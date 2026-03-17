@@ -1,0 +1,7 @@
+<class_libraries>
+  <library path="lib/libsocial_layer">
+    <class type="social_layer::SocialLayer" base_class_type="costmap_2d::Layer">
+      <description>Social costmap layer for pedestrian social comfort costs.</description>
+    </class>
+  </library>
+</class_libraries>

@@ -1,0 +1,13 @@
+Optimizer:
+  # the maximum iterations for optimization
+  max_iter: 100
+  # the maximum distance to obstacle (m)
+  obs_dist_max: 0.3
+  # the maximum curvature (rad/m)
+  k_max: 0.15
+  # the weight for obstacle avoidance
+  w_obstacle: 0.5
+  # the weight for smoothness
+  w_smooth: 0.25
+  # the weight for curvature
+  w_curvature: 0.25

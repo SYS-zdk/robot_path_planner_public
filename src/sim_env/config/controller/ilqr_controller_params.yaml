@@ -1,0 +1,61 @@
+ILQRController:
+  # offset of transform from world(x,y) to grid map(x,y)
+  convert_offset: 0.0
+
+  # goal reached tolerance
+  goal_dist_tolerance: 0.2
+  rotate_tolerance: 0.5
+
+  # linear velocity
+  max_v: 0.6
+  min_v: 0.0
+  max_v_inc: 0.6
+
+  # angular velocity
+  max_w: 1.57
+  min_w: 0.0
+  max_w_inc: 1.57
+
+  # frame id
+  base_frame: base_link
+  map_frame: map
+
+  # lookahead
+  lookahead_time: 0.8
+  min_lookahead_dist: 0.3
+  max_lookahead_dist: 1.2
+
+  # iLQR params
+  horizon_steps: 25
+  max_iter: 15
+  lambda_init: 1.0
+  lambda_max: 1000000.0
+
+  v_ref: 0.5
+  ds_ref: 0.15
+
+  # weights
+  w_track: 2.5
+  w_heading: 0.8
+  w_u: 0.2
+  w_du: 0.5
+  w_obs: 4.0
+
+  # corridor integration
+  use_corridor: true
+  corridor_hard_constraint: true
+  w_corridor: 2.0
+  corridor_safety_range: 0.6
+  corridor_wheelbase: 0.3
+  corridor_max_steer_angle: 0.83
+  corridor_track_width: 0.3
+
+  obs_cost_scale: 1.0
+  obs_cost_gain: 5.0
+  obs_cost_threshold: 253.0
+  obs_collision_cost: 50.0
+
+  # Optional ESDF (requires costmap to load costmap_2d::DistanceLayer)
+  use_esdf: false
+  esdf_sigma_m: 0.30
+  esdf_collision_dist_m: 0.05

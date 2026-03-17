@@ -1,0 +1,15 @@
+Optimizer:
+  # the maximum iterations for optimization
+  max_iter: 100 
+  # learning rate 0.1
+  alpha: 0.01
+  # the maximum distance to obstacle (m)
+  obs_dist_max: 0.3 
+  # the maximum curvature
+  k_max: 0.15
+  # the weight for obstacle avoidance
+  w_obstacle: 0.5
+  # the weight for smooth 0.25
+  w_smooth: 0.15
+  # the weight for curvature 0.25
+  w_curvature: 0.35

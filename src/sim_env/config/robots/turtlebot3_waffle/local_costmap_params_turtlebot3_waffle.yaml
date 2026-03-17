@@ -1,0 +1,103 @@
+global_frame: odom
+robot_base_frame: base_footprint
+
+# robot footprint
+footprint: [[-0.21, -0.165], [-0.21, 0.165], [0.21, 0.165], [0.21, -0.165]]
+# NOTE: padding=0.1m is extremely conservative for TurtleBot3 and can easily make the robot
+# appear "in collision" near corners, causing local planning and rotate recovery to fail.
+# Keep a small padding and rely on inflation/other costs for extra safety margin.
+footprint_padding: 0.01
+
+update_frequency: 2.0
+publish_frequency: 1.0
+transform_tolerance: 0.5  
+
+static_map: false  
+rolling_window: true
+width: 3
+height: 3
+resolution: 0.05
+
+# 膨胀半径: 应该是robot_radius + 一些安全距离
+# robot_radius ≈ 0.27m，所以3.0m = 0.27 + 2.73m (安全距离)
+# 在狭窄环境中，可以降低到1.5-2.0m以获得更多可通行空间
+# 建议：如果环境狭窄，改为 inflation_radius: 1.5
+inflation_radius: 0.2
+
+### Obstacle Layer - 接收激光雷达数据（动态障碍物）###
+obstacle_layer:
+  observation_sources: scan
+  scan:
+    topic: scan
+    sensor_frame: base_footprint
+    observation_persistence: 0.0
+    expected_update_rate: 0.8
+    data_type: LaserScan
+    clearing: true
+    marking: true
+    max_obstacle_height: 0.8
+    min_obstacle_height: 0.0
+    obstacle_range: 3.0
+    raytrace_range: 3.5
+    inf_is_valid: true
+
+### Social Layer - 行人社交舒适区域（仅在HLPMPCCorridor规划器启用）###
+social_layer:
+  enabled: true
+  write_to_master: false  # Don't pollute master_grid; use direct cache access from HybridPlanner
+  
+  # 行人社交距离模型参数（基于心理学距离理论）
+  ellipse_major: 2.5      # 前向椭圆长轴（米）- 行人行动方向
+  ellipse_minor: 1.0      # 前向椭圆短轴（米）
+  circle_radius: 0.8      # 后向圆形半径（米）- 行人背后区域
+  cutoff_distance: 3.0    # 社交成本感知的最大距离（米）
+  
+  max_cost: 254           # LETHAL_OBSTACLE - 社交成本的最大值
+  publish_debug: true     # 发布debug costmap用于可视化
+  debug_topic: "social_layer/local_debug_costmap"
+
+localreachability_layer:
+  enabled: true
+  write_to_master: false
+
+  # Treat which costmap values as "occupied" when computing clearance/width.
+  # 254: only lethal, 253: inscribed+lethal, <253: also includes inflated costs (often needed for pedestrians).
+  occupied_cost_threshold: 200
+
+  # Scheme-A reachability scoring (non-saturating, avoids huge areas = 1.0)
+  risk_clearance_scale_m: 0.18
+  risk_width_scale_m: 0.40
+
+  # 彩色热力图可视化（PointCloud2）
+  publish_color_cloud: true
+  color_cloud_stride: 1        # 增加stride以降低可视化开销 (原为1)
+  color_cloud_z: 0.02
+
+  # Visualization-only mapping V(R): ONLY affects cloud/image coloring.
+  # Planning/cost writing still uses raw reachability R.
+  # Use clamp+gamma to expand colors when most cells are near 1.0.
+  viz_mode: clamp_gamma          # raw | clamp | clamp_gamma | sigmoid
+  # NOTE: If min is too high, most cells get clamped to 0 -> single-color in RViz.
+  viz_clamp_min: 0.00            # map [min,max] -> [0,1]
+  viz_clamp_max: 1.00
+  viz_gamma: 0.60                # <1 expands high-end differences
+  viz_sigmoid_k: 12.0
+  viz_sigmoid_center: 0.85
+
+  # local map is usually dynamic; keep conservative unless you want to explore unknown
+  treat_unknown_as_obstacle: true
+
+  robot_radius: 0.27
+  safety_distance_min: 0.05
+  safety_distance_good: 0.20
+
+  max_raytrace_range_m: 2.5
+  include_diagonal_rays: true
+  adaptive_width: true
+
+  alpha_clearance: 1.0
+  alpha_width: 1.0
+
+  # ✨ 延迟优化: 降低更新间隔 (从0.2改为0.05秒) - 实现自适应频率
+  # 当occupancy_bin变化时立即更新，否则使用缓存
+  update_interval_s: 0.05       # 改为50ms，结合自适应检测可达到20ms延迟
