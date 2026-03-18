@@ -1,4 +1,4 @@
-# robot_path_planner
+# robot_path_planner_public
 ## 1. Environment Requirements
 <p align="center">
     <img width="100px" height="20px" src="https://img.shields.io/badge/Ubuntu-20.04-orange?logo=Ubuntu&Ubuntu-20.04"
@@ -43,8 +43,209 @@ Below is a typical system architecture diagram used in this repository:
   <em>Figure 2: Robot</em>
 </p>
 
-## 3. Core Innovations
-### 3.1 Global Hierarchical Motion Planning for Ackermann Robots (HPCC)
+## 3. Module Gallery (LEGO Blocks)
+
+Core Innovations 更像是“用积木搭出来的实例”。为了方便复用与二次开发，这里按功能把仓库里的核心模块（planners / controllers / layers / optimizers）做一个清单式展示：每个条目仅 1 句说明 + 入口路径 + GIF 演示位（当前统一用 `./images/video.gif` 占位，后续你可以逐个替换成真实 demo）。
+
+### 3.1 Global Planning Modules
+
+<table>
+    <tr>
+        <td align="center" width="33%">
+            <b>rhcf_planner</b><br/>
+            <em>Voronoi multi-homotopy global planner (RHCF-style).</em><br/>
+            <code>src/core/path_planner/path_planner/src/graph_planner/</code><br/>
+            <img src="./images/video.gif" width="260" alt="rhcf_planner demo" />
+        </td>
+        <td align="center" width="33%">
+            <b>bdrp_planner</b><br/>
+            <em>Sampling-based global planner with lightweight refinement.</em><br/>
+            <code>src/core/path_planner/path_planner/src/sample_planner/</code><br/>
+            <img src="./images/video.gif" width="260" alt="bdrp_planner demo" />
+        </td>
+        <td align="center" width="33%">
+            <b>sunshine_planner</b><br/>
+            <em>Sunshine ray sampling + LOS graph search global planner.</em><br/>
+            <code>src/core/path_planner/path_planner/src/sample_planner/</code><br/>
+            <img src="./images/video.gif" width="260" alt="sunshine_planner demo" />
+        </td>
+    </tr>
+</table>
+
+### 3.2 Local Planning / Control Modules
+
+<table>
+    <tr>
+        <td align="center" width="33%">
+            <b>hlpmpccorridor_local_planner</b><br/>
+            <em>HLP + MPC + convex corridor local planning.</em><br/>
+            <code>src/core/controller/hlpmpccorridor_local_planner/</code><br/>
+            <img src="./images/video.gif" width="260" alt="hlpmpccorridor_local_planner demo" />
+        </td>
+        <td align="center" width="33%">
+            <b>bubble_local_planner</b><br/>
+            <em>Reactive local planner (bubble-style obstacle avoidance).</em><br/>
+            <code>src/core/controller/bubble_local_planner/</code><br/>
+            <img src="./images/video.gif" width="260" alt="bubble_local_planner demo" />
+        </td>
+        <td align="center" width="33%">
+            <b>ilqr_controller</b><br/>
+            <em>Model-based iLQR tracking controller.</em><br/>
+            <code>src/core/controller/ilqr_controller/</code><br/>
+            <img src="./images/video.gif" width="260" alt="ilqr_controller demo" />
+        </td>
+    </tr>
+    <tr>
+        <td align="center" width="33%">
+            <b>karcher_local_planner</b><br/>
+            <em>Local planner using Karcher mean / manifold smoothing.</em><br/>
+            <code>src/core/controller/karcher_local_planner/</code><br/>
+            <img src="./images/video.gif" width="260" alt="karcher_local_planner demo" />
+        </td>
+        <td align="center" width="33%">
+            <b>minco_local_planner</b><br/>
+            <em>MINCO-based local planning & tracking.</em><br/>
+            <code>src/core/controller/minco_local_planner/</code><br/>
+            <img src="./images/video.gif" width="260" alt="minco_local_planner demo" />
+        </td>
+        <td align="center" width="33%">
+            <b>mppi_local_planner</b><br/>
+            <em>Sampling-based MPPI local planner.</em><br/>
+            <code>src/core/controller/mppi_local_planner/</code><br/>
+            <img src="./images/video.gif" width="260" alt="mppi_local_planner demo" />
+        </td>
+    </tr>
+    <tr>
+        <td align="center" width="33%">
+            <b>reachability_controller</b><br/>
+            <em>Reachability-aware MPPI controller.</em><br/>
+            <code>src/core/controller/reachability_controller/</code><br/>
+            <img src="./images/video.gif" width="260" alt="reachability_controller demo" />
+        </td>
+        <td align="center" width="33%">
+            <b>st_hybrid_astar_local_planner</b><br/>
+            <em>Space–time Hybrid A* local planner.</em><br/>
+            <code>src/core/controller/st_hybrid_astar_local_planner/</code><br/>
+            <img src="./images/video.gif" width="260" alt="st_hybrid_astar_local_planner demo" />
+        </td>
+        <td align="center" width="33%">
+            <b>tangent_local_planner</b><br/>
+            <em>Tangent graph / tangent sampling local planner.</em><br/>
+            <code>src/core/controller/tangent_local_planner/</code><br/>
+            <img src="./images/video.gif" width="260" alt="tangent_local_planner demo" />
+        </td>
+    </tr>
+    <tr>
+        <td align="center" width="33%">
+            <b>vfh_local_planner</b><br/>
+            <em>Vector Field Histogram (VFH) reactive local planner.</em><br/>
+            <code>src/core/controller/vfh_local_planner/</code><br/>
+            <img src="./images/video.gif" width="260" alt="vfh_local_planner demo" />
+        </td>
+        <td align="center" width="33%"></td>
+        <td align="center" width="33%"></td>
+    </tr>
+</table>
+
+### 3.3 Trajectory Optimization Modules
+
+<table>
+    <tr>
+        <td align="center" width="50%">
+            <b>lbfgs</b><br/>
+            <em>Trajectory smoothing via L-BFGS(-Lite).</em><br/>
+            <code>src/core/trajectory_planner/src/trajectory_optimization/lbfgs_optimizer/</code><br/>
+            <img src="./images/video.gif" width="320" alt="lbfgs optimizer demo" />
+        </td>
+        <td align="center" width="50%">
+            <b>minco</b><br/>
+            <em>MINCO-like minimum-jerk spline optimizer.</em><br/>
+            <code>src/core/trajectory_planner/src/trajectory_optimization/minco_spline_optimizer/</code><br/>
+            <img src="./images/video.gif" width="320" alt="minco optimizer demo" />
+        </td>
+    </tr>
+    <tr>
+        <td align="center" width="50%">
+            <b>minimum-snap</b><br/>
+            <em>QP-based minimum-snap optimizer (corridor constraints supported).</em><br/>
+            <code>src/core/trajectory_planner/src/trajectory_optimization/minimumsnap_optimizer/</code><br/>
+            <img src="./images/video.gif" width="320" alt="minimum-snap optimizer demo" />
+        </td>
+        <td align="center" width="50%">
+            <b>splinetrajectory</b><br/>
+            <em>Spline trajectory optimizer (global reference smoothing).</em><br/>
+            <code>src/core/trajectory_planner/src/trajectory_optimization/splinetrajectory_optimizer/</code><br/>
+            <img src="./images/video.gif" width="320" alt="splinetrajectory optimizer demo" />
+        </td>
+    </tr>
+</table>
+
+### 3.4 Map Plugin Modules (costmap layers)
+
+<table>
+    <tr>
+        <td align="center" width="33%">
+            <b>globalreachability_layer</b><br/>
+            <em>Global reachability scoring layer.</em><br/>
+            <code>src/plugins/map_plugins/globalreachability_layer/</code><br/>
+            <img src="./images/video.gif" width="260" alt="globalreachability_layer demo" />
+        </td>
+        <td align="center" width="33%">
+            <b>localreachability_layer</b><br/>
+            <em>Robot-conditioned local reachability layer.</em><br/>
+            <code>src/plugins/map_plugins/localreachability_layer/</code><br/>
+            <img src="./images/video.gif" width="260" alt="localreachability_layer demo" />
+        </td>
+        <td align="center" width="33%">
+            <b>social_layer</b><br/>
+            <em>Pedestrian social comfort cost layer.</em><br/>
+            <code>src/plugins/map_plugins/social_layer/</code><br/>
+            <img src="./images/video.gif" width="260" alt="social_layer demo" />
+        </td>
+    </tr>
+    <tr>
+        <td align="center" width="33%">
+            <b>rc_esdf_layer</b><br/>
+            <em>ESDF-like distance / cost field layer.</em><br/>
+            <code>src/plugins/map_plugins/rc_esdf_layer/</code><br/>
+            <img src="./images/video.gif" width="260" alt="rc_esdf_layer demo" />
+        </td>
+        <td align="center" width="33%">
+            <b>pseudodistance_layer</b><br/>
+            <em>Pseudo-distance field layer (fast distance proxy).</em><br/>
+            <code>src/plugins/map_plugins/pseudodistance_layer/</code><br/>
+            <img src="./images/video.gif" width="260" alt="pseudodistance_layer demo" />
+        </td>
+        <td align="center" width="33%"></td>
+    </tr>
+</table>
+
+### 3.5 Other Plugins / Third-party
+
+<table>
+    <tr>
+        <td align="center" width="50%">
+            <b>3rd/ (third-party)</b><br/>
+            <em>Vendored dependencies & upstream references (e.g., LBFGS-Lite, MINCO upstream).</em><br/>
+            <code>3rd/</code><br/>
+            <img src="./images/video.gif" width="320" alt="third-party modules demo" />
+        </td>
+        <td align="center" width="50%">
+            <b>gazebo_plugins / pedsim_msgs</b><br/>
+            <em>Pedestrian simulation, tracking messages and related plugins.</em><br/>
+            <code>src/plugins/gazebo_plugins/</code><br/>
+            <img src="./images/video.gif" width="320" alt="pedestrian plugins demo" />
+        </td>
+    </tr>
+</table>
+
+## 4. Core Innovations
+### 4.1 Global Hierarchical Motion Planning for Ackermann Robots (HPCC)
+
+<p align="center">
+    <img src="./images/video.gif" width="400" alt="HPCC global planner demo" />
+</p>
+
 A hierarchical global planning method combining path search, corridor construction, and convex optimization to generate kinodynamically feasible trajectories.
 
 #### Key Steps
@@ -66,9 +267,9 @@ Ackermann Kinematic Constraints:
 
 $$
 \begin{cases}
-x_{i+1} = x_i + v_i \Delta T_i \cos(\theta_i) \\
+ x_{i+1} = x_i + v_i \Delta T_i \cos(\theta_i) \\
  y_{i+1} = y_i + v_i \Delta T_i \sin(\theta_i) \\
- \theta_{i+1} = \theta_i + \omega_i \Delta T_i
+ θ_{i+1} = θ_i + ω_i Δ T_i
 \end{cases}
 $$
 
@@ -86,7 +287,12 @@ $$
 \mu = \sqrt{\frac{k_{\text{max}}}{|k(s)|}}
 $$
 
-### 3.2 Hybrid Local Planner (HLP) Based on Dynamic State Graph
+### 4.2 Hybrid Local Planner (HLP) Based on Dynamic State Graph
+
+<p align="center">
+    <img src="./images/video.gif" width="400" alt="HLP local planner demo" />
+</p>
+
 A sampling-based local planner designed for dynamic obstacle avoidance and real-time responsiveness, solving the "deadlock" issue in extreme orientation scenarios.
 
 #### Key Steps
@@ -127,7 +333,12 @@ $$
 \omega = \frac{\Delta \theta}{\Delta t / 2}
 $$
 
-### 3.3 HLPMPC: Hybrid Control with HLP + Short-Horizon MPC
+### 4.3 HLPMPC: Hybrid Control with HLP + Short-Horizon MPC
+
+<p align="center">
+    <img src="./images/video.gif" width="400" alt="HLPMPC hybrid control demo" />
+</p>
+
 An enhanced variant of HLP integrating model predictive control for smoother velocity profiles and improved tracking performance.
 
 #### Key Steps
@@ -157,14 +368,19 @@ $$
 \alpha_{\text{filtered}} = \alpha_{\text{prev}} + \gamma (\alpha_{\text{target}} - \alpha_{\text{prev}})
 $$
 
-### 3.4 HLPMPCCorridor: HLPMPC with Local Convex Safety Corridors
+### 4.4 HLPMPCCorridor: HLPMPC with Local Convex Safety Corridors
+
+<p align="center">
+    <img src="./images/video.gif" width="400" alt="HLPMPCCorridor with convex safety corridors demo" />
+</p>
+
 Integrates convex safety corridors into HLPMPC for enhanced geometric feasibility and collision avoidance.
 
 #### Key Steps
 - Corridor Construction: Decomposes the global path into a sequence of convex polygons via:
-  - Initial polygon generation based on robot dimensions (width + safety margin).
-  - Obstacle query using KD-tree for efficient neighborhood search.
-  - Ellipse iteration to exclude collision points and refine corridor boundaries.
+    - Initial polygon generation based on robot dimensions (width + safety margin).
+    - Obstacle query using KD-tree for efficient neighborhood search.
+    - Ellipse iteration to exclude collision points and refine corridor boundaries.
 - Trajectory Feasibility Check: Rejects trajectories that exit the convex corridor (each sampled point must lie within at least one polygon).
 - Integration with HLPMPC: Uses corridor constraints to prune unsafe candidate trajectories before blending.
 
@@ -181,14 +397,56 @@ $$
 \mathbf{x}(t) \in \bigcup_{i=1}^{M} C_i \subseteq F_{\text{free}}
 $$
 
-### 3.5 Reachability-Aware Planning (Reachability Layer + A* + MPPI)
-A reachability-aware navigation pipeline that augments traditional costmap-based planning with an explicit “passability / bottleneck” signal (reachability scores computed from costmaps). The reachability signal is fused into both global search (A*) and local control (MPPI) to prefer wider, safer corridors and avoid narrow passages.
+### 4.5 Socially-Aware Hierarchical Planning (HLP + MPC + Social Layer + Convex Corridors)
+
+<p align="center">
+    <img src="./images/video.gif" width="400" alt="Socially-aware HLPMPCCorridor system demo" />
+</p>
+
+Based on the HLP / HLPMPC / HLPMPCCorridor building blocks above, this module organizes them into a full hierarchical system that also reasons about pedestrians and dynamic obstacles. A global Hybrid A* + LBFGS + corridor planner provides a coarse but robust path; a local HLP + short-horizon MPC controller refines it; a dedicated SocialLayer encodes human comfort and interaction constraints.
 
 #### Key Steps
-- Global reachability map ($R_g$): compute a static environment score from the global master costmap using geometric cues such as obstacle clearance and (optionally) a Voronoi-skeleton-based corridor proxy.
-- Global planning (A*): fuse costmap cost and reachability preference during node expansion; a hard threshold can be used to prune cells with very low reachability.
-- Local reachability map ($R_\ell$): compute a robot-conditioned reachability field in the local window using widest-path (maximin) propagation from the robot cell.
-- Local control (MPPI): treat the local costmap (inflation) as collision hard constraints, and incorporate reachability as both a hard constraint (`min_reachability`) and a soft critic (`reachability_scale`).
+- Global hybrid planner with corridors: use Hybrid A* on the grid map with Voronoi-based potential, RDP compression and LBFGS smoothing to generate a coarse path; decompose the free space around it into convex safety corridors shared by both global and local modules.
+- Local HLP + MPC cooperation: HLP's dynamic state graph quickly proposes candidate motion primitives, while a sparse QP-based MPC (Section 4.3) optimizes velocity sequences under kinodynamic and corridor constraints; a blending logic selects between HLP, MPC and a pure-pursuit fallback.
+- Social and dynamic obstacle modeling: a separate `social_layer` builds an anisotropic costmap around pedestrians (e.g., elongated ellipses in front, smaller lobes behind), using predicted trajectories from `pedsim_msgs`; social costs are aggregated but kept distinct from hard collision costs.
+- Event-triggered replanning: violations of corridor / social comfort or large MPC tracking errors can trigger a new global plan, closing the loop between global, local and social reasoning.
+
+#### Core Formulas
+Social-layer cost around a pedestrian $p$ (conceptual anisotropic Gaussian in the pedestrian heading frame):
+
+$$
+\begin{aligned}
+\begin{bmatrix}\tilde x \\ \tilde y\end{bmatrix}
+&= R(-\psi_p)\bigl(x - p\bigr),\\
+d_{\text{ell}}(x;p) &= \sqrt{\frac{\tilde x^2}{a^2} + \frac{\tilde y^2}{b^2}},\\
+J_{\text{social}}(x) &= \sum_p w_p \exp\!\bigl(-\tfrac12 d_{\text{ell}}(x;p)^2\bigr),
+\end{aligned}
+$$
+
+where $R(-\psi_p)$ rotates into the pedestrian's heading frame and $a,b$ control front/back radii.
+
+Blended control between HLP and MPC:
+
+$$
+u = (1-\alpha)\,u_{\text{HLP}} + \alpha\,u_{\text{MPC}},\quad \alpha\in[0,1].
+$$
+
+For a full system-level description and derivations, see `docs/hlpmpccorridor_paper_hlp_social_corridor_mpc_hybrid_v2.md`.
+
+### 4.6 Reachability-Aware Planning (Reachability Layers + A* + MPPI)
+
+<p align="center">
+    <img src="./images/video.gif" width="400" alt="Reachability-aware planning demo" />
+</p>
+
+A reachability-aware navigation pipeline that augments traditional costmap-based planning with an explicit “passability / bottleneck” score. The reachability signal is injected into both global search (A* + minimum-snap trajectory optimization) and local control (MPPI), so that the system naturally prefers wide, robust corridors over narrow bottlenecks.
+
+#### Key Steps
+- Global reachability layer (`globalreachability_layer`): from the global master costmap and, optionally, a Voronoi skeleton, compute clearance, available width and "ridge" factors, compress them into $[0,1]$ scores via $\mathrm{cont01}$, and aggregate into a global reachability map $R_g$.
+- Reachability-aware global path planner (`ReachabilityPathPlanner`): run A* on the grid while (i) hard-pruning cells with $R_g < R_{\min}$ and (ii) adding a soft penalty proportional to $(1-R_g)$ to the usual costmap cost.
+- Minimum-snap trajectory optimization in corridors (`ConvexSafetyCorridor` + `MinimumsnapOptimizer`): given a grid path, decompose free space into convex polygons and solve a QP that minimizes snap under corridor half-space constraints, generating a smooth global trajectory.
+- Local reachability layer (`localreachability_layer`): in the robot-centric window, compute a point-wise desirability $r(x)$ from local costmap / free width, and propagate it with a widest-path (maximin) update to obtain a robot-conditioned reachability field $R_\ell$.
+- Reachability-aware MPPI controller (`reachability_controller`): use the inflated local costmap as a hard collision indicator and combine $R_\ell$ into both hard constraints (`min_reachability`) and a soft critic that rewards trajectories with higher average reachability.
 
 #### Core Formulas
 Continuous compression used in reachability scoring:
@@ -223,14 +481,19 @@ $$
 
 For full implementation-level details and parameter entry points, see `docs/reachability_planner.md`.
 
-### 3.6 Sunshine Planner: Ray Sampling + Layered Optimization (Sunshine + CG + iLQR)
-A hierarchical motion planning framework for grid maps that combines geometry-aware sampling with layered optimization: Sunshine ray sampling for fast global feasibility, conjugate-gradient smoothing for a real-time global reference, and iLQR for high-quality local optimal control.
+### 4.7 Sunshine Planner: Sunshine Ray Sampling + MINCO + iLQR
+
+<p align="center">
+    <img src="./images/video.gif" width="400" alt="Sunshine planner demo" />
+</p>
+
+A hierarchical motion-planning framework for grid maps that combines geometry-aware Sunshine sampling, minimum-jerk global trajectory optimization and model-based local optimal control. It is particularly suitable for cluttered indoor environments with narrow gaps and long corridors.
 
 #### Key Steps
-- Sunshine ray sampling: perform 360° ray casting to measure free-space “sunlight” distances, and extract geometry-driven keypoints (e.g., corner / tangent-like candidates) to construct a sparse planning graph.
-- Global search on samples: run graph search (A*) on the sampled graph to obtain an initial collision-free grid path $\pi_0$.
-- Global path smoothing (CG): apply a lightweight conjugate-gradient optimizer to refine $\pi_0$ into a smoother reference path $\pi^*$ with low computation cost.
-- Local optimization & control (iLQR): refine the trajectory under kinematic constraints and environment costs (e.g., corridor / ESDF), producing executable commands $(v,\omega)$; failures can trigger event-based replanning.
+- Sunshine ray sampling: perform 360° ray casting on the occupancy grid to measure free-space “sunlight” distances, and extract tangent / corner-like keypoints where free-space length varies sharply; connect visible keypoints with line-of-sight (LOS) edges to build a sparse Sunshine graph.
+- Global search on Sunshine graph: run A* on the Sunshine graph to obtain an initial collision-free waypoint sequence $\pi_0$ that already encodes good homotopy choices.
+- Global trajectory optimization (MINCO-style minimum-jerk spline): parameterize the trajectory as piecewise polynomials with control points $\{\mathbf{q}_i\}$ and solve a minimum-jerk problem under boundary, continuity and (optional) corridor constraints to obtain a smooth trajectory $\pi^*$.
+- Local optimization & control (iLQR): use an iLQR controller with unicycle dynamics to track $\pi^*$, combining tracking cost, control effort, smoothness and obstacle costs from an ESDF (`distance_layer`) and convex corridors; failures can trigger event-based replanning on the Sunshine graph.
 
 #### Core Formulas
 Ray directions for a 360° scan:
@@ -245,12 +508,13 @@ $$
 d(\phi_i)=\min\{r\ge 0\mid \mathrm{occupied}(x_0+r[\cos\phi_i,\sin\phi_i])=1\}
 $$
 
-Conjugate-gradient iterative update (standard form):
+MINCO-style minimum-jerk objective (conceptual form):
 
 $$
-\mathbf{p}_{k+1}=\mathbf{p}_k+\alpha_k\mathbf{d}_k,\quad
-\mathbf{d}_{k+1}=-\nabla J(\mathbf{p}_{k+1})+\beta_k\mathbf{d}_k
+\min_{\{\mathbf{q}_i\}}\ \sum_{k=0}^{K-1}\int_{0}^{T_k} \left\|\dddot{\mathbf{x}}_k(t)\right\|^2 dt
 $$
+
+subject to boundary, continuity and (optionally) corridor constraints.
 
 iLQR objective and dynamics (standard form):
 
@@ -260,7 +524,74 @@ $$
 
 For implementation mapping (code/config) and detailed derivations aligned with this repository, see `docs/sunshine_planner.md`.
 
-## 4. Repository Structure (accurate and annotated)
+### 4.8 ST-Planner: Space–Time Hybrid A* + Probability Layer + iLQR
+
+<p align="center">
+    <img src="./images/video.gif" width="400" alt="ST-Planner space–time planning demo" />
+</p>
+
+A space–time-aware navigation pipeline that extends 2D planning to a 4D state $(x,y,\theta,t)$. It combines a global spline trajectory, a space–time Hybrid A* local planner, a time-varying probability layer for dynamic obstacles and an iLQR tracker to generate socially compliant motions in dynamic environments.
+
+#### Key Steps
+- Global path and spline trajectory: a Voronoi / RHCF-style global planner finds a collision-free topological path; a spline / minimum-jerk optimizer turns it into a smooth time-parameterized reference.
+- ST-Hybrid-A* local planner: in the local window, perform A*/ARA* search in the 4D state space $(x,y,\theta,t)$, using a rich step cost that includes path tracking, time, control smoothness (steering / speed changes / reverse penalties), static and dynamic safety, risk and corridor terms.
+- ST probability layer (`STProbabilityLayer`): from tracked pedestrians and other dynamic obstacles, build a time-varying probability field $p(x,y,t)$ using constant-velocity prediction and Gaussian-like occupancy kernels; this field is queried during search and control.
+- Time-varying safety corridors: carve a static convex corridor around the global path and further cut it in space–time according to dynamic obstacle predictions, encouraging the robot to yield or overtake in socially reasonable ways.
+- iLQR tracking controller: use a bicycle/unicycle-model iLQR to track the selected ST trajectory, with costs for path tracking, heading, control effort, smoothness, obstacle / corridor violation and risk from $p(x,y,t)$.
+
+#### Core Formulas
+ST-Hybrid-A* successor update (unicycle model with explicit time state):
+
+$$
+\begin{aligned}
+x_{k+1} &= x_k + v_k \cos\theta_k\,\Delta t,\\
+y_{k+1} &= y_k + v_k \sin\theta_k\,\Delta t,\\
+θ_{k+1} &= θ_k + ω_k Δ t,\\
+t_{k+1} &= t_k + \Delta t.
+\end{aligned}
+$$
+
+Per-step cost used in search (simplified):
+
+$$
+c_k =
+w_{\text{len}}\Delta s_k
++w_{\text{time}}\Delta t
++w_{\text{curv}}|\omega_k|
++w_{\text{rev}}\mathbf{1}[v_k<0]
++w_{\text{risk}}\,p(x_k,t_k)
++\cdots
+$$
+
+Combined heuristic and ARA* inflation:
+
+$$
+h(x) = w_{\text{obs}} h_{\text{obs}}(x)
+    +w_{\text{RS}} h_{\text{RS}}(x)
+    +w_{\text{turn}} h_{\text{turn}}(x),\qquad
+f_\epsilon(x)=g(x)+\epsilon h(x),\ \epsilon\ge 1.
+$$
+
+Space–time probability aggregation (conceptual form):
+
+$$
+p(x,y,t)=1-\prod_{j}\bigl(1-p_j(x,y,t)\bigr)
+$$
+
+Overall tracking cost for iLQR (simplified):
+
+$$
+J=\sum_{t}\bigl(
+w_{\text{track}}\ell_{\text{track}}(x_t)
++w_{\text{ctrl}}\|u_t\|^2
++w_{\text{smooth}}\|\Delta u_t\|^2
++w_{\text{risk}}\,p(x_t,t)
+\bigr).
+$$
+
+For a detailed description of algorithms, cost design and parameterization, see `docs/st_planner.md`.
+
+## 5. Repository Structure (accurate and annotated)
 
 ```
 robot_path_planner_public/
@@ -308,15 +639,15 @@ Highlighted core implementation locations (quick reference):
 
 The table highlights the four core innovation areas and points to specific package paths and representative source files for quick inspection.
 
-## 5. Build & Run
+## 6. Build & Run
 
 ### Build Examples
-#### 5.1 Install [ROS](http://wiki.ros.org/ROS/Installation) (Desktop-Full *suggested*).
+#### 6.1 Install [ROS](http://wiki.ros.org/ROS/Installation) (Desktop-Full *suggested*).
 
-#### 5.2 Install git.
+#### 6.2 Install git.
     sudo apt install git
 
-#### 5.3 Install dependence
+#### 6.3 Install dependence
 
 - OSQP
     ```
@@ -345,12 +676,12 @@ The table highlights the four core innovation areas and points to specific packa
     ros-noetic-navfn
     ```
 
-#### 5.4 Clone the reposity
+#### 6.4 Clone the reposity
 ```
 git clone https://github.com/SYS-zdk/robot_path_planner_public.git
 ```
 
-#### 5.5 Compile the code.
+#### 6.5 Compile the code.
 
     cd robot_path_planner_public/scripts/
     ./build.sh
@@ -366,23 +697,23 @@ git clone https://github.com/SYS-zdk/robot_path_planner_public.git
 
 ### Run Examples
 
-#### 5.6 Execute the code
+#### 6.6 Execute the code
 
     cd scripts/
     ./main.sh
 
 
-#### 5.7 Use **2D Nav Goal** in RViz to select the goal.
+#### 6.7 Use **2D Nav Goal** in RViz to select the goal.
 
-#### 5.8  Moving!
+#### 6.8  Moving!
 
-#### 5.9  You can use the other script to shutdown them rapidly.
+#### 6.9  You can use the other script to shutdown them rapidly.
     ./killpro.sh
 
 
-## 6. Parameters
+## 7. Parameters
 
-### 6.1 Key Parameters
+### 7.1 Key Parameters
 Refer to src/sim_env/config/controller/hlpmpccorridor_local_planner.yaml for critical parameters:
   - mpc_horizon: MPC prediction steps (default: 5)
   - mpc_dt: MPC time step (default: 0.1s)
@@ -391,13 +722,13 @@ Refer to src/sim_env/config/controller/hlpmpccorridor_local_planner.yaml for cri
   - alpha_sigmoid_k: Blending sigmoid steepness (default: 5.0)
   - safety_corridor_range: Corridor expansion range (default: 0.5m)
 
-### 6.2 Practical Tuning Tips
+### 7.2 Practical Tuning Tips
 - For smoother velocities: Increase mpc_r_v/mpc_r_w or reduce mpc_horizon.
 - For cluttered environments: Reduce alpha_sigmoid_k to rely more on HLP.
 - For corridor rejection issues: Increase safety_corridor_range or trajectory sampling density.
 - For kinodynamic compliance: Adjust max_vel_x, max_acc_x, max_omega to match your robot's specs.
 
-## 7. References
+## 8. References
 - ros_motion_planning (upstream framework reference): https://github.com/ai-winter/ros_motion_planning
 - OSQP: https://github.com/oxfordcontrol/osqp
 - Ramer-Douglas-Peucker Algorithm: https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm
@@ -405,11 +736,11 @@ Refer to src/sim_env/config/controller/hlpmpccorridor_local_planner.yaml for cri
 - Convex Safety Corridor Decomposition: https://arxiv.org/abs/1907.08584
 - Model Predictive Control for Mobile Robots: https://arxiv.org/abs/2003.09554
 
-## 8. Citation
+## 9. Citation
 If you want to learn more about the detailed mathematical derivation of this project or if this project helps your research, please refer to the following citation formats:
 - Global Planning Part: 张定坤，梁海朝。基于动态走廊膨胀与凸优化的移动机器人分层运动规划 [J/OL]. 系统仿真学报，1-21 [2026-01-13]. https://link.cnki.net/urlid/11.3092.V.20250916.1349.002.
 - Local Planning Part: 张定坤，吴兴涛，梁海朝。基于动态状态图的自主移动机器人混合局部规划方法 [J]. 机器人技术与应用，2025, (05): 20-34.
 - Environment Modeling Part: Zhang Dingkun. robot_path_planner_public. [EB/OL]. https://github.com/SYS-zdk/robot_path_planner_public, 2026.
 
-## 9. License
+## 10. License
 This project is licensed under the GNU General Public License v3.0 (GPL-3.0) — see the LICENSE file for details.
