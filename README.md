@@ -48,7 +48,7 @@ Below is a typical system architecture diagram used in this repository:
 
 ## 3. Module Gallery (LEGO Blocks)
 
-为了方便复用与二次开发，这里按功能把仓库里的核心模块（planners / controllers / layers / optimizers）做一个清单式展示：每个条目仅 1 句说明 + 入口路径 + GIF 演示位（当前统一用 `./images/video.gif` 占位，后续你可以逐个替换成真实 demo）。
+为了方便复用与二次开发，这里按功能把仓库里的核心模块（planners / controllers / layers / optimizers）做一个清单式展示：每个条目仅 1 句说明 + 入口路径 + GIF 演示位（建议 GIF 尺寸为 400×327 或等比缩放；未提供的条目当前统一用 `./images/video.gif` 占位，后续可逐个替换为真实 demo）。
 
 ### 3.1 Global Planning Modules
 
@@ -58,19 +58,19 @@ Below is a typical system architecture diagram used in this repository:
             <b>rhcf_planner</b><br/>
             <em>Voronoi multi-homotopy global planner (RHCF-style).</em><br/>
             <code>src/core/path_planner/path_planner/src/graph_planner/</code><br/>
-            <img src="./images/video.gif" width="260" alt="rhcf_planner demo" />
+            <img src="./images/video.gif" width="260" height="212" alt="rhcf_planner demo" />
         </td>
         <td align="center" width="33%">
             <b>bdrp_planner</b><br/>
             <em>Sampling-based global planner with lightweight refinement.</em><br/>
             <code>src/core/path_planner/path_planner/src/sample_planner/</code><br/>
-            <img src="./images/video.gif" width="260" alt="bdrp_planner demo" />
+            <img src="./images/video.gif" width="260" height="212" alt="bdrp_planner demo" />
         </td>
         <td align="center" width="33%">
             <b>sunshine_planner</b><br/>
             <em>Sunshine ray sampling + LOS graph search global planner.</em><br/>
             <code>src/core/path_planner/path_planner/src/sample_planner/</code><br/>
-            <img src="./images/video.gif" width="260" alt="sunshine_planner demo" />
+            <img src="./images/video.gif" width="260" height="212" alt="sunshine_planner demo" />
         </td>
     </tr>
 </table>
@@ -83,19 +83,19 @@ Below is a typical system architecture diagram used in this repository:
             <b>hlpmpccorridor_local_planner</b><br/>
             <em>HLP + MPC + convex corridor local planning.</em><br/>
             <code>src/core/controller/hlpmpccorridor_local_planner/</code><br/>
-            <img src="./images/video.gif" width="260" alt="hlpmpccorridor_local_planner demo" />
+            <img src="./images/video.gif" width="260" height="212" alt="hlpmpccorridor_local_planner demo" />
         </td>
         <td align="center" width="33%">
             <b>bubble_local_planner</b><br/>
             <em>Reactive local planner (bubble-style obstacle avoidance).</em><br/>
             <code>src/core/controller/bubble_local_planner/</code><br/>
-            <img src="./images/video.gif" width="260" alt="bubble_local_planner demo" />
+            <img src="./images/video.gif" width="260" height="212" alt="bubble_local_planner demo" />
         </td>
         <td align="center" width="33%">
             <b>ilqr_controller</b><br/>
             <em>Model-based iLQR tracking controller.</em><br/>
             <code>src/core/controller/ilqr_controller/</code><br/>
-            <img src="./images/video.gif" width="260" alt="ilqr_controller demo" />
+            <img src="./images/video.gif" width="260" height="212" alt="ilqr_controller demo" />
         </td>
     </tr>
     <tr>
@@ -103,19 +103,19 @@ Below is a typical system architecture diagram used in this repository:
             <b>karcher_local_planner</b><br/>
             <em>Local planner using Karcher mean / manifold smoothing.</em><br/>
             <code>src/core/controller/karcher_local_planner/</code><br/>
-            <img src="./images/video.gif" width="260" alt="karcher_local_planner demo" />
+            <img src="./images/video.gif" width="260" height="212" alt="karcher_local_planner demo" />
         </td>
         <td align="center" width="33%">
             <b>minco_local_planner</b><br/>
             <em>MINCO-based local planning & tracking.</em><br/>
             <code>src/core/controller/minco_local_planner/</code><br/>
-            <img src="./images/video.gif" width="260" alt="minco_local_planner demo" />
+            <img src="./images/video.gif" width="260" height="212" alt="minco_local_planner demo" />
         </td>
         <td align="center" width="33%">
             <b>mppi_local_planner</b><br/>
             <em>Sampling-based MPPI local planner.</em><br/>
             <code>src/core/controller/mppi_local_planner/</code><br/>
-            <img src="./images/video.gif" width="260" alt="mppi_local_planner demo" />
+            <img src="./images/video.gif" width="260" height="212" alt="mppi_local_planner demo" />
         </td>
     </tr>
     <tr>
@@ -123,19 +123,19 @@ Below is a typical system architecture diagram used in this repository:
             <b>reachability_controller</b><br/>
             <em>Reachability-aware MPPI controller.</em><br/>
             <code>src/core/controller/reachability_controller/</code><br/>
-            <img src="./images/video.gif" width="260" alt="reachability_controller demo" />
+            <img src="./images/video.gif" width="260" height="212" alt="reachability_controller demo" />
         </td>
         <td align="center" width="33%">
             <b>st_hybrid_astar_local_planner</b><br/>
             <em>Space–time Hybrid A* local planner.</em><br/>
             <code>src/core/controller/st_hybrid_astar_local_planner/</code><br/>
-            <img src="./images/video.gif" width="260" alt="st_hybrid_astar_local_planner demo" />
+            <img src="./images/video.gif" width="260" height="212" alt="st_hybrid_astar_local_planner demo" />
         </td>
         <td align="center" width="33%">
             <b>tangent_local_planner</b><br/>
             <em>Tangent graph / tangent sampling local planner.</em><br/>
             <code>src/core/controller/tangent_local_planner/</code><br/>
-            <img src="./images/video.gif" width="260" alt="tangent_local_planner demo" />
+            <img src="./images/video.gif" width="260" height="212" alt="tangent_local_planner demo" />
         </td>
     </tr>
     <tr>
@@ -143,7 +143,7 @@ Below is a typical system architecture diagram used in this repository:
             <b>vfh_local_planner</b><br/>
             <em>Vector Field Histogram (VFH) reactive local planner.</em><br/>
             <code>src/core/controller/vfh_local_planner/</code><br/>
-            <img src="./images/video.gif" width="260" alt="vfh_local_planner demo" />
+            <img src="./images/video.gif" width="260" height="212" alt="vfh_local_planner demo" />
         </td>
         <td align="center" width="33%"></td>
         <td align="center" width="33%"></td>
@@ -158,13 +158,13 @@ Below is a typical system architecture diagram used in this repository:
             <b>lbfgs</b><br/>
             <em>Trajectory smoothing via L-BFGS(-Lite).</em><br/>
             <code>src/core/trajectory_planner/src/trajectory_optimization/lbfgs_optimizer/</code><br/>
-            <img src="./images/video.gif" width="320" alt="lbfgs optimizer demo" />
+            <img src="./images/video.gif" width="320" height="262" alt="lbfgs optimizer demo" />
         </td>
         <td align="center" width="50%">
             <b>minco</b><br/>
             <em>MINCO-like minimum-jerk spline optimizer.</em><br/>
             <code>src/core/trajectory_planner/src/trajectory_optimization/minco_spline_optimizer/</code><br/>
-            <img src="./images/video.gif" width="320" alt="minco optimizer demo" />
+            <img src="./images/video.gif" width="320" height="262" alt="minco optimizer demo" />
         </td>
     </tr>
     <tr>
@@ -172,13 +172,13 @@ Below is a typical system architecture diagram used in this repository:
             <b>minimum-snap</b><br/>
             <em>QP-based minimum-snap optimizer (corridor constraints supported).</em><br/>
             <code>src/core/trajectory_planner/src/trajectory_optimization/minimumsnap_optimizer/</code><br/>
-            <img src="./images/video.gif" width="320" alt="minimum-snap optimizer demo" />
+            <img src="./images/video.gif" width="320" height="262" alt="minimum-snap optimizer demo" />
         </td>
         <td align="center" width="50%">
             <b>splinetrajectory</b><br/>
             <em>Spline trajectory optimizer (global reference smoothing).</em><br/>
             <code>src/core/trajectory_planner/src/trajectory_optimization/splinetrajectory_optimizer/</code><br/>
-            <img src="./images/video.gif" width="320" alt="splinetrajectory optimizer demo" />
+            <img src="./images/video.gif" width="320" height="262" alt="splinetrajectory optimizer demo" />
         </td>
     </tr>
 </table>
@@ -191,19 +191,19 @@ Below is a typical system architecture diagram used in this repository:
             <b>globalreachability_layer</b><br/>
             <em>Global reachability scoring layer.</em><br/>
             <code>src/plugins/map_plugins/globalreachability_layer/</code><br/>
-            <img src="./images/video.gif" width="260" alt="globalreachability_layer demo" />
+            <img src="./images/globalreachability_layer.gif" width="260" height="212" alt="globalreachability_layer demo" />
         </td>
         <td align="center" width="33%">
             <b>localreachability_layer</b><br/>
             <em>Robot-conditioned local reachability layer.</em><br/>
             <code>src/plugins/map_plugins/localreachability_layer/</code><br/>
-            <img src="./images/video.gif" width="260" alt="localreachability_layer demo" />
+            <img src="./images/localreachability_layer.gif" width="260" height="212" alt="localreachability_layer demo" />
         </td>
         <td align="center" width="33%">
             <b>social_layer</b><br/>
             <em>Pedestrian social comfort cost layer.</em><br/>
             <code>src/plugins/map_plugins/social_layer/</code><br/>
-            <img src="./images/video.gif" width="260" alt="social_layer demo" />
+            <img src="./images/video.gif" width="260" height="212" alt="social_layer demo" />
         </td>
     </tr>
     <tr>
@@ -211,13 +211,13 @@ Below is a typical system architecture diagram used in this repository:
             <b>rc_esdf_layer</b><br/>
             <em>ESDF-like distance / cost field layer.</em><br/>
             <code>src/plugins/map_plugins/rc_esdf_layer/</code><br/>
-            <img src="./images/video.gif" width="260" alt="rc_esdf_layer demo" />
+            <img src="./images/rc_esdf_layer.gif" width="260" height="212" alt="rc_esdf_layer demo" />
         </td>
         <td align="center" width="33%">
             <b>pseudodistance_layer</b><br/>
             <em>Pseudo-distance field layer (fast distance proxy).</em><br/>
             <code>src/plugins/map_plugins/pseudodistance_layer/</code><br/>
-            <img src="./images/video.gif" width="260" alt="pseudodistance_layer demo" />
+            <img src="./images/pseudodistance_layer.gif" width="260" height="212" alt="pseudodistance_layer demo" />
         </td>
         <td align="center" width="33%"></td>
     </tr>
@@ -231,13 +231,13 @@ Below is a typical system architecture diagram used in this repository:
             <b>3rd/ (third-party)</b><br/>
             <em>Vendored dependencies & upstream references (e.g., LBFGS-Lite, MINCO upstream).</em><br/>
             <code>3rd/</code><br/>
-            <img src="./images/video.gif" width="320" alt="third-party modules demo" />
+            <img src="./images/video.gif" width="320" height="262" alt="third-party modules demo" />
         </td>
         <td align="center" width="50%">
             <b>gazebo_plugins / pedsim_msgs</b><br/>
             <em>Pedestrian simulation, tracking messages and related plugins.</em><br/>
             <code>src/plugins/gazebo_plugins/</code><br/>
-            <img src="./images/video.gif" width="320" alt="pedestrian plugins demo" />
+            <img src="./images/video.gif" width="320" height="262" alt="pedestrian plugins demo" />
         </td>
     </tr>
 </table>
