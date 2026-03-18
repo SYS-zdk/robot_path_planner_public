@@ -29,23 +29,26 @@ cd /path/to/robot_path_planner_public
   <em>Figure 1: Program Logo GIF</em>
 </p>
 
-This repository is primarily a personal learning-and-reproduction project in mobile robot / autonomous-driving motion planning. It studies and re-implements a collection of methods from open-source projects and the literature, and validates them end-to-end in a ROS1 navigation stack (costmap layers, planners, controllers, and simulation), with additional engineering refinements on implementation details, parameterization, and robustness.
+本仓库是一个面向移动机器人（ROS1/Noetic）导航与运动规划的端到端实验平台：将 costmap 插件、全局/局部规划器、控制器、轨迹优化器与仿真环境整合到同一个可复现工程里，既方便学习与复现，也便于横向对比不同 pipeline 的行为差异与调参入口。
 
-In addition, based on my own understanding, I also designed and implemented several algorithms and system-level combinations, including HPCC (A* + RDP compression + corridor construction + convex optimization), HLP/HLPMPC(+Corridor), reachability-aware planning and control (reachability maps fused into A* and MPPI), and the Sunshine planner (sunshine ray sampling with layered optimization via conjugate gradient and iLQR).
+In addition，本仓库还包含了我基于工程经验做的“模块级实现 + 系统级组合”扩展（见下方 **Module Gallery** 与 **Core Innovations**）：
 
-Overall, the motivation of this repository is to provide an integrated, LEGO-like platform: a set of modular building blocks that helps people in the same field learn, reproduce, and compare motion-planning pipelines with less time spent on environment setup and resource hunting.
+- 模块级（积木）：提供多种 global planners / local planners / controllers / layers / optimizers，可按需拼装；并配套 `docs/` 的实现级说明与 `src/sim_env/config/` 的参数示例。
+- 系统级（成品案例）：展示若干具有代表性的组合管线与创新方法，例如 HPCC、HLP/HLPMPC(+Corridor)、Reachability-aware planning & control（Reachability Layer + A* + MPPI/MPPI-like）、Sunshine（ray sampling + MINCO + iLQR）、ST-Planner（space–time Hybrid A* + probability layer + iLQR）、以及带 SocialLayer 的 socially-aware 规划控制框架。
+
+总体目标是提供一个 LEGO-like 的可复用“积木盒”：减少环境配置与资料搜集成本，让同领域同学把时间花在算法理解、复现与对比验证上。
 
 Below is a typical system architecture diagram used in this repository:
 
 <p align="center">
-  <img src="./images/second.jpg" width="400" alt="Organization" />
+    <img src="./images/second.png" width="400" alt="Organization" />
   <br />
   <em>Figure 2: Robot</em>
 </p>
 
 ## 3. Module Gallery (LEGO Blocks)
 
-Core Innovations 更像是“用积木搭出来的实例”。为了方便复用与二次开发，这里按功能把仓库里的核心模块（planners / controllers / layers / optimizers）做一个清单式展示：每个条目仅 1 句说明 + 入口路径 + GIF 演示位（当前统一用 `./images/video.gif` 占位，后续你可以逐个替换成真实 demo）。
+为了方便复用与二次开发，这里按功能把仓库里的核心模块（planners / controllers / layers / optimizers）做一个清单式展示：每个条目仅 1 句说明 + 入口路径 + GIF 演示位（当前统一用 `./images/video.gif` 占位，后续你可以逐个替换成真实 demo）。
 
 ### 3.1 Global Planning Modules
 
@@ -240,6 +243,10 @@ Core Innovations 更像是“用积木搭出来的实例”。为了方便复用
 </table>
 
 ## 4. Core Innovations
+
+本章是“成品展示”：利用上一章 **Module Gallery** 中的模块（积木），在同一套 ROS1 导航栈与仿真环境里搭建出若干完整的规划与控制 pipeline，并总结其中的系统级设计要点。每个小节对应一种可复现的组合方案（附 GIF 演示位）。
+
+如果你更关心“有哪些积木、入口在哪”，请先看 **Module Gallery**；如果你更关心“如何运行与复现”，后文的 **Repository Structure** / **Build & Run** 给出了包路径与脚本入口；更深入的实现推导与参数解释则放在 `docs/`。
 ### 4.1 Global Hierarchical Motion Planning for Ackermann Robots (HPCC)
 
 <p align="center">
@@ -597,47 +604,99 @@ For a detailed description of algorithms, cost design and parameterization, see 
 robot_path_planner_public/
 ├── src/
 │   ├── core/
-│   │   ├── controller/
-│   │   │   ├── hlpmpccorridor_local_planner/    # HLP + MPC + Safety Corridor
-│   │   │   ├── reachability_controller/         # MPPI local controller (reachability-aware)
-│   │   │   └── ilqr_controller/                 # iLQR local controller
+│   │   ├── controller/                           # local planners / controllers
+│   │   │   ├── hlpmpccorridor_local_planner/
+│   │   │   ├── bubble_local_planner/
+│   │   │   ├── ilqr_controller/
+│   │   │   ├── karcher_local_planner/
+│   │   │   ├── minco_local_planner/
+│   │   │   ├── mppi_local_planner/
+│   │   │   ├── reachability_controller/
+│   │   │   ├── st_hybrid_astar_local_planner/
+│   │   │   ├── tangent_local_planner/
+│   │   │   ├── vfh_local_planner/
+│   │   │   └── ...
 │   │   ├── common/
-│   │   │   └── safety_corridor/                 # ConvexSafetyCorridor implementation and utilities
+│   │   │   └── safety_corridor/                  # ConvexSafetyCorridor utilities
 │   │   ├── path_planner/
-│   │   │   └── path_planner/                    # Global planners (HPCC-related code)
-│   │   │       ├── src/graph_planner/           # graph-based global planner implementations
-│   │   │       └── src/sample_planner/          # sampling-based global planners
+│   │   │   └── path_planner/                     # global planners
+│   │   │       ├── src/graph_planner/            # e.g. rhcf_planner
+│   │   │       └── src/sample_planner/           # e.g. bdrp_planner, sunshine_planner
 │   │   └── trajectory_planner/
+│   │       └── src/trajectory_optimization/      # lbfgs / minco / minimum-snap / spline-trajectory
 │   ├── plugins/
-│   │   └── map_plugins/
-│   │       ├── globalreachability_layer/        # global reachability costmap layer
-│   │       ├── localreachability_layer/         # local reachability costmap layer
-│   │       ├── social_layer/                    # pedestrian social cost layer
-│   │       ├── distance_layer/                  # ESDF / distance utilities & layer
-│   │       └── voronoi_layer/                   # Voronoi cost layer
-│   ├── plugins/gazebo_plugins/.../pedsim_msgs/  # messages used by social/dynamic pedestrian modules
-│   ├── sim_env/                                 # Simulation configs / launch / RViz
-│   │   ├── config/controller/
-│   │   └── launch/
+│   │   ├── map_plugins/                          # costmap layers
+│   │   │   ├── globalreachability_layer/
+│   │   │   ├── localreachability_layer/
+│   │   │   ├── social_layer/
+│   │   │   ├── rc_esdf_layer/
+│   │   │   ├── pseudodistance_layer/
+│   │   │   └── ...
+│   │   ├── gazebo_plugins/                       # simulation / pedestrian-related plugins
+│   │   └── rviz_plugins/
+│   ├── sim_env/                                  # simulation configs / launch / RViz
+│   └── ...
+├── 3rd/                                          # vendored third-party dependencies
 ├── scripts/                                      # helper scripts (build/run/stop)
-├── assets/                                       # diagrams used in README
-├── images/                                       # documentation images
+├── docs/                                         # implementation-level notes
+├── images/                                       # documentation images / demos
 ├── build/  devel/                                # catkin build outputs (ignored)
 ├── LICENSE
 └── README.md
 ```
 
-Highlighted core implementation locations (quick reference):
+### 5.1 Module Gallery → code mapping (quick reference)
 
-| Area | Location (path) | Representative files / notes |
+#### Global planners
+
+Plugin registry: `src/core/path_planner/path_planner/path_planner_plugin.xml`.
+
+| Method | Entry path | Main files |
 |---|---|---|
-| Global hierarchical planner (HPCC) | `src/core/path_planner/path_planner/src/graph_planner/` | graph-based global planner sources; path compression utilities |
-| Local planner (HLP + MPC + Corridor) | `src/core/controller/hlpmpccorridor_local_planner/` | main: `src/hybrid_planner_ros.cpp`, `src/hybrid_planner.cpp` |
-| Reachability global/local layers | `src/plugins/map_plugins/{globalreachability_layer,localreachability_layer}/` | reachability cache + visualization topics |
-| Reachability local controller (MPPI) | `src/core/controller/reachability_controller/` | MPPI rollout & critics (incl. reachability) |
-| iLQR local controller | `src/core/controller/ilqr_controller/` | iLQR + corridor support |
+| `rhcf_planner` | `src/core/path_planner/path_planner/src/graph_planner/` | `rhcf_planner.{h,cpp}` |
+| `bdrp_planner` | `src/core/path_planner/path_planner/src/sample_planner/` | `bdrp_planner.{h,cpp}` |
+| `sunshine_planner` | `src/core/path_planner/path_planner/src/sample_planner/` | `sunshine_planner.{h,cpp}` |
 
-The table highlights the four core innovation areas and points to specific package paths and representative source files for quick inspection.
+#### Local planning / control
+
+| Method | Package path | Main entry points |
+|---|---|---|
+| `hlpmpccorridor_local_planner` | `src/core/controller/hlpmpccorridor_local_planner/` | `src/hybrid_planner_ros.cpp`, `src/hybrid_planner.cpp`, `hlpmpccorridor_plugin.xml` |
+| `bubble_local_planner` | `src/core/controller/bubble_local_planner/bubble_local_planner/` | `src/bubble_local_planner.cpp`, `bublp_plugin.xml` |
+| `ilqr_controller` | `src/core/controller/ilqr_controller/` | `src/ilqr_controller.cpp`, `ilqr_controller_plugin.xml` |
+| `karcher_local_planner` | `src/core/controller/karcher_local_planner/` | `src/karcher_local_planner_ros.cpp`, `karcher_local_planner_plugin.xml` |
+| `minco_local_planner` | `src/core/controller/minco_local_planner/` | `src/minco_local_planner.cpp`, `minco_local_planner_plugin.xml` |
+| `mppi_local_planner` | `src/core/controller/mppi_local_planner/` | `src/mppi_local_planner_ros.cpp`, `mppi_local_planner_plugin.xml` |
+| `reachability_controller` | `src/core/controller/reachability_controller/` | `src/reachability_controller.cpp`, `reachability_controller_plugin.xml` |
+| `st_hybrid_astar_local_planner` | `src/core/controller/st_hybrid_astar_local_planner/` | `src/st_hybrid_astar_local_planner.cpp`, `st_hybrid_astar_local_planner_plugin.xml` |
+| `tangent_local_planner` | `src/core/controller/tangent_local_planner/` | `src/tangent_planner.cpp`, `tangent_local_planner_plugin.xml` |
+| `vfh_local_planner` | `src/core/controller/vfh_local_planner/` | `src/vfh_local_planner_ros.cpp`, `VFHlp_plugin.xml` |
+
+#### Trajectory optimization
+
+| Method | Entry path | Main files |
+|---|---|---|
+| `lbfgs` | `src/core/trajectory_planner/src/trajectory_optimization/lbfgs_optimizer/` | `lbfgs_optimizer.{h,cpp}` |
+| `minco` | `src/core/trajectory_planner/src/trajectory_optimization/minco_spline_optimizer/` | `minco_spline_optimizer.{h,cpp}` |
+| `minimum-snap` | `src/core/trajectory_planner/src/trajectory_optimization/minimumsnap_optimizer/` | `minimumsnap_optimizer.{h,cpp}` |
+| `splinetrajectory` | `src/core/trajectory_planner/src/trajectory_optimization/splinetrajectory_optimizer/` | `splinetrajectory_optimizer.{h,cpp}` |
+
+#### Map plugins (costmap layers)
+
+| Method | Package path | Main files |
+|---|---|---|
+| `globalreachability_layer` | `src/plugins/map_plugins/globalreachability_layer/` | `src/globalreachability_layer.cpp`, `include/globalreachability_layer/globalreachability_layer.h`, `globalreachability_layer_costmap_plugin.xml` |
+| `localreachability_layer` | `src/plugins/map_plugins/localreachability_layer/` | `src/localreachability_layer.cpp`, `include/localreachability_layer/localreachability_layer.h`, `localreachability_layer_costmap_plugin.xml` |
+| `social_layer` | `src/plugins/map_plugins/social_layer/` | `src/social_layer.cpp`, `include/social_layer/social_layer.h`, `social_layer_costmap_plugin.xml` |
+| `rc_esdf_layer` | `src/plugins/map_plugins/rc_esdf_layer/` | `src/rc_esdf_layer.cpp`, `include/rc_esdf_layer/rc_esdf_layer.h`, `rc_esdf_layer_costmap_plugin.xml` |
+| `pseudodistance_layer` | `src/plugins/map_plugins/pseudodistance_layer/` | `src/pseudodistance_layer.cpp`, `include/pseudodistance_layer.h`, `pseudodistance_layer_costmap_plugin.xml` |
+
+#### Other
+
+| Area | Path | Notes |
+|---|---|---|
+| third-party deps | `3rd/` | vendored dependencies & upstream references |
+| simulation / pedestrians | `src/plugins/gazebo_plugins/` | pedestrian simulation, related plugins & messages |
 
 ## 6. Build & Run
 
@@ -647,7 +706,7 @@ The table highlights the four core innovation areas and points to specific packa
 #### 6.2 Install git.
     sudo apt install git
 
-#### 6.3 Install dependence
+#### 6.3 Install dependencies
 
 - OSQP
     ```
@@ -666,7 +725,7 @@ The table highlights the four core innovation areas and points to specific packa
     make
     sudo make install
     ```
-- Other dependence.
+- Other dependencies.
     ```
     sudo apt install python-is-python3 \
     ros-noetic-amcl \
@@ -676,7 +735,7 @@ The table highlights the four core innovation areas and points to specific packa
     ros-noetic-navfn
     ```
 
-#### 6.4 Clone the reposity
+#### 6.4 Clone the repository
 ```
 git clone https://github.com/SYS-zdk/robot_path_planner_public.git
 ```
