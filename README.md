@@ -203,7 +203,7 @@ Below is a typical system architecture diagram used in this repository:
             <b>social_layer</b><br/>
             <em>Pedestrian social comfort cost layer.</em><br/>
             <code>src/plugins/map_plugins/social_layer/</code><br/>
-            <img src="./images/video.gif" width="260" height="212" alt="social_layer demo" />
+            <img src="./images/social_layer.gif" width="260" height="212" alt="social_layer demo" />
         </td>
     </tr>
     <tr>
