@@ -836,8 +836,8 @@ Refer to src/sim_env/config/controller/hlpmpccorridor_local_planner.yaml for cri
 
 ## 9. Citation
 If you want to learn more about the detailed mathematical derivation of this project or if this project helps your research, please refer to the following citation formats:
-- Global Planning Part: 张定坤，梁海朝。基于动态走廊膨胀与凸优化的移动机器人分层运动规划 [J/OL]. 系统仿真学报，1-21 [2026-01-13]. https://link.cnki.net/urlid/11.3092.V.20250916.1349.002.
-- Local Planning Part: 张定坤，吴兴涛，梁海朝。基于动态状态图的自主移动机器人混合局部规划方法 [J]. 机器人技术与应用，2025, (05): 20-34.
+- Global Planning Part: ----------k.cnki.net/urlid/11.3092.V.20250916.1349.002.
+- Local Planning Part: ----------- [J]. 机器人技术与应用，2025, (05): 20-34.
 - Environment Modeling Part: Zhang Dingkun. robot_path_planner_public. [EB/OL]. https://github.com/SYS-zdk/robot_path_planner_public, 2026.
 
 ## 10. License
