@@ -12,7 +12,7 @@
 
 ## 1.1 Build (Conan + catkin)
 
-本项目的第三方库通过 Conan 管理（`3rd/`）。首次编译或换机器后需要先执行 Conan 安装生成 `3rd/conanbuildinfo.cmake` 等文件，否则会出现如 `find_package(osqp)` 找不到的问题。下文有详细步骤。
+Third-party libraries are managed via Conan (`3rd/`). On a fresh build or a new machine, run the Conan install step first to generate `3rd/conanbuildinfo.cmake` and related files; otherwise you may see missing dependency errors (e.g., `find_package(osqp)` cannot be resolved). Detailed steps are provided below.
 
 ```bash
 cd /path/to/robot_path_planner_public
@@ -29,14 +29,14 @@ cd /path/to/robot_path_planner_public
   <em>Figure 1: Program Logo GIF</em>
 </p>
 
-本仓库是一个面向移动机器人（ROS1/Noetic）导航与运动规划的端到端实验平台：将 costmap 插件、全局/局部规划器、控制器、轨迹优化器与仿真环境整合到同一个可复现工程里，既方便学习与复现，也便于横向对比不同 pipeline 的行为差异与调参入口。
+This repository is an end-to-end experimental platform for mobile robot navigation and motion planning (ROS1/Noetic). It integrates costmap plugins, global/local planners, controllers, trajectory optimizers, and simulation assets into a single reproducible workspace—useful both for learning/replication and for apples-to-apples comparisons across different pipelines and parameter settings.
 
-In addition，本仓库还包含了我基于工程经验做的“模块级实现 + 系统级组合”扩展（见下方 **Module Gallery** 与 **Core Innovations**）：
+In addition, it includes a set of engineering-driven extensions at both the **module** level and the **system** level (see **Module Gallery** and **Core Innovations** below):
 
-- 模块级（积木）：提供多种 global planners / local planners / controllers / layers / optimizers，可按需拼装；并配套 `docs/` 的实现级说明与 `src/sim_env/config/` 的参数示例。
-- 系统级（成品案例）：展示若干具有代表性的组合管线与创新方法，例如 HPCC、HLP/HLPMPC(+Corridor)、Reachability-aware planning & control（Reachability Layer + A* + MPPI/MPPI-like）、Sunshine（ray sampling + MINCO + iLQR）、ST-Planner（space–time Hybrid A* + probability layer + iLQR）、以及带 SocialLayer 的 socially-aware 规划控制框架。
+- Module-level (building blocks): multiple global planners / local planners / controllers / layers / optimizers that can be composed as needed, with implementation notes in `docs/` and parameter examples in `src/sim_env/config/`.
+- System-level (finished builds): representative end-to-end pipelines and methods such as HPCC, HLP/HLPMPC(+Corridor), reachability-aware planning & control (Reachability Layer + A* + MPPI/MPPI-like), Sunshine (ray sampling + MINCO + iLQR), ST-Planner (space–time Hybrid A* + probability layer + iLQR), and a socially-aware planning/control stack with SocialLayer.
 
-总体目标是提供一个 LEGO-like 的可复用“积木盒”：减少环境配置与资料搜集成本，让同领域同学把时间花在算法理解、复现与对比验证上。
+The overall goal is to provide a LEGO-like toolbox that reduces environment/setup friction so that time can be spent on algorithm understanding, reproduction, and comparative evaluation.
 
 Below is a typical system architecture diagram used in this repository:
 
@@ -46,9 +46,12 @@ Below is a typical system architecture diagram used in this repository:
   <em>Figure 2: Robot</em>
 </p>
 
-## 3. Module Gallery (LEGO Blocks)
+## 3. Module Gallery
 
-为了方便复用与二次开发，这里按功能把仓库里的核心模块（planners / controllers / layers / optimizers）做一个清单式展示：每个条目仅 1 句说明 + 入口路径 + GIF 演示位（建议 GIF 尺寸为 400×327 或等比缩放；未提供的条目当前统一用 `./images/video.gif` 占位，后续可逐个替换为真实 demo）。
+This section is a catalog of the core modules in the repository (planners / controllers / layers / optimizers), grouped by functionality. Each card provides a one-line summary, an entry path, and a demo GIF (recommended size: 400×327 or proportional scaling).
+
+> **Note**
+> This repository is developed on top of the open-source framework `ros_motion_planning`, but it does not necessarily include every upstream module. In principle, the framework can work with most upstream modules; however, since both projects continue to evolve, details may diverge over time. When porting or mixing modules, be prepared to adjust implementation details (interfaces, parameters, topics, frames, etc.).
 
 ### 3.1 Global Planning Modules
 
@@ -219,6 +222,21 @@ Below is a typical system architecture diagram used in this repository:
             <code>src/plugins/map_plugins/pseudodistance_layer/</code><br/>
             <img src="./images/pseudodistance_layer.gif" width="260" height="212" alt="pseudodistance_layer demo" />
         </td>
+        <td align="center" width="33%">
+            <b>distance_layer</b><br/>
+            <em><b>[Upstream: ros_motion_planning]</b> ESDF / distance utilities & costmap layer.</em><br/>
+            <code>src/plugins/map_plugins/distance_layer/</code><br/>
+            <img src="./images/distance_layer.gif" width="260" height="212" alt="distance_layer (upstream) demo" />
+        </td>
+    </tr>
+    <tr>
+        <td align="center" width="33%">
+            <b>voronoi_layer</b><br/>
+            <em><b>[Upstream: ros_motion_planning]</b> Voronoi costmap layer (dynamic voronoi).</em><br/>
+            <code>src/plugins/map_plugins/voronoi_layer/</code><br/>
+            <img src="./images/voronoi_layer.gif" width="260" height="212" alt="voronoi_layer (upstream) demo" />
+        </td>
+        <td align="center" width="33%"></td>
         <td align="center" width="33%"></td>
     </tr>
 </table>
@@ -244,9 +262,9 @@ Below is a typical system architecture diagram used in this repository:
 
 ## 4. Core Innovations
 
-本章是“成品展示”：利用上一章 **Module Gallery** 中的模块（积木），在同一套 ROS1 导航栈与仿真环境里搭建出若干完整的规划与控制 pipeline，并总结其中的系统级设计要点。每个小节对应一种可复现的组合方案（附 GIF 演示位）。
+This chapter is a set of end-to-end “finished builds”: using the modules (building blocks) from **Module Gallery**, we assemble complete planning and control pipelines within the same ROS1 navigation stack and simulation setup, and summarize the key system-level design decisions. Each subsection corresponds to a reproducible pipeline (with a demo GIF slot).
 
-如果你更关心“有哪些积木、入口在哪”，请先看 **Module Gallery**；如果你更关心“如何运行与复现”，后文的 **Repository Structure** / **Build & Run** 给出了包路径与脚本入口；更深入的实现推导与参数解释则放在 `docs/`。
+If you mainly want the module inventory and entry points, start with **Module Gallery**. If you mainly want to run and reproduce experiments, the **Repository Structure** / **Build & Run** sections provide package paths and script entry points. More detailed derivations and parameter explanations are collected in `docs/`.
 ### 4.1 Global Hierarchical Motion Planning for Ackermann Robots (HPCC)
 
 <p align="center">
@@ -629,6 +647,8 @@ robot_path_planner_public/
 │   │   │   ├── globalreachability_layer/
 │   │   │   ├── localreachability_layer/
 │   │   │   ├── social_layer/
+│   │   │   ├── distance_layer/                   # (upstream) ESDF / distance utilities & layer
+│   │   │   ├── voronoi_layer/                    # (upstream) Voronoi cost layer
 │   │   │   ├── rc_esdf_layer/
 │   │   │   ├── pseudodistance_layer/
 │   │   │   └── ...
@@ -688,6 +708,8 @@ Plugin registry: `src/core/path_planner/path_planner/path_planner_plugin.xml`.
 | `globalreachability_layer` | `src/plugins/map_plugins/globalreachability_layer/` | `src/globalreachability_layer.cpp`, `include/globalreachability_layer/globalreachability_layer.h`, `globalreachability_layer_costmap_plugin.xml` |
 | `localreachability_layer` | `src/plugins/map_plugins/localreachability_layer/` | `src/localreachability_layer.cpp`, `include/localreachability_layer/localreachability_layer.h`, `localreachability_layer_costmap_plugin.xml` |
 | `social_layer` | `src/plugins/map_plugins/social_layer/` | `src/social_layer.cpp`, `include/social_layer/social_layer.h`, `social_layer_costmap_plugin.xml` |
+| `distance_layer` *(upstream: ros_motion_planning)* | `src/plugins/map_plugins/distance_layer/` | `src/distance_layer.cpp`, `include/distance_layer.h`, `distance_layer_costmap_plugin.xml` |
+| `voronoi_layer` *(upstream: ros_motion_planning)* | `src/plugins/map_plugins/voronoi_layer/` | `src/voronoi_layer.cpp`, `include/voronoi_layer.h`, `costmap_plugins.xml` |
 | `rc_esdf_layer` | `src/plugins/map_plugins/rc_esdf_layer/` | `src/rc_esdf_layer.cpp`, `include/rc_esdf_layer/rc_esdf_layer.h`, `rc_esdf_layer_costmap_plugin.xml` |
 | `pseudodistance_layer` | `src/plugins/map_plugins/pseudodistance_layer/` | `src/pseudodistance_layer.cpp`, `include/pseudodistance_layer.h`, `pseudodistance_layer_costmap_plugin.xml` |
 
@@ -744,15 +766,17 @@ git clone https://github.com/SYS-zdk/robot_path_planner_public.git
 
     cd robot_path_planner_public/scripts/
     ./build.sh
-    # 第一次必须执行/build.shc 第一次往后的编译可以执行catkin_make
-    # or catkin build
-    # you may need to install it by: sudo apt install python-catkin-tools
-    # 由于存在许多第三方包，而不是通过系统安装，由人工导入，所以可能会存在编译顺序错误引起编译失败
-    # 如social_layer包依赖pedsim_msgs
-    # catkin重新构建时，没有优先编译pedsim_msgs，反而先编译了social_layer
-    # 此时pedsim_msgs还未生成头文件（TrackedPersons.h）和编译产物，social_layer编译时自然找不到依赖，直接报错
-    # catkin_make --cmake-args -DCATKIN_WHITELIST_PACKAGES="pedsim_msgs"
-    # catkin_make -DCMAKE_BUILD_TYPE=Release或者./build.sh
+    # First-time build: use ./build.sh. For subsequent builds you can run catkin_make.
+    # Or use catkin build (you may need: sudo apt install python-catkin-tools).
+    # Note: since many dependencies are vendored (not installed via apt) and are built from source,
+    # build-order issues can happen during incremental rebuilds.
+    # Example: social_layer depends on pedsim_msgs; catkin may build social_layer before pedsim_msgs,
+    # causing missing generated headers (e.g., TrackedPersons.h).
+    # One workaround is to build pedsim_msgs first, e.g.:
+    #   catkin_make --cmake-args -DCATKIN_WHITELIST_PACKAGES="pedsim_msgs"
+    # Or build in Release:
+    #   catkin_make -DCMAKE_BUILD_TYPE=Release
+    # Or rerun ./build.sh
 
 ### Run Examples
 
