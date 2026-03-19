@@ -61,22 +61,25 @@ This section is a catalog of the core modules in the repository (planners / cont
             <b>rhcf_planner</b><br/>
             <em>Voronoi multi-homotopy global planner (RHCF-style).</em><br/>
             <code>src/core/path_planner/path_planner/src/graph_planner/</code><br/>
-            <img src="./images/video.gif" width="260" height="212" alt="rhcf_planner demo" />
+            <img src="./images/rhcf_planner.gif" width="260" height="212" alt="rhcf_planner demo" />
         </td>
         <td align="center" width="33%">
             <b>bdrp_planner</b><br/>
             <em>Sampling-based global planner with lightweight refinement.</em><br/>
             <code>src/core/path_planner/path_planner/src/sample_planner/</code><br/>
-            <img src="./images/video.gif" width="260" height="212" alt="bdrp_planner demo" />
+            <img src="./images/bdrp_planner.gif" width="260" height="212" alt="bdrp_planner demo" />
         </td>
         <td align="center" width="33%">
             <b>sunshine_planner</b><br/>
             <em>Sunshine ray sampling + LOS graph search global planner.</em><br/>
             <code>src/core/path_planner/path_planner/src/sample_planner/</code><br/>
-            <img src="./images/video.gif" width="260" height="212" alt="sunshine_planner demo" />
+            <img src="./images/sunshaine_planner.gif" width="260" height="212" alt="sunshine_planner demo" />
         </td>
     </tr>
 </table>
+
+> **Note**
+> Besides the three highlighted global planners above, this repository also includes (or can be configured to use) a broader set of global planners, such as GBFS, Dijkstra, A*, Hybrid A*, RRT, RRT*, Informed RRT*, and Voronoi-based planners. See `src/user_config/user_config.yaml` and `src/sim_env/config/planner/` for planner IDs and parameter templates.
 
 ### 3.2 Local Planning / Control Modules
 
@@ -86,19 +89,19 @@ This section is a catalog of the core modules in the repository (planners / cont
             <b>hlpmpccorridor_local_planner</b><br/>
             <em>HLP + MPC + convex corridor local planning.</em><br/>
             <code>src/core/controller/hlpmpccorridor_local_planner/</code><br/>
-            <img src="./images/video.gif" width="260" height="212" alt="hlpmpccorridor_local_planner demo" />
+            <img src="./images/hlpmpccorridor_local_planner.gif" width="260" height="212" alt="hlpmpccorridor_local_planner demo" />
         </td>
         <td align="center" width="33%">
             <b>bubble_local_planner</b><br/>
             <em>Reactive local planner (bubble-style obstacle avoidance).</em><br/>
             <code>src/core/controller/bubble_local_planner/</code><br/>
-            <img src="./images/video.gif" width="260" height="212" alt="bubble_local_planner demo" />
+            <img src="./images/bubble_local_planner.gif" width="260" height="212" alt="bubble_local_planner demo" />
         </td>
         <td align="center" width="33%">
             <b>ilqr_controller</b><br/>
             <em>Model-based iLQR tracking controller.</em><br/>
             <code>src/core/controller/ilqr_controller/</code><br/>
-            <img src="./images/video.gif" width="260" height="212" alt="ilqr_controller demo" />
+            <img src="./images/ilqr_controller.gif" width="260" height="212" alt="ilqr_controller demo" />
         </td>
     </tr>
     <tr>
@@ -106,19 +109,19 @@ This section is a catalog of the core modules in the repository (planners / cont
             <b>karcher_local_planner</b><br/>
             <em>Local planner using Karcher mean / manifold smoothing.</em><br/>
             <code>src/core/controller/karcher_local_planner/</code><br/>
-            <img src="./images/video.gif" width="260" height="212" alt="karcher_local_planner demo" />
+            <img src="./images/karcher_local_planner.gif" width="260" height="212" alt="karcher_local_planner demo" />
         </td>
         <td align="center" width="33%">
             <b>minco_local_planner</b><br/>
             <em>MINCO-based local planning & tracking.</em><br/>
             <code>src/core/controller/minco_local_planner/</code><br/>
-            <img src="./images/video.gif" width="260" height="212" alt="minco_local_planner demo" />
+            <img src="./images/minco_local_planner.gif" width="260" height="212" alt="minco_local_planner demo" />
         </td>
         <td align="center" width="33%">
             <b>mppi_local_planner</b><br/>
             <em>Sampling-based MPPI local planner.</em><br/>
             <code>src/core/controller/mppi_local_planner/</code><br/>
-            <img src="./images/video.gif" width="260" height="212" alt="mppi_local_planner demo" />
+            <img src="./images/mppi_controller.gif" width="260" height="212" alt="mppi_local_planner demo" />
         </td>
     </tr>
     <tr>
@@ -126,13 +129,13 @@ This section is a catalog of the core modules in the repository (planners / cont
             <b>reachability_controller</b><br/>
             <em>Reachability-aware MPPI controller.</em><br/>
             <code>src/core/controller/reachability_controller/</code><br/>
-            <img src="./images/video.gif" width="260" height="212" alt="reachability_controller demo" />
+            <img src="./images/reachablity_local_planner.gif" width="260" height="212" alt="reachability_controller demo" />
         </td>
         <td align="center" width="33%">
             <b>st_hybrid_astar_local_planner</b><br/>
             <em>Space–time Hybrid A* local planner.</em><br/>
             <code>src/core/controller/st_hybrid_astar_local_planner/</code><br/>
-            <img src="./images/video.gif" width="260" height="212" alt="st_hybrid_astar_local_planner demo" />
+            <img src="./images/st_hybrid_a_star_local_planner.gif" width="260" height="212" alt="st_hybrid_astar_local_planner demo" />
         </td>
         <td align="center" width="33%">
             <b>tangent_local_planner</b><br/>
@@ -146,12 +149,15 @@ This section is a catalog of the core modules in the repository (planners / cont
             <b>vfh_local_planner</b><br/>
             <em>Vector Field Histogram (VFH) reactive local planner.</em><br/>
             <code>src/core/controller/vfh_local_planner/</code><br/>
-            <img src="./images/video.gif" width="260" height="212" alt="vfh_local_planner demo" />
+            <img src="./images/vfh_local_planner.gif" width="260" height="212" alt="vfh_local_planner demo" />
         </td>
         <td align="center" width="33%"></td>
         <td align="center" width="33%"></td>
     </tr>
 </table>
+
+> **Note**
+> Besides the highlighted local planning/control modules above, the platform also supports classic controllers and planners such as PID / MPC / LQR / APF, as well as widely used ROS navigation plugins like DWA and TEB (when the corresponding ROS packages are available). See `src/user_config/user_config.yaml` for the selectable controller/planner IDs.
 
 ### 3.3 Trajectory Optimization Modules
 
