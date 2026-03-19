@@ -167,13 +167,13 @@ This section is a catalog of the core modules in the repository (planners / cont
             <b>lbfgs</b><br/>
             <em>Trajectory smoothing via L-BFGS(-Lite).</em><br/>
             <code>src/core/trajectory_planner/src/trajectory_optimization/lbfgs_optimizer/</code><br/>
-            <img src="./images/video.gif" width="320" height="262" alt="lbfgs optimizer demo" />
+            <img src="./images/lbfgs.gif" width="320" height="262" alt="lbfgs optimizer demo" />
         </td>
         <td align="center" width="50%">
             <b>minco</b><br/>
             <em>MINCO-like minimum-jerk spline optimizer.</em><br/>
             <code>src/core/trajectory_planner/src/trajectory_optimization/minco_spline_optimizer/</code><br/>
-            <img src="./images/video.gif" width="320" height="262" alt="minco optimizer demo" />
+            <img src="./images/minco_spline_optimizer.gif" width="320" height="262" alt="minco optimizer demo" />
         </td>
     </tr>
     <tr>
@@ -181,14 +181,23 @@ This section is a catalog of the core modules in the repository (planners / cont
             <b>minimum-snap</b><br/>
             <em>QP-based minimum-snap optimizer (corridor constraints supported).</em><br/>
             <code>src/core/trajectory_planner/src/trajectory_optimization/minimumsnap_optimizer/</code><br/>
-            <img src="./images/video.gif" width="320" height="262" alt="minimum-snap optimizer demo" />
+            <img src="./images/minimum_snap.gif" width="320" height="262" alt="minimum-snap optimizer demo" />
         </td>
         <td align="center" width="50%">
             <b>splinetrajectory</b><br/>
             <em>Spline trajectory optimizer (global reference smoothing).</em><br/>
             <code>src/core/trajectory_planner/src/trajectory_optimization/splinetrajectory_optimizer/</code><br/>
-            <img src="./images/video.gif" width="320" height="262" alt="splinetrajectory optimizer demo" />
+            <img src="./images/splinetrajectory_optimizer.gif" width="320" height="262" alt="splinetrajectory optimizer demo" />
         </td>
+    </tr>
+    <tr>
+        <td align="center" width="50%">
+            <b>conjugate_gradient</b><br/>
+            <em>Conjugate-gradient trajectory smoothing optimizer.</em><br/>
+            <code>src/core/trajectory_planner/src/trajectory_optimization/conjugate_optimizer/</code><br/>
+            <img src="./images/conjugate_gradient.gif" width="320" height="262" alt="conjugate_gradient optimizer demo" />
+        </td>
+        <td align="center" width="50%"></td>
     </tr>
 </table>
 
@@ -827,8 +836,8 @@ Refer to src/sim_env/config/controller/hlpmpccorridor_local_planner.yaml for cri
 
 ## 9. Citation
 If you want to learn more about the detailed mathematical derivation of this project or if this project helps your research, please refer to the following citation formats:
-- Global Planning Part: ---------------------------------- [J/OL]. 系统仿真学报，1-21 [2026-01-13]. https://link.cnki.net/urlid/11.3092.V.20250916.1349.002.
-- Local Planning Part: ---------------------------------- [J]. 机器人技术与应用，2025, (05): 20-34.
+- Global Planning Part: 张定坤，梁海朝。基于动态走廊膨胀与凸优化的移动机器人分层运动规划 [J/OL]. 系统仿真学报，1-21 [2026-01-13]. https://link.cnki.net/urlid/11.3092.V.20250916.1349.002.
+- Local Planning Part: 张定坤，吴兴涛，梁海朝。基于动态状态图的自主移动机器人混合局部规划方法 [J]. 机器人技术与应用，2025, (05): 20-34.
 - Environment Modeling Part: Zhang Dingkun. robot_path_planner_public. [EB/OL]. https://github.com/SYS-zdk/robot_path_planner_public, 2026.
 
 ## 10. License
