@@ -261,19 +261,28 @@ This section is a catalog of the core modules in the repository (planners / cont
 <table>
     <tr>
         <td align="center" width="50%">
-            <b>3rd/ (third-party)</b><br/>
-            <em>Vendored dependencies & upstream references (e.g., LBFGS-Lite, MINCO upstream).</em><br/>
-            <code>3rd/</code><br/>
-            <img src="./images/video.gif" width="320" height="262" alt="third-party modules demo" />
-        </td>
-        <td align="center" width="50%">
             <b>gazebo_plugins / pedsim_msgs</b><br/>
             <em>Pedestrian simulation, tracking messages and related plugins.</em><br/>
             <code>src/plugins/gazebo_plugins/</code><br/>
             <img src="./images/video.gif" width="320" height="262" alt="pedestrian plugins demo" />
         </td>
+        <td align="center" width="50%"></td>
     </tr>
 </table>
+
+**Third-party dependencies (text-only)**
+
+- `3rd/`: vendored dependencies and upstream references (e.g., LBFGS-Lite, MINCO upstream).
+- Third-party builds are managed via Conan; see `scripts/build.sh` and the notes in **1.1 Build (Conan + catkin)**.
+
+### 3.6 Maps / Simulation Scenes (text-only)
+
+This repository includes a diverse set of simulation assets for evaluation and regression testing:
+
+- 2D occupancy maps: `src/sim_env/maps/`
+- Gazebo worlds / models: `src/sim_env/worlds/`, `src/sim_env/models/`, `src/sim_env/meshes/`
+
+The map collection covers multiple styles (multi-wall mazes, museum-like indoor layouts, warehouse/storage scenes, outdoor residential/villa neighborhoods, etc.). Most maps are collected from public online sources and are used to provide varied test cases rather than to showcase map novelty.
 
 ## 4. Core Innovations
 
@@ -283,7 +292,7 @@ If you mainly want the module inventory and entry points, start with **Module Ga
 ### 4.1 Global Hierarchical Motion Planning for Ackermann Robots (HPCC)
 
 <p align="center">
-    <img src="./images/video.gif" width="400" alt="HPCC global planner demo" />
+    <img src="./images/4.1%20HPCC.gif" width="400" alt="HPCC global planner demo" />
 </p>
 
 A hierarchical global planning method combining path search, corridor construction, and convex optimization to generate kinodynamically feasible trajectories.
@@ -330,7 +339,7 @@ $$
 ### 4.2 Hybrid Local Planner (HLP) Based on Dynamic State Graph
 
 <p align="center">
-    <img src="./images/video.gif" width="400" alt="HLP local planner demo" />
+    <img src="./images/4.2%20HLP.gif" width="400" alt="HLP local planner demo" />
 </p>
 
 A sampling-based local planner designed for dynamic obstacle avoidance and real-time responsiveness, solving the "deadlock" issue in extreme orientation scenarios.
@@ -376,7 +385,7 @@ $$
 ### 4.3 HLPMPC: Hybrid Control with HLP + Short-Horizon MPC
 
 <p align="center">
-    <img src="./images/video.gif" width="400" alt="HLPMPC hybrid control demo" />
+    <img src="./images/4.3%20HLPMPC.gif" width="400" alt="HLPMPC hybrid control demo" />
 </p>
 
 An enhanced variant of HLP integrating model predictive control for smoother velocity profiles and improved tracking performance.
@@ -411,7 +420,7 @@ $$
 ### 4.4 HLPMPCCorridor: HLPMPC with Local Convex Safety Corridors
 
 <p align="center">
-    <img src="./images/video.gif" width="400" alt="HLPMPCCorridor with convex safety corridors demo" />
+    <img src="./images/4.4%20HLPMPCCorridor.gif" width="400" alt="HLPMPCCorridor with convex safety corridors demo" />
 </p>
 
 Integrates convex safety corridors into HLPMPC for enhanced geometric feasibility and collision avoidance.
@@ -440,7 +449,7 @@ $$
 ### 4.5 Socially-Aware Hierarchical Planning (HLP + MPC + Social Layer + Convex Corridors)
 
 <p align="center">
-    <img src="./images/video.gif" width="400" alt="Socially-aware HLPMPCCorridor system demo" />
+    <img src="./images/4.5%20Socially-Aware%20Hierarchical%20Planning.gif" width="400" alt="Socially-aware HLPMPCCorridor system demo" />
 </p>
 
 Based on the HLP / HLPMPC / HLPMPCCorridor building blocks above, this module organizes them into a full hierarchical system that also reasons about pedestrians and dynamic obstacles. A global Hybrid A* + LBFGS + corridor planner provides a coarse but robust path; a local HLP + short-horizon MPC controller refines it; a dedicated SocialLayer encodes human comfort and interaction constraints.
@@ -476,7 +485,7 @@ For a full system-level description and derivations, see `docs/hlpmpccorridor_pa
 ### 4.6 Reachability-Aware Planning (Reachability Layers + A* + MPPI)
 
 <p align="center">
-    <img src="./images/video.gif" width="400" alt="Reachability-aware planning demo" />
+    <img src="./images/4.6%20Reachability.gif" width="400" alt="Reachability-aware planning demo" />
 </p>
 
 A reachability-aware navigation pipeline that augments traditional costmap-based planning with an explicit “passability / bottleneck” score. The reachability signal is injected into both global search (A* + minimum-snap trajectory optimization) and local control (MPPI), so that the system naturally prefers wide, robust corridors over narrow bottlenecks.
@@ -524,7 +533,7 @@ For full implementation-level details and parameter entry points, see `docs/reac
 ### 4.7 Sunshine Planner: Sunshine Ray Sampling + MINCO + iLQR
 
 <p align="center">
-    <img src="./images/video.gif" width="400" alt="Sunshine planner demo" />
+    <img src="./images/4.7%20Sunshine%20Planner.gif" width="400" alt="Sunshine planner demo" />
 </p>
 
 A hierarchical motion-planning framework for grid maps that combines geometry-aware Sunshine sampling, minimum-jerk global trajectory optimization and model-based local optimal control. It is particularly suitable for cluttered indoor environments with narrow gaps and long corridors.
@@ -567,14 +576,14 @@ For implementation mapping (code/config) and detailed derivations aligned with t
 ### 4.8 ST-Planner: Space–Time Hybrid A* + Probability Layer + iLQR
 
 <p align="center">
-    <img src="./images/video.gif" width="400" alt="ST-Planner space–time planning demo" />
+    <img src="./images/4.8%20ST-Planner.gif" width="400" alt="ST-Planner space–time planning demo" />
 </p>
 
 A space–time-aware navigation pipeline that extends 2D planning to a 4D state $(x,y,\theta,t)$. It combines a global spline trajectory, a space–time Hybrid A* local planner, a time-varying probability layer for dynamic obstacles and an iLQR tracker to generate socially compliant motions in dynamic environments.
 
 #### Key Steps
 - Global path and spline trajectory: a Voronoi / RHCF-style global planner finds a collision-free topological path; a spline / minimum-jerk optimizer turns it into a smooth time-parameterized reference.
-- ST-Hybrid-A* local planner: in the local window, perform A*/ARA* search in the 4D state space $(x,y,\theta,t)$, using a rich step cost that includes path tracking, time, control smoothness (steering / speed changes / reverse penalties), static and dynamic safety, risk and corridor terms.
+- ST-Hybrid-A* local planner: in the local window, perform a 4D state-space search in $(x,y,\theta,t)$ (standard A* or weighted A* via $\epsilon(t)$; optional ARA* via `use_ara_star`). In this repository’s default ST profile (`st_hybrid_astar_local_planner_all_on_weighted.yaml`), action-sequence warm-start is enabled (`use_action_warm_start`, `warm_start_seed_open`) to reuse the previous cycle and reduce expansions/jitter.
 - ST probability layer (`STProbabilityLayer`): from tracked pedestrians and other dynamic obstacles, build a time-varying probability field $p(x,y,t)$ using constant-velocity prediction and Gaussian-like occupancy kernels; this field is queried during search and control.
 - Time-varying safety corridors: carve a static convex corridor around the global path and further cut it in space–time according to dynamic obstacle predictions, encouraging the robot to yield or overtake in socially reasonable ways.
 - iLQR tracking controller: use a bicycle/unicycle-model iLQR to track the selected ST trajectory, with costs for path tracking, heading, control effort, smoothness, obstacle / corridor violation and risk from $p(x,y,t)$.
@@ -711,6 +720,7 @@ Plugin registry: `src/core/path_planner/path_planner/path_planner_plugin.xml`.
 
 | Method | Entry path | Main files |
 |---|---|---|
+| `conjugate_gradient` | `src/core/trajectory_planner/src/trajectory_optimization/conjugate_optimizer/` | `conjugate_optimizer.{h,cpp}` |
 | `lbfgs` | `src/core/trajectory_planner/src/trajectory_optimization/lbfgs_optimizer/` | `lbfgs_optimizer.{h,cpp}` |
 | `minco` | `src/core/trajectory_planner/src/trajectory_optimization/minco_spline_optimizer/` | `minco_spline_optimizer.{h,cpp}` |
 | `minimum-snap` | `src/core/trajectory_planner/src/trajectory_optimization/minimumsnap_optimizer/` | `minimumsnap_optimizer.{h,cpp}` |
@@ -809,22 +819,36 @@ git clone https://github.com/SYS-zdk/robot_path_planner_public.git
     ./killpro.sh
 
 
-## 7. Parameters
+## 7. Configuration (entry points & tuning workflow)
 
-### 7.1 Key Parameters
-Refer to src/sim_env/config/controller/hlpmpccorridor_local_planner.yaml for critical parameters:
-  - mpc_horizon: MPC prediction steps (default: 5)
-  - mpc_dt: MPC time step (default: 0.1s)
-  - mpc_q_v/mpc_q_w: MPC tracking weights (default: 1.0/1.0)
-  - mpc_r_v/mpc_r_w: MPC smoothing weights (default: 0.5/0.5)
-  - alpha_sigmoid_k: Blending sigmoid steepness (default: 5.0)
-  - safety_corridor_range: Corridor expansion range (default: 0.5m)
+This repository contains many parameters across planners, controllers, costmaps, and optimizers. Instead of trying to document every knob here, use the following **entry points** to navigate and tune configurations.
 
-### 7.2 Practical Tuning Tips
-- For smoother velocities: Increase mpc_r_v/mpc_r_w or reduce mpc_horizon.
-- For cluttered environments: Reduce alpha_sigmoid_k to rely more on HLP.
-- For corridor rejection issues: Increase safety_corridor_range or trajectory sampling density.
-- For kinodynamic compliance: Adjust max_vel_x, max_acc_x, max_omega to match your robot's specs.
+### 7.1 Select modules (IDs)
+
+- Primary switchboard: `src/user_config/user_config.yaml` (choose `global_planner`, `local_planner`, and optional `optimizer`).
+
+### 7.2 Where parameters live (templates)
+
+- Central wiring: `src/sim_env/launch/include/navigation/move_base.launch.xml`
+    - Loads YAMLs conditionally based on the selected IDs.
+- Global planner templates: `src/sim_env/config/planner/*.yaml`
+    - Examples: `rhcf_planner_params.yaml`, `sample_planner_params.yaml`, `bdrp_planner_params.yaml`.
+- Local planner / controller templates: `src/sim_env/config/controller/*.yaml`
+    - Example: `hlpmpccorridor_local_planner.yaml`.
+- Trajectory optimization templates: `src/sim_env/config/trajectory_optimization/*.yaml`
+    - Examples: `conjugate_gradient_params.yaml`, `lbfgs_params.yaml`, `minco_spline_params.yaml`, `minimumsnap_params.yaml`.
+- Robot / costmap templates: `src/sim_env/config/robots/<robot>/*.yaml`
+    - Includes local/global costmaps, AMCL, and robot-specific limits.
+
+### 7.3 Practical workflow (recommended)
+
+1. Start from `src/user_config/user_config.yaml` to pick a pipeline.
+2. Open `move_base.launch.xml` to see which YAMLs are loaded for that pipeline.
+3. Tune in the corresponding YAML(s), focusing first on a small set of high-impact parameters:
+     - Robot limits (max velocity/acceleration, steering/turning constraints)
+     - Costmap resolution + inflation
+     - Controller horizon / time step
+     - Optimizer `sample_points` and obstacle/smoothness weights
 
 ## 8. References
 - ros_motion_planning (upstream framework reference): https://github.com/ai-winter/ros_motion_planning
@@ -836,8 +860,8 @@ Refer to src/sim_env/config/controller/hlpmpccorridor_local_planner.yaml for cri
 
 ## 9. Citation
 If you want to learn more about the detailed mathematical derivation of this project or if this project helps your research, please refer to the following citation formats:
-- Global Planning Part: ----------k.cnki.net/urlid/11.3092.V.20250916.1349.002.
-- Local Planning Part: ----------- [J]. 机器人技术与应用，2025, (05): 20-34.
+- Global Planning Part: thinking...  [J/OL]. 系统仿真学报，1-21 [2026-01-13]. https://link.cnki.net/urlid/11.3092.V.20250916.1349.002.
+- Local Planning Part: thinking... [J]. 机器人技术与应用，2025, (05): 20-34.
 - Environment Modeling Part: Zhang Dingkun. robot_path_planner_public. [EB/OL]. https://github.com/SYS-zdk/robot_path_planner_public, 2026.
 
 ## 10. License
