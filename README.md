@@ -29,14 +29,19 @@ cd /path/to/robot_path_planner_public
   <em>Figure 1: Program Logo GIF</em>
 </p>
 
-This repository is an end-to-end experimental platform for mobile robot navigation and motion planning (ROS1/Noetic). It integrates costmap plugins, global/local planners, controllers, trajectory optimizers, and simulation assets into a single reproducible workspace—useful both for learning/replication and for apples-to-apples comparisons across different pipelines and parameter settings.
+This repository is a modular, reproducible workspace for mobile robot navigation and motion planning (ROS1/Noetic). It provides a LEGO-like set of interchangeable building blocks—costmap plugins, global/local planners, controllers, and trajectory optimizers—together with simulation assets and configuration templates. The focus is to reduce environment/setup friction so you can spend time on algorithm understanding, reproduction, secondary development, and apples-to-apples comparisons by swapping modules and tuning parameters within the same ROS navigation stack.
 
 In addition, it includes a set of engineering-driven extensions at both the **module** level and the **system** level (see **Module Gallery** and **Core Innovations** below):
 
 - Module-level (building blocks): multiple global planners / local planners / controllers / layers / optimizers that can be composed as needed, with implementation notes in `docs/` and parameter examples in `src/sim_env/config/`.
-- System-level (finished builds): representative end-to-end pipelines and methods such as HPCC, HLP/HLPMPC(+Corridor), reachability-aware planning & control (Reachability Layer + A* + MPPI/MPPI-like), Sunshine (ray sampling + MINCO + iLQR), ST-Planner (space–time Hybrid A* + probability layer + iLQR), and a socially-aware planning/control stack with SocialLayer.
+- System-level (reference stacks): representative integrated pipelines and case studies such as HPCC, HLP/HLPMPC(+Corridor), reachability-aware planning & control (Reachability Layer + A* + MPPI/MPPI-like), Sunshine (ray sampling + MINCO + iLQR), ST-Planner (space–time Hybrid A* + probability layer + iLQR), and a socially-aware planning/control stack with SocialLayer.
 
-The overall goal is to provide a LEGO-like toolbox that reduces environment/setup friction so that time can be spent on algorithm understanding, reproduction, and comparative evaluation.
+The overall goal is to provide a LEGO-like toolbox that makes it easy to (1) build your own stacks from reusable pieces, (2) reproduce and compare algorithms under the same wiring, and (3) keep accumulating improvements as modular components.
+
+**Roadmap (planned)**
+- Real-robot deployment notes and reproducible bring-up configs (hardware/time sync, sensor drivers, frames).
+- Benchmark & regression tooling: batch runs, logging, metrics extraction, and statistical comparison scripts.
+- More “code-to-paper” mappings in `docs/` (derivations, implementation notes, parameter sensitivity).
 
 Below is a typical system architecture diagram used in this repository:
 
@@ -52,6 +57,9 @@ This section is a catalog of the core modules in the repository (planners / cont
 
 > **Note**
 > This repository is developed on top of the open-source framework `ros_motion_planning`, but it does not necessarily include every upstream module. In principle, the framework can work with most upstream modules; however, since both projects continue to evolve, details may diverge over time. When porting or mixing modules, be prepared to adjust implementation details (interfaces, parameters, topics, frames, etc.).
+
+> **Note (GIFs & parameters)**
+> The demo GIFs are recorded with one set of default parameters in our simulation setup. To reproduce similar behavior in your environment, you will likely need to tune robot limits, costmap settings (resolution/inflation), and planner/controller parameters (horizon, weights, sampling, etc.).
 
 ### 3.1 Global Planning Modules
 
@@ -286,7 +294,7 @@ The map collection covers multiple styles (multi-wall mazes, museum-like indoor 
 
 ## 4. Core Innovations
 
-This chapter is a set of end-to-end “finished builds”: using the modules (building blocks) from **Module Gallery**, we assemble complete planning and control pipelines within the same ROS1 navigation stack and simulation setup, and summarize the key system-level design decisions. Each subsection corresponds to a reproducible pipeline (with a demo GIF slot).
+This chapter is a set of system-level reference pipelines: using the modules (building blocks) from **Module Gallery**, we assemble integrated planning and control stacks within the same ROS1 navigation stack and simulation setup, and summarize the key system-level design decisions. Each subsection corresponds to a reproducible pipeline (with a demo GIF slot).
 
 If you mainly want the module inventory and entry points, start with **Module Gallery**. If you mainly want to run and reproduce experiments, the **Repository Structure** / **Build & Run** sections provide package paths and script entry points. More detailed derivations and parameter explanations are collected in `docs/`.
 ### 4.1 Global Hierarchical Motion Planning for Ackermann Robots (HPCC)
@@ -860,8 +868,8 @@ This repository contains many parameters across planners, controllers, costmaps,
 
 ## 9. Citation
 If you want to learn more about the detailed mathematical derivation of this project or if this project helps your research, please refer to the following citation formats:
-- Global Planning Part: thinking...  [J/OL]. 系统仿真学报，1-21 [2026-01-13]. https://link.cnki.net/urlid/11.3092.V.20250916.1349.002.
-- Local Planning Part: thinking... [J]. 机器人技术与应用，2025, (05): 20-34.
+- Global Planning Part: 张定坤，梁海朝。基于动态走廊膨胀与凸优化的移动机器人分层运动规划 [J/OL]. 系统仿真学报，1-21 [2026-01-13]. https://link.cnki.net/urlid/11.3092.V.20250916.1349.002.
+- Local Planning Part: 张定坤，吴兴涛，梁海朝。基于动态状态图的自主移动机器人混合局部规划方法 [J]. 机器人技术与应用，2025, (05): 20-34.
 - Environment Modeling Part: Zhang Dingkun. robot_path_planner_public. [EB/OL]. https://github.com/SYS-zdk/robot_path_planner_public, 2026.
 
 ## 10. License
