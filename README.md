@@ -1,10 +1,39 @@
 # robot_path_planner_public
-## 1. Environment Requirements
+
 <p align="center">
-    <img width="100px" height="20px" src="https://img.shields.io/badge/Ubuntu-20.04-orange?logo=Ubuntu&Ubuntu-20.04"
-        alt="ubuntu" />
-    <img width="100px" height="20px" src="https://img.shields.io/badge/ROS-noetic-blue?logo=ROS&ROS=noetic" alt="ROS" />
+    <a href="https://ubuntu.com/" target="_blank">
+        <img alt="Ubuntu 20.04" src="https://img.shields.io/badge/Ubuntu-20.04-orange?style=flat-square&logo=ubuntu&logoColor=white" />
+    </a>
+    <a href="http://wiki.ros.org/noetic" target="_blank">
+        <img alt="ROS Noetic" src="https://img.shields.io/badge/ROS-Noetic-blue?style=flat-square&logo=ros&logoColor=white" />
+    </a>
+    <a href="https://github.com/SYS-zdk/robot_path_planner_public/actions/workflows/ci-noetic.yml" target="_blank">
+        <img alt="CI (Noetic)" src="https://img.shields.io/github/actions/workflow/status/SYS-zdk/robot_path_planner_public/ci-noetic.yml?branch=main&style=flat-square&logo=githubactions&logoColor=white" />
+    </a>
+    <a href="https://github.com/SYS-zdk/robot_path_planner_public/blob/main/LICENSE" target="_blank">
+        <img alt="License" src="https://img.shields.io/github/license/SYS-zdk/robot_path_planner_public?style=flat-square" />
+    </a>
+    <a href="https://github.com/SYS-zdk/robot_path_planner_public/commits/main" target="_blank">
+        <img alt="Last commit" src="https://img.shields.io/github/last-commit/SYS-zdk/robot_path_planner_public?style=flat-square&logo=git&logoColor=white" />
+    </a>
+    <a href="https://github.com/SYS-zdk/robot_path_planner_public" target="_blank">
+        <img alt="Top language" src="https://img.shields.io/github/languages/top/SYS-zdk/robot_path_planner_public?style=flat-square" />
+    </a>
+    <a href="https://github.com/SYS-zdk/robot_path_planner_public/stargazers" target="_blank">
+        <img alt="Stars" src="https://img.shields.io/github/stars/SYS-zdk/robot_path_planner_public?style=flat-square&logo=github" />
+    </a>
+    <a href="https://github.com/SYS-zdk/robot_path_planner_public/forks" target="_blank">
+        <img alt="Forks" src="https://img.shields.io/github/forks/SYS-zdk/robot_path_planner_public?style=flat-square&logo=github" />
+    </a>
+    <a href="https://github.com/SYS-zdk/robot_path_planner_public/issues" target="_blank">
+        <img alt="Issues" src="https://img.shields.io/github/issues/SYS-zdk/robot_path_planner_public?style=flat-square" />
+    </a>
+    <a href="https://github.com/SYS-zdk/robot_path_planner_public/pulls" target="_blank">
+        <img alt="PRs" src="https://img.shields.io/github/issues-pr/SYS-zdk/robot_path_planner_public?style=flat-square" />
+    </a>
 </p>
+
+## 1. Environment Requirements
 
 - Ubuntu 20.04 LTS (Recommended)
 - ROS Noetic 
@@ -669,9 +698,16 @@ robot_path_planner_public/
 │   │   ├── common/
 │   │   │   └── safety_corridor/                  # RemovedCorridor utilities
 │   │   ├── path_planner/
-│   │   │   └── path_planner/                     # global planners
-│   │   │       ├── src/graph_planner/            # e.g. rhcf_planner
-│   │   │       └── src/sample_planner/           # e.g. bdrp_planner, sunshine_planner
+│   │   │   ├── path_planner/                     # global-planning core library (pipeline + algorithms)
+│   │   │   │   ├── src/graph_planner/            # e.g. rhcf_planner, rolling_circle_center_planner
+│   │   │   │   └── src/sample_planner/           # e.g. bdrp_planner, sunshine_planner
+│   │   │   ├── path_planner_global_plugin_common/ # header-only wrapper base for nav_core global-planner plugins
+│   │   │   └── global_planner_plugins/           # per-algorithm plugin packages (one catkin pkg per algorithm)
+│   │   │       ├── astar_global_planner/
+│   │   │       ├── rhcf_global_planner/
+│   │   │       └── ...
+
+Note: these global-planner plugin packages live under `src/core/path_planner/` for subsystem grouping only; catkin does not care about the physical folder as long as package names and exports are correct.
 │   │   └── trajectory_planner/
 │   │       └── src/trajectory_optimization/      # lbfgs / minco / minimum-snap / spline-trajectory
 │   ├── plugins/
@@ -701,7 +737,7 @@ robot_path_planner_public/
 
 #### Global planners
 
-Plugin registry: `src/core/path_planner/path_planner/path_planner_plugin.xml`.
+Plugin registries (one per algorithm package): `src/core/path_planner/global_planner_plugins/*_global_planner/plugin.xml`.
 
 | Method | Entry path | Main files |
 |---|---|---|
@@ -868,8 +904,8 @@ This repository contains many parameters across planners, controllers, costmaps,
 
 ## 9. Citation
 If you want to learn more about the detailed mathematical derivation of this project or if this project helps your research, please refer to the following citation formats:
-- Global Planning Part: thinking... [J/OL]. 系统仿真学报，1-21 [2026-01-13]. https://link.cnki.net/urlid/11.3092.V.20250916.1349.002.
-- Local Planning Part: thinking... [J]. 机器人技术与应用，2025, (05): 20-34.
+- Global Planning Part: 张定坤，梁海朝。基于动态走廊膨胀与凸优化的移动机器人分层运动规划 [J/OL]. 系统仿真学报，1-21 [2026-01-13]. https://link.cnki.net/urlid/11.3092.V.20250916.1349.002.
+- Local Planning Part: 张定坤，吴兴涛，梁海朝。基于动态状态图的自主移动机器人混合局部规划方法 [J]. 机器人技术与应用，2025, (05): 20-34.
 - Environment Modeling Part: Zhang Dingkun. robot_path_planner_public. [EB/OL]. https://github.com/SYS-zdk/robot_path_planner_public, 2026.
 
 ## 10. License
