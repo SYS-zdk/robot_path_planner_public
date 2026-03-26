@@ -1,6 +1,12 @@
 # robot_path_planner_public
 
 <p align="center">
+  <img src="./images/video.gif" width="300" alt="Program Logo GIF" />
+  <br />
+  <em>Figure 1: Program Logo GIF</em>
+</p>
+
+<p align="center">
     <a href="https://ubuntu.com/" target="_blank">
         <img alt="Ubuntu 20.04" src="https://img.shields.io/badge/Ubuntu-20.04-orange?style=flat-square&logo=ubuntu&logoColor=white" />
     </a>
@@ -50,13 +56,13 @@ cd /path/to/robot_path_planner_public
 
 ## 2. Project Overview
 
-> Note: This repository is developed for experiments and secondary development on top of the open-source framework [ros_motion_planning](https://github.com/ai-winter/ros_motion_planning). It is maintained in the open following community best practices and is still under active development; issues and PRs are welcome.
-
 <p align="center">
-  <img src="./images/video.gif" width="400" alt="Program Logo GIF" />
+    <img src="./images/second.png" width="400" alt="Organization" />
   <br />
-  <em>Figure 1: Program Logo GIF</em>
+  <em>Figure 2: Robot</em>
 </p>
+
+> Note: This repository is developed for experiments and secondary development on top of the open-source framework [ros_motion_planning](https://github.com/ai-winter/ros_motion_planning). It is maintained in the open following community best practices and is still under active development; issues and PRs are welcome.
 
 This repository is a modular, reproducible workspace for mobile robot navigation and motion planning (ROS1/Noetic). It provides a LEGO-like set of interchangeable building blocks—costmap plugins, global/local planners, controllers, and trajectory optimizers—together with simulation assets and configuration templates. The focus is to reduce environment/setup friction so you can spend time on algorithm understanding, reproduction, secondary development, and apples-to-apples comparisons by swapping modules and tuning parameters within the same ROS navigation stack.
 
@@ -72,13 +78,6 @@ The overall goal is to provide a LEGO-like toolbox that makes it easy to (1) bui
 - Benchmark & regression tooling: batch runs, logging, metrics extraction, and statistical comparison scripts.
 - More “code-to-paper” mappings in `docs/` (derivations, implementation notes, parameter sensitivity).
 
-Below is a typical system architecture diagram used in this repository:
-
-<p align="center">
-    <img src="./images/second.png" width="400" alt="Organization" />
-  <br />
-  <em>Figure 2: Robot</em>
-</p>
 
 ## 3. Module Gallery
 
@@ -704,7 +703,23 @@ robot_path_planner_public/
 │   │   │   ├── path_planner_global_plugin_common/ # header-only wrapper base for nav_core global-planner plugins
 │   │   │   └── global_planner_plugins/           # per-algorithm plugin packages (one catkin pkg per algorithm)
 │   │   │       ├── astar_global_planner/
+│   │   │       ├── bdrp_global_planner/
+│   │   │       ├── dijkstra_global_planner/
+│   │   │       ├── gbfs_global_planner/
+│   │   │       ├── gkvm_global_planner/
+│   │   │       ├── hybrid_astar_global_planner/
+│   │   │       ├── informed_rrt_global_planner/
+│   │   │       ├── itp_global_planner/
+│   │   │       ├── nag_global_planner/
+│   │   │       ├── parallelcurves_global_planner/
+│   │   │       ├── raystar_global_planner/
+│   │   │       ├── reachability_global_planner/
 │   │   │       ├── rhcf_global_planner/
+│   │   │       ├── rolling_circle_center_global_planner/
+│   │   │       ├── rrt_global_planner/
+│   │   │       ├── rrt_star_global_planner/
+│   │   │       ├── sunshine_global_planner/
+│   │   │       ├── voronoi_global_planner/
 │   │   │       └── ...
 
 Note: these global-planner plugin packages live under `src/core/path_planner/` for subsystem grouping only; catkin does not care about the physical folder as long as package names and exports are correct.
@@ -904,8 +919,8 @@ This repository contains many parameters across planners, controllers, costmaps,
 
 ## 9. Citation
 If you want to learn more about the detailed mathematical derivation of this project or if this project helps your research, please refer to the following citation formats:
-- Global Planning Part: 张定坤，梁海朝。基于动态走廊膨胀与凸优化的移动机器人分层运动规划 [J/OL]. 系统仿真学报，1-21 [2026-01-13]. https://link.cnki.net/urlid/11.3092.V.20250916.1349.002.
-- Local Planning Part: 张定坤，吴兴涛，梁海朝。基于动态状态图的自主移动机器人混合局部规划方法 [J]. 机器人技术与应用，2025, (05): 20-34.
+- Global Planning Part:  [J/OL]. 系统仿真学报，1-21 [2026-01-13]. https://link.cnki.net/urlid/11.3092.V.20250916.1349.002.
+- Local Planning Part:  [J]. 机器人技术与应用，2025, (05): 20-34.
 - Environment Modeling Part: Zhang Dingkun. robot_path_planner_public. [EB/OL]. https://github.com/SYS-zdk/robot_path_planner_public, 2026.
 
 ## 10. License
