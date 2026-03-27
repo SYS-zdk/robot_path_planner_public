@@ -1,9 +1,7 @@
 <div align="center">
-    <img src="./images/title.png" width="400" /><br>
+    <img src="./images/title.png" width="500" /><br>
     <img src="./images/kouhao.png" width="600" /><br>
-    <img src="./images/video.gif" width="200" alt="Program Logo GIF" />
-    <br />
-    <em>Figure 1: Program Logo GIF</em>
+    <img src="./images/video.gif" width="300" />
 </div>
 
 <p align="center">
@@ -55,7 +53,7 @@
 <p align="center">
     <img src="./images/second.png" width="400" alt="Organization" />
   <br />
-  <em>Figure 2: Robot</em>
+  <em>Robot</em>
 </p>
 
 > Note: This repository is developed for experiments and secondary development on top of the open-source framework [ros_motion_planning](https://github.com/ai-winter/ros_motion_planning). It is maintained in the open following community best practices and is still under active development; issues and PRs are welcome.
