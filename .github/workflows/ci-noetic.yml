@@ -1,0 +1,71 @@
+name: CI (ROS Noetic)
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-noetic-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-noetic:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup ROS
+        uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: noetic
+
+      - name: Install system deps
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential \
+            cmake \
+            python3-pip \
+            python3-rosdep \
+            ros-noetic-catkin
+
+      - name: Init rosdep
+        shell: bash
+        run: |
+          sudo rosdep init || true
+          rosdep update
+
+      - name: Install ROS dependencies (rosdep)
+        shell: bash
+        run: |
+          rosdep install -y --from-paths src --ignore-src --rosdistro noetic
+
+      - name: Install Conan (v1)
+        shell: bash
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install 'conan<2'
+
+      - name: Configure Conan profile
+        shell: bash
+        run: |
+          # Conan v1 may not have a default profile on fresh runners.
+          conan profile new default --detect --force || true
+
+      - name: Cache Conan
+        uses: actions/cache@v4
+        with:
+          path: ~/.conan
+          key: conan-v1-${{ runner.os }}-${{ hashFiles('3rd/conanfile.py', '3rd/conanfile.*', '3rd/**/conanfile.py') }}
+
+      - name: Build (Conan + catkin_make)
+        shell: bash
+        run: |
+          source /opt/ros/noetic/setup.bash
+          ./scripts/build.sh
