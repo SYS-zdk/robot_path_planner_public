@@ -1,25 +1,7 @@
-<div align="center" style="padding: 20px 0;">
-    <!-- 优化标题：居中、放大、加粗、增加间距 -->
-    <h1 style="font-size: 42px; font-weight: 800; margin: 0 0 20px 0;">robot_path_planner</h1>
-    
-    <!-- 优化框体：边框加粗、整体放大、文字加粗变大 -->
-    <pre style="
-        font-size: 20px;        /* 文字变大 */
-        font-weight: bold;      /* 文字加粗 */
-        border: 3px solid #333; /* 边框加粗变粗 */
-        padding: 15px 30px;    /* 框体内部间距，让框更大 */
-        border-radius: 0;       /* 直角边框（保持原风格） */
-        margin: 0 0 25px 0;     /* 底部间距 */
-        text-align: center;     /* 文字居中 */
-        display: inline-block;  /* 自适应文字宽度 */
-    ">
-┌──────────────────────────────────┐
-│  PLAN BY BLOCKS — SNAP & GO      │
-└──────────────────────────────────┘
-    </pre>
-    
-    <!-- 图片优化间距 -->
-    <img src="./images/video.gif" width="250" alt="Program Logo GIF" style="margin-bottom: 10px;" />
+<div align="center">
+    <h1>robot_path_planner_public</h1>
+    <h2><code>【 PLAN BY BLOCKS — SNAP &amp; GO 】</code></h2>
+    <img src="./images/video.gif" width="200" alt="Program Logo GIF" />
     <br />
     <em>Figure 1: Program Logo GIF</em>
 </div>
