@@ -1,0 +1,42 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "/home/winter/ROS/ros_motion_planning/devel/include/**",
+        "/home/winter/ROS/turtlebot_ws/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/winter/ROS/ros_motion_planning/src/core/local_planner/apf_planner/include/**",
+        "/home/winter/ROS/ros_motion_planning/src/core/curve_generation/include/**",
+        "/home/winter/ROS/ros_motion_planning/src/core/local_planner/dwa_planner/include/**",
+        "/home/winter/ROS/ros_motion_planning/src/core/global_planner/evolutionary_planner/include/**",
+        "/home/winter/ROS/ros_motion_planning/src/third_party/gazebo_plugins/pedestrian_visualizer_plugin/gazebo_ped_visualizer_plugin/include/**",
+        "/home/winter/ROS/ros_motion_planning/src/third_party/gazebo_plugins/pedestrian_sfm_plugin/include/**",
+        "/home/winter/ROS/ros_motion_planning/src/core/global_planner/global_planner/include/**",
+        "/home/winter/ROS/ros_motion_planning/src/core/global_planner/graph_planner/include/**",
+        "/home/winter/ROS/ros_motion_planning/src/core/global_planner/lazy_planner/include/**",
+        "/home/winter/ROS/ros_motion_planning/src/core/local_planner/local_planner/include/**",
+        "/home/winter/ROS/ros_motion_planning/src/core/local_planner/lqr_planner/include/**",
+        "/home/winter/ROS/ros_motion_planning/src/core/local_planner/mpc_planner/include/**",
+        "/home/winter/ROS/ros_motion_planning/src/core/local_planner/orca_planner/include/**",
+        "/home/winter/ROS/ros_motion_planning/src/core/local_planner/pid_planner/include/**",
+        "/home/winter/ROS/ros_motion_planning/src/core/local_planner/rpp_planner/include/**",
+        "/home/winter/ROS/ros_motion_planning/src/core/global_planner/sample_planner/include/**",
+        "/home/winter/ROS/ros_motion_planning/src/core/local_planner/static_planner/include/**",
+        "/home/winter/ROS/turtlebot_ws/src/tf2_web_republisher/include/**",
+        "/home/winter/ROS/ros_motion_planning/src/core/trajectory_optimization/include/**",
+        "/home/winter/ROS/turtlebot_ws/src/turtlebot3_simulations/turtlebot3_fake/include/**",
+        "/home/winter/ROS/turtlebot_ws/src/turtlebot3_simulations/turtlebot3_gazebo/include/**",
+        "/home/winter/ROS/turtlebot_ws/src/turtlebot3/turtlebot3_slam/include/**",
+        "/home/winter/ROS/ros_motion_planning/src/core/utils/include/**",
+        "/home/winter/ROS/ros_motion_planning/src/third_party/map_plugins/voronoi_layer/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS"
+    }
+  ],
+  "version": 4
+}

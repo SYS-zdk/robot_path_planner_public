@@ -1,0 +1,110 @@
+# user_config.yaml
+# 该文件用于“仿真一键启动/多机器人启动”时，选择地图、世界、规划器/控制器等。
+# 注意：这里的字符串选项，最终会通过 launch 传给 move_base 的插件（BaseGlobalPlanner/BaseLocalPlanner）。
+
+# Gazebo 地图/世界资源名（对应 sim_env 中的地图与world配置）
+map: "test2" # 常用：test2 / museum2 / wall_city / warehouse_2 / blank
+world: "test2" # 常用：warehouse / warehouse_with_pedestrians / test2 / museum2 / wall_city / warehouse_2 / empty_rec_static_obs / empty_with_pedestrians
+
+# RViz 配置文件（位于 sim_env/rviz/）
+rviz_file: "sim_env2.rviz" # 例如：sim_env2.rviz / selfmap1.rviz
+
+robots_config:
+  - robot1_type: "turtlebot3_waffle"
+
+    # 定位方式（sim_env/launch/include/location/location.launch.xml 会根据该值启动对应定位节点）
+    # - amcl: 2D AMCL
+    # - （如你后续集成了其它定位方式，也可在这里扩展）
+    robot1_location_method: "amcl"
+
+    # 全局规划器（模块化“搭积木”选择入口）
+    # - 你只需要改这里（以及对应的 start_robots.launch 传参），即可切换全局规划插件；
+    # - `sim_env/launch/include/navigation/move_base.launch.xml` 会根据该字符串选择对应的 `base_global_planner` 插件；
+    # - 每个全局插件内部用固定的算法ID初始化 `PathPlannerEngine`（不会再通过参数服务器“写 planner_name”来驱动分支）。
+    # 可选值（算法ID）：
+    # - a_star        : A*（默认）
+    # - dijkstra      : Dijkstra（通过A*框架实现）
+    # - gbfs          : Greedy Best-First Search（通过A*框架实现）
+    # - hybrid_astar  : Hybrid A*（Ackermann/差速均可用，依赖 motion_model 等参数）
+    # - voronoi       : Voronoi 骨架代价规划
+    # - rhcf          : RHCF（随机游走 + Voronoi 结构）
+    # - reachability  : Reachability-based planner
+    # - nag           : Neighborhood-Augmented Graph (Topo-Geometric multi-geodesic)
+    # - gkvm          : GKVM informative planner（GP 后验方差选点 + 贪心排序 + 分段A*连通）
+    # - parallel_curves : Parallel Curves（目标同心曲线 + 割线/切线构图最短路）
+      # - itp           : ITP Interactive Topological Planner（RViz交互拓扑图 + Dijkstra最短路 + 插值输出）
+    # - rolling_circle_center : Rolling Circle Center (RCC)（滚动可变半径圆窗，连接圆心生成路径）
+    # - rcc           : rolling_circle_center 的别名
+    # - rrt           : RRT
+    # - rrt_star      : RRT*
+    # - informed_rrt  : Informed RRT*
+    # - sunshine      : Sunshine planner（“照射/切线”式采样规划）
+    # - bdrp          : BDRP（分治+垂直平分线采样）
+    robot1_global_planner: "a_star"
+
+    # （可选）是否启用全局规划器 I/O（可视化 topic + make_plan service）
+    # 说明：该开关对应参数 `/move_base/<PluginInstance>/enable_io`，默认 true。
+    # 若你只关心 move_base 内部的 plan 输出、不想发布任何 markers/path，可在对应插件命名空间参数中设为 false
+    # （通常写在 `sim_env/config/planner/common_planner_params_ns.yaml`，由 move_base.launch 以 `rosparam ns=...` 加载）。
+
+    # 局部规划器（对应 move_base 的 base_local_planner 插件选择；见 sim_env/launch/include/navigation/move_base.launch.xml）
+    # 可选值（字符串写法必须完全匹配）：
+    # - dwa            : dwa_local_planner/DWAPlannerROS
+    # - teb            : teb_local_planner/TebLocalPlannerROS
+    # - orca           : orca_controller/ORCAController
+    # - apf            : apf_controller/APFController
+    # - pid            : pid_controller/PIDController
+    # - guidance_planner: guidance_planner_local_planner/GuidancePlannerLocalPlanner（上游 tud-amr/guidance_planner 的 wrapper：多拓扑候选 + Homology/Winding/UVD，可通过 selection_mode 控制选择）
+    # - lqr            : lqr_controller/LQRController
+    # - mpc            : mpc_controller/MPCController
+    # - ilqr           : ilqr_controller/ILQRController
+    # - rpp            : rpp_controller/RPPController
+    # - psolqr         : psolqr_planner/PsoLqrPlanner
+    # - tgk            : tgk_controller/TGKController
+    # - ego2d          : ego2d_controller/EGO2DController
+    # - hybrid         : hybrid_local_planner/HybridPlannerROS
+    # - hybridmpc      : hybridmpc_local_planner/HybridMpcPlannerROS
+    # - hybridmpccorridor : hlpmpccorridor_local_planner/HybridMpcCorridorPlannerROS
+    # - minco          : minco_local_planner/MincoLocalPlanner
+    # - mincorcesdf     : mincorcesdf_controller/MincoRcEsdfController
+    # - mppi           : mppi_local_planner/MPPILocalPlannerROS
+    # - mppircesdf      : mppircesdf_local_planner/MPPIRcEsdfLocalPlannerROS
+    # - st_hybrid_astar: STHybridAstar_local_planner/STHybridAstarLocalPlanner
+    # - karcher        : karcher_local_planner/KarcherLocalPlannerROS
+    # - junior         : junior_local_planner/JuniorLocalPlannerROS
+    # - bubble         : bubble_local_planner/BubblePlannerROS
+    # - chomp          : chomp_local_planner/ChompLocalPlannerROS
+    # - tangent        : tangent_local_planner/TangentPlanner
+    # - vfh            : vfh_local_planner/VFHPlannerRos
+    # - reachability   : reachability_controller/ReachabilityController
+    # - static         : static_controller/STATICController
+    robot1_local_planner: "guidance_planner"
+
+    # 全局路径优化器（对应参数：/move_base/<PluginInstance>/optimizer_name；由 launch 按 global_planner 写入）
+    # 你可以：
+    # - 设为 ""（空字符串，注意要带引号），让 PathPlannerEngine 按 global_planner 自动选默认工具链
+    # - 或者显式指定一个优化器（强制覆盖默认选择）
+    # 已支持的优化器（见 PathPlannerEngine::configurePlannerToolchain）：
+    # - "" / 不填            : 自动选择（推荐）
+    # - removed_optimizer : Minimum-snap（默认用于 a_star/dijkstra/gbfs）
+    # - lbfgs                 : LBFGS 平滑避障（默认用于 hybrid_astar / rhcf）
+    # - removed_optimizer    : 共轭梯度（默认用于 sunshine）
+    # - splinetrajectory_optimizer : 五次样条（min-jerk）
+    # - minco_spline_optimizer      : MINCO 样条（min-jerk）
+    # - none / disabled       : 显式禁用优化器
+    # 兼容别名：
+    # - minimumsnap
+    # - lbfgs_optimizer
+    # - splinetrajectory / spline_trajectory / spline_trajectory_optimizer
+    # - minco / minco_spline / minco_spline_opt
+    robot1_optimizer: "removed_optimizer"
+    robot1_x_pos: "0.0"
+    robot1_y_pos: "0.0"
+    robot1_z_pos: "0.0"
+    # 初始朝向（rad）
+    robot1_yaw: "0.0"  # 例如：wall_city、warehouse_2 某些出生点可能需要 1.57
+
+plugins:
+  # pedestrians: "pedestrian_config.yaml"
+  #  obstacles: "obstacles_config.yaml"
+  map_layers: "map_layers_config.yaml"

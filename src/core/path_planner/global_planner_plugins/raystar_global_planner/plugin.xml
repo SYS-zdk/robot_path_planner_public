@@ -1,0 +1,5 @@
+<library path="lib/libraystar_global_planner">
+  <class name="path_planner/RaystarPlanner" type="rpp::path_planner::RaystarPlanner" base_class_type="nav_core::BaseGlobalPlanner">
+    <description>RayStar-style global planner (CGAL-free). Produces a best plan + k candidate non-homotopic-like paths markers.</description>
+  </class>
+</library>

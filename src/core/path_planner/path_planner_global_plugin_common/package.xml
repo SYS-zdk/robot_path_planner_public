@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>path_planner_global_plugin_common</name>
+  <version>0.0.0</version>
+  <description>Common helper for path_planner global-planner plugin wrappers (header-only).</description>
+
+  <maintainer email="913982779@qq.com">winter</maintainer>
+  <license>GPL3</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>costmap_2d</depend>
+  <depend>nav_core</depend>
+  <depend>roscpp</depend>
+
+  <!-- Core pipeline + ROS IO types used by the wrapper -->
+  <depend>path_planner</depend>
+</package>

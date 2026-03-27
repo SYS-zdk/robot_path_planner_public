@@ -1,0 +1,5 @@
+<library path="lib/librhcf_global_planner">
+  <class name="path_planner/RhcfPlanner" type="rpp::path_planner::RhcfPlanner" base_class_type="nav_core::BaseGlobalPlanner">
+    <description>RHCF global planner (delegates to PathPlannerEngine with fixed planner id: rhcf).</description>
+  </class>
+</library>

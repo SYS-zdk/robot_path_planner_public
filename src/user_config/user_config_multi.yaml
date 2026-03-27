@@ -1,0 +1,50 @@
+map: "warehouse"
+world: "empty"
+rviz_file: "view_multi.rviz"
+
+# 说明：robot*_local_planner 同样支持 guidance 系列
+# - guidance_prm     : guidance_prm_local_planner/GuidancePRMLocalPlanner（自研）
+# - guidance_planner : guidance_planner_local_planner/GuidancePlannerLocalPlanner（上游 tud-amr/guidance_planner wrapper）
+#   参数见：sim_env/config/controller/guidance_planner_local_planner_params.yaml
+
+robots_config:
+  - robot1_type: "turtlebot3_waffle"
+    robot1_global_planner: "lazy"
+    robot1_local_planner: "orca"
+    robot1_optimizer: ""
+    robot1_x_pos: "1.0"
+    robot1_y_pos: "1.0"
+    robot1_z_pos: "0.0"
+    robot1_yaw: "3.14"
+
+  - robot2_type: "turtlebot3_waffle"
+    robot2_global_planner: "lazy"
+    robot2_local_planner: "orca"
+    robot2_optimizer: ""
+    robot2_x_pos: "-1.0"
+    robot2_y_pos: "1.0"
+    robot2_z_pos: "0.0"
+    robot2_yaw: "-1.57"
+
+  - robot3_type: "turtlebot3_waffle"
+    robot3_global_planner: "lazy"
+    robot3_local_planner: "orca"
+    robot3_optimizer: ""
+    robot3_x_pos: "-1.0"
+    robot3_y_pos: "-1.0"
+    robot3_z_pos: "0.0"
+    robot3_yaw: "0.0"
+
+  - robot4_type: "turtlebot3_waffle"
+    robot4_global_planner: "lazy"
+    robot4_local_planner: "orca"
+    robot4_optimizer: ""
+    robot4_x_pos: "1.0"
+    robot4_y_pos: "-1.0"
+    robot4_z_pos: "0.0"
+    robot4_yaw: "1.57"
+
+plugins:
+  # pedestrians: "pedestrian_config.yaml"
+  # obstacles: "obstacles_config.yaml"
+  map_layers: "map_layers_config.yaml"

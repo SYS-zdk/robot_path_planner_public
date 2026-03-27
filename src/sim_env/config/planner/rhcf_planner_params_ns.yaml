@@ -1,0 +1,37 @@
+# Namespace-friendly params for RHCF global planner plugin.
+
+rhcf:
+  # Number of homotopy classes (candidate paths) to sample.
+  K_homotopy_classes: 5
+
+  # Random-walk discounting factor alpha in [0.5, 1.0].
+  # Smaller -> more exploratory; larger -> more greedy.
+  discounting_factor: 0.8
+
+  # Sampling limits
+  max_random_walks: 200
+  max_vertex_steps_per_walk: 2000
+
+  # Cost weights for selecting the best candidate among sampled paths
+  w_length: 1.0
+  w_clearance: 2.0
+  w_costmap: 0.01
+
+  # Random-walk bias
+  w_heuristic: 1.0
+
+  # Kept for param compatibility (currently not used in the implementation).
+  visited_vertex_weight: 0.1
+
+  # Kept for param compatibility (currently not used in the implementation).
+  edge_similarity_threshold: 0.7
+
+  # Connectivity on Voronoi skeleton (4-neighborhood recommended for cleaner topology)
+  voronoi_connect_diagonal: false
+
+  # Unknown handling
+  traverse_unknown: true
+
+  # RNG
+  use_fixed_seed: false
+  fixed_seed: 1

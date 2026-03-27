@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>raystar_global_planner</name>
+  <version>0.0.0</version>
+  <description>RayStar-style k-path global planner plugin wrapper for move_base (CGAL-free).</description>
+
+  <maintainer email="913982779@qq.com">winter</maintainer>
+  <license>GPL3</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>costmap_2d</depend>
+  <depend>common</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_core</depend>
+  <depend>nav_msgs</depend>
+  <depend>pluginlib</depend>
+  <depend>roscpp</depend>
+
+  <depend>path_planner</depend>
+  <depend>path_planner_global_plugin_common</depend>
+
+  <export>
+    <nav_core plugin="${prefix}/plugin.xml" />
+  </export>
+</package>

@@ -1,0 +1,5 @@
+<library path="lib/libsunshine_global_planner">
+  <class name="path_planner/SunshinePlanner" type="rpp::path_planner::SunshinePlanner" base_class_type="nav_core::BaseGlobalPlanner">
+    <description>Sunshine global planner (delegates to PathPlannerEngine with fixed planner id: sunshine).</description>
+  </class>
+</library>

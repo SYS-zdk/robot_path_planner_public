@@ -1,0 +1,12 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/winter/ROS/ros_motion_planning/devel/lib/python3/dist-packages",
+        "/home/winter/ROS/turtlebot_ws/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/winter/ROS/ros_motion_planning/devel/lib/python3/dist-packages",
+        "/home/winter/ROS/turtlebot_ws/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages"
+    ]
+}

@@ -1,0 +1,35 @@
+# Map layers configuration
+# Layers are dynamically enabled/disabled based on the selected local planner:
+# - reachability planner: enables localreachability_layer, disables social_layer
+# - hybridmpccorridor planner: enables social_layer, disables localreachability_layer
+#
+# This approach maintains clean separation of concerns:
+# - Reachability-based planning uses clearance-based cost evaluation
+# - Social-aware planning uses independent social comfort zone evaluation
+#
+# DO NOT manually comment/uncomment layers - let the dynamic generator handle it!
+
+global_costmap:
+  - static_map
+  - obstacle_layer
+  - uncertainty_layer   # Observation history + uncertainty grid (for GKVM; does not write into master costmap)
+  - social_layer        # Enabled only for RHCF global planner (social-aware global planning)
+  - globalreachability_layer
+  - voronoi_layer
+  - distance_layer
+  - pseudodistance_layer
+  - rc_esdf_layer
+  - voxel_esdf_layer
+  - inflation_layer
+
+local_costmap:
+  - static_map
+  - obstacle_layer
+  - social_layer        # Enabled only for hybridmpccorridor planner
+  - st_probability_layer  # Enabled only for ST local planner (query-only p(x,y,t) for risk shaping)
+  - localreachability_layer  # Enabled only for reachability planner
+  - distance_layer
+  - pseudodistance_layer
+  - rc_esdf_layer
+  - voxel_esdf_layer
+  - inflation_layer

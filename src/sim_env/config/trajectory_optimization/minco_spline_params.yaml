@@ -1,0 +1,28 @@
+Optimizer:
+  # Sampling for output Trajectory3d
+  sample_points: 120
+
+  # Time allocation fallback (used when minco_time.mode=trapezoidal)
+  vel_max: 1.0
+  acc_max: 2.0
+
+  # Boundary conditions for MINCO-style quintic minimum-jerk (clamped PVA)
+  minco_bc:
+    vx0: 0.0
+    ax0: 0.0
+    vxN: 0.0
+    axN: 0.0
+    vy0: 0.0
+    ay0: 0.0
+    vyN: 0.0
+    ayN: 0.0
+
+  # Time specification
+  # - trapezoidal: allocate per-segment time from vel_max
+  # - uniform: every segment uses uniform_segment_time
+  # - from_param: use 'segments' (must have length = num_segments)
+  minco_time:
+    mode: uniform
+    uniform_segment_time: 0.3
+    min_segment_time: 0.001
+    segments: []

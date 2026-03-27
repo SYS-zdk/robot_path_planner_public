@@ -30,74 +30,53 @@
     <!-- move base module -->
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen"  >
         <!-- global planner plugin -->
-        <param name="base_global_planner" value="path_planner/PathPlanner" />
-        <param name="PathPlanner/planner_name" value="$(arg global_planner)" />
-        <!-- Only force optimizer when explicitly set; otherwise, PathPlannerNode's toolchain will pick defaults. -->
-        <param name="PathPlanner/optimizer_name" value="$(arg optimizer)" if="$(eval arg('optimizer') != '')" />
+        <!-- Default to sunshine; override by global_planner arg below. -->
+        <param name="base_global_planner" value="path_planner/SunshinePlanner" />
+        <param name="base_global_planner" value="path_planner/RaystarPlanner" if="$(eval arg('global_planner')=='raystar')" />
+        <param name="base_global_planner" value="path_planner/RhcfPlanner" if="$(eval arg('global_planner')=='rhcf')" />
+        <param name="base_global_planner" value="path_planner/SunshinePlanner" if="$(eval arg('global_planner')=='sunshine')" />
 
-        <!-- graph search -->
-        <rosparam file="$(find sim_env)/config/planner/common_planner_params.yaml" command="load" />
-        <!-- <rosparam file="$(find sim_env)/config/planner/graph_planner_params.yaml" command="load"
-            if="$(eval arg('global_planner')=='a_star'
-                    or arg('global_planner')=='jps' 
-                    or arg('global_planner')=='bi_jps' 
-                    or arg('global_planner')=='gbfs'
-                    or arg('global_planner')=='dijkstra'
-                    or arg('global_planner')=='d_star'
-                    or arg('global_planner')=='lpa_star'
-                    or arg('global_planner')=='voronoi'
-                    or arg('global_planner')=='d_star_lite'
-                    or arg('global_planner')=='theta_star'
-                    or arg('global_planner')=='lazy_theta_star'
-                    or arg('global_planner')=='s_theta_star'
-                    or arg('global_planner')=='hybrid_a_star'
-                    or arg('global_planner')=='lazy'
-                )" /> -->
+        <!-- Only force optimizer when explicitly set. -->
+        <param name="SunshinePlanner/optimizer_name" value="$(arg optimizer)" if="$(eval arg('optimizer') != '' and arg('global_planner')=='sunshine')" />
+        <param name="RaystarPlanner/optimizer_name" value="$(arg optimizer)" if="$(eval arg('optimizer') != '' and arg('global_planner')=='raystar')" />
+        <param name="RhcfPlanner/optimizer_name" value="$(arg optimizer)" if="$(eval arg('optimizer') != '' and arg('global_planner')=='rhcf')" />
 
-        <!-- sample search -->
-        <rosparam file="$(find sim_env)/config/planner/sample_planner_params.yaml" command="load"
-            if="$(eval arg('global_planner')=='rrt'
-                    or arg('global_planner')=='rrt_star'
-                    or arg('global_planner')=='informed_rrt'
-                    or arg('global_planner')=='quick_informed_rrt'
-                    or arg('global_planner')=='rrt_connect'
-                    or arg('global_planner')=='sunshine'
-                )" /> 
+        <!-- Per-plugin namespace params (recommended for independent global planner plugins). -->
+        <rosparam ns="SunshinePlanner" file="$(find sim_env)/config/planner/common_planner_params_ns.yaml" command="load" if="$(eval arg('global_planner')=='sunshine')" />
+        <rosparam ns="RaystarPlanner" file="$(find sim_env)/config/planner/common_planner_params_ns.yaml" command="load" if="$(eval arg('global_planner')=='raystar')" />
+        <rosparam ns="RhcfPlanner" file="$(find sim_env)/config/planner/common_planner_params_ns.yaml" command="load" if="$(eval arg('global_planner')=='rhcf')" />
 
-        <!-- evolutionary search -->
-        <rosparam file="$(find sim_env)/config/planner/evolutionary_planner_params.yaml" command="load"
-            if="$(eval arg('global_planner')=='aco'
-                    or arg('global_planner')=='pso'
-                    or arg('global_planner')=='ga'
-                )" />
+        <!-- Sunshine params (per-plugin namespace) -->
+        <rosparam ns="SunshinePlanner" file="$(find sim_env)/config/planner/sample_planner_params_ns.yaml" command="load" if="$(eval arg('global_planner')=='sunshine')" />
+
+        <!-- raystar (Ray*) style k-path search (per-plugin namespace) -->
+        <rosparam ns="RaystarPlanner" file="$(find sim_env)/config/planner/raystar_planner_params_ns.yaml" command="load" if="$(eval arg('global_planner')=='raystar')" />
+
+        <!-- rhcf search (per-plugin namespace) -->
+        <rosparam ns="RhcfPlanner" file="$(find sim_env)/config/planner/rhcf_planner_params_ns.yaml" command="load" if="$(eval arg('global_planner')=='rhcf')" />
 
         <!-- conjugate gradient -->
-        <rosparam file="$(find sim_env)/config/trajectory_optimization/removed_optimizer_params.yaml" command="load"
-            if="$(eval arg('optimizer')=='removed_optimizer')" />
+        <rosparam file="$(find sim_env)/config/trajectory_optimization/removed_optimizer_params.yaml" command="load" if="$(eval arg('optimizer')=='removed_optimizer')" />
 
         <!-- minimumsnap -->
-       <rosparam file="$(find sim_env)/config/trajectory_optimization/minimumsnap_params.yaml" command="load"
-            if="$(eval arg('optimizer')=='removed_optimizer')" />
+        <rosparam file="$(find sim_env)/config/trajectory_optimization/minimumsnap_params.yaml" command="load" if="$(eval arg('optimizer')=='removed_optimizer')" />
 
         <!-- lbfgs -->
-        <rosparam file="$(find sim_env)/config/trajectory_optimization/lbfgs_params.yaml" command="load"
-            if="$(eval arg('optimizer')=='lbfgs')" />
+        <rosparam file="$(find sim_env)/config/trajectory_optimization/lbfgs_params.yaml" command="load" if="$(eval arg('optimizer')=='lbfgs')" />
 
         <!-- splinetrajectory (min-jerk quintic spline) -->
-        <rosparam file="$(find sim_env)/config/trajectory_optimization/splinetrajectory_params.yaml" command="load"
-            if="$(eval arg('optimizer')=='splinetrajectory_optimizer'
+        <rosparam file="$(find sim_env)/config/trajectory_optimization/splinetrajectory_params.yaml" command="load" if="$(eval arg('optimizer')=='splinetrajectory_optimizer'
                     or arg('optimizer')=='splinetrajectory'
                     or arg('optimizer')=='spline_trajectory_optimizer'
                     or arg('optimizer')=='spline_trajectory')" />
 
         <!-- minco (min-jerk MINCO spline) -->
-        <rosparam file="$(find sim_env)/config/trajectory_optimization/minco_spline_params.yaml" command="load"
-            if="$(eval arg('optimizer')=='minco'
+        <rosparam file="$(find sim_env)/config/trajectory_optimization/minco_spline_params.yaml" command="load" if="$(eval arg('optimizer')=='minco'
                 or arg('optimizer')=='minco_spline_optimizer'
                 or arg('optimizer')=='minco_spline'
                 or arg('optimizer')=='minco_spline_opt')" />
 
-        <!-- local planner plugin (public repo keeps only the 3 planners used by docs A/B/C) -->
+        <!-- local planner plugin (public repo keeps only a small curated set) -->
         <param name="base_local_planner" value="hlpmpccorridor_local_planner/HybridMpcCorridorPlannerROS" if="$(eval arg('local_planner')=='hybridmpccorridor')" />
         <rosparam file="$(find sim_env)/config/controller/hlpmpccorridor_local_planner.yaml" command="load" if="$(eval arg('local_planner')=='hybridmpccorridor')" />
 
@@ -106,8 +85,8 @@
 
         <param name="base_local_planner" value="ilqr_controller/ILQRController" if="$(eval arg('local_planner')=='ilqr')" />
         <rosparam file="$(find sim_env)/config/controller/ilqr_controller_params.yaml" command="load" if="$(eval arg('local_planner')=='ilqr')" />
- 
-        <!-- loading navigation parameters -->
+
+<!-- loading navigation parameters -->
         <rosparam file="$(eval find('sim_env') + '/config/robots/' + arg('robot') + '/global_costmap_params_' + arg('robot') + '.yaml')"
             command="load" ns="global_costmap" />
         <rosparam file="$(eval find('sim_env') + '/config/robots/' + arg('robot') + '/local_costmap_params_' + arg('robot') + '.yaml')"

@@ -1,0 +1,45 @@
+# RayStar-style (Ray*) global planner parameters (per-plugin namespace)
+# Loaded under: /move_base/RaystarPlanner/
+
+raystar:
+  # Implementation switch:
+  #   - grid:          Theta* + penalty replanning (old CGAL-free approximation)
+  #   - upstream_like: polygonal obstacles + visibility region + gap-tree search (no CGAL)
+  implementation: upstream_like
+
+  # Upstream-like inputs
+  k_paths: 5
+  allow_unknown: true
+
+  # Candidate generation
+  max_tries: 24
+
+  # Grid search options
+  allow_diagonal: true
+  use_theta_star: true
+  max_expansions: 250000
+  max_planning_time_ms: 1500
+
+  # Cost model
+  use_costmap_weight: true
+  cost_penalty_weight: 1.0
+
+  # Diversity penalty (replan K times with increased cost near previous solutions)
+  penalty_weight: 8.0
+  penalty_increment: 1.0
+  penalty_radius_cells: 2
+
+  # Approx homotopy signature (obstacle components)
+  component_min_cells: 12
+  max_components: 32
+  component_search_margin_cells: 60
+
+  # Debug
+  store_debug_data: true
+  publish_poly_obstacles: true
+
+  # Upstream-like visibility/polymap
+  visibility_ray_eps: 1.0e-6
+  visibility_max_rays: 8000
+  visibility_max_vertices: 4096
+  polymap_min_loop_vertices: 6
