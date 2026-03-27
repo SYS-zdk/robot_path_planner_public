@@ -14,12 +14,12 @@
         <img alt="ROS Noetic" src="https://img.shields.io/badge/ROS-Noetic-blue?style=flat-square&logo=ros&logoColor=white" />
     </a>
     <a href="https://github.com/SYS-zdk/robot_path_planner_public/actions/workflows/ci-noetic.yml" target="_blank">
-        <img alt="CI (Noetic)" src="https://img.shields.io/github/actions/workflow/status/SYS-zdk/robot_path_planner_public/ci-noetic.yml?branch=master&style=flat-square&logo=githubactions&logoColor=white" />
+        <img alt="CI (Noetic)" src="https://img.shields.io/github/actions/workflow/status/SYS-zdk/robot_path_planner_public/ci-noetic.yml?branch=main&style=flat-square&logo=githubactions&logoColor=white" />
     </a>
-    <a href="https://github.com/SYS-zdk/robot_path_planner_public/blob/master/LICENSE" target="_blank">
+    <a href="https://github.com/SYS-zdk/robot_path_planner_public/blob/main/LICENSE" target="_blank">
         <img alt="License" src="https://img.shields.io/github/license/SYS-zdk/robot_path_planner_public?style=flat-square" />
     </a>
-    <a href="https://github.com/SYS-zdk/robot_path_planner_public/commits/master" target="_blank">
+    <a href="https://github.com/SYS-zdk/robot_path_planner_public/commits/main" target="_blank">
         <img alt="Last commit" src="https://img.shields.io/github/last-commit/SYS-zdk/robot_path_planner_public?style=flat-square&logo=git&logoColor=white" />
     </a>
     <a href="https://github.com/SYS-zdk/robot_path_planner_public" target="_blank">
@@ -353,13 +353,12 @@ This section is a catalog of the core modules in the repository (planners / cont
 
 ### 3.5 Other Plugins / Third-party
 
-这部分不再单独展示 GIF。仓库还包含一些“非规划算法本体”的辅助插件/第三方组件，主要用于仿真、可视化与工程化配套：
+This repository also includes helper plugins and third-party components that are not planning algorithms themselves, mainly for simulation, visualization, and engineering tooling:
 
-- `src/plugins/gazebo_plugins/`：Gazebo 仿真相关插件与节点，包含行人/人群相关的可视化与配套消息包（如 `pedsim_msgs`）。
-- `src/plugins/rviz_plugins/`：RViz 可视化/交互相关插件（用于调试与展示）。
-- `src/plugins/dynamic_xml_config/` / `src/plugins/dynamic_rviz_config/`：动态生成/组织 launch 与 RViz 配置的工程化工具。
+- `src/plugins/gazebo_plugins/`: Gazebo simulation plugins and nodes, including pedestrian/crowd visualization and companion message packages (e.g., `pedsim_msgs`).
+- `src/plugins/rviz_plugins/`: RViz visualization / interaction plugins (for debugging and demos).
+- `src/plugins/dynamic_xml_config/` / `src/plugins/dynamic_rviz_config/`: Engineering utilities to dynamically generate/organize launch files and RViz configurations.
 
-> `src/plugins/map_plugins/`（costmap layers）已在上一节 **3.4** 单独列出，这里不重复。
 
 **Third-party dependencies (text-only)**
 

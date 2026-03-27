@@ -1,7 +1,7 @@
 /**
  * @file: rhcf_planner.h
  * @brief: Randomized Homotopy Class Finder (RHCF) global planner (Voronoi random walk)
- * @author: ZhangDingkun (integration) / Copilot
+ * @author: SYS-zdk (ZhangDingkun)
  * @date: 2026.03.10
  *
  * This is an original re-implementation inspired by the ideas described in:
