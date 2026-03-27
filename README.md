@@ -1,9 +1,9 @@
 <div align="center">
-    <img src="./images/title.png" width="520" alt="robot_path_planner_public" />
+    <img src="./images/video.gif" width="200" alt="Program Logo GIF" />
     <br />
-    <img src="./images/kouhao.png" width="620" alt="PLAN BY BLOCKS — SNAP &amp; GO" />
+    <img src="./images/title.png" width="420" alt="robot_path_planner_public" />
     <br />
-    <img src="./images/video.gif" width="260" alt="Program Logo GIF" />
+    <img src="./images/kouhao.png" width="520" alt="PLAN BY BLOCKS — SNAP &amp; GO" />
 </div>
 
 <p align="center">
