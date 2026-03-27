@@ -1,14 +1,14 @@
-# robot_path_planner_public
-
-<h1 align="center">
-    <code>PLAN BY BLOCKS — SNAP &amp; GO</code>
-</h1>
-
-<p align="center">
+<div align="center">
+    <h1>robot_path_planner_public</h1>
+    <pre>
+┌──────────────────────────────────┐
+│  PLAN BY BLOCKS — SNAP &amp; GO      │
+└──────────────────────────────────┘
+    </pre>
     <img src="./images/video.gif" width="200" alt="Program Logo GIF" />
     <br />
     <em>Figure 1: Program Logo GIF</em>
-</p>
+</div>
 
 <p align="center">
     <a href="https://ubuntu.com/" target="_blank">
@@ -1011,7 +1011,7 @@ This repository contains many parameters across planners, controllers, costmaps,
 If you want to learn more about the detailed mathematical derivation of this project or if this project helps your research, please refer to the following citation formats:
 - Global Planning Part: Dingkun Zhang, Haichao Liang. Hierarchical motion planning for mobile robots via dynamic corridor inflation and convex optimization. *Journal of System Simulation*, 2026. https://link.cnki.net/urlid/11.3092.V.20250916.1349.002.
 - Local Planning Part: Dingkun Zhang, Xingtao Wu, Haichao Liang. Hybrid local planning for autonomous mobile robots based on a dynamic state graph. *Robot Technology and Application*, 2025.
-- Repository: Dingkun Zhang. robot_path_planner_public. GitHub repository, 2026. https://github.com/SYS-zdk/robot_path_planner_public
+- Repository: Zhang Dingkun. robot_path_planner_public[EB/OL]. GitHub, 2026[2026-03-27]. Available: https://github.com/SYS-zdk/robot_path_planner_public
 
 ## 10. License
 This project is licensed under the GNU General Public License v3.0 (GPL-3.0) — see the LICENSE file for details.
