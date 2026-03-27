@@ -1,8 +1,8 @@
-# robot_path_planner
+# robot_path_planner_public
 
-<h2 align="center">
-    <kbd><b>规划积木，一拼就跑</b></kbd>
-</h2>
+<h1 align="center">
+    <code>PLAN BY BLOCKS — SNAP &amp; GO</code>
+</h1>
 
 <p align="center">
     <img src="./images/video.gif" width="200" alt="Program Logo GIF" />
@@ -17,29 +17,29 @@
     <a href="http://wiki.ros.org/noetic" target="_blank">
         <img alt="ROS Noetic" src="https://img.shields.io/badge/ROS-Noetic-blue?style=flat-square&logo=ros&logoColor=white" />
     </a>
-    <a href="https://github.com/SYS-zdk/robot_path_planner/actions/workflows/ci-noetic.yml" target="_blank">
-        <img alt="CI (Noetic)" src="https://img.shields.io/github/actions/workflow/status/SYS-zdk/robot_path_planner/ci-noetic.yml?branch=master&style=flat-square&logo=githubactions&logoColor=white" />
+    <a href="https://github.com/SYS-zdk/robot_path_planner_public/actions/workflows/ci-noetic.yml" target="_blank">
+        <img alt="CI (Noetic)" src="https://img.shields.io/github/actions/workflow/status/SYS-zdk/robot_path_planner_public/ci-noetic.yml?branch=main&style=flat-square&logo=githubactions&logoColor=white" />
     </a>
-    <a href="https://github.com/SYS-zdk/robot_path_planner/blob/master/LICENSE" target="_blank">
-        <img alt="License" src="https://img.shields.io/github/license/SYS-zdk/robot_path_planner?style=flat-square" />
+    <a href="https://github.com/SYS-zdk/robot_path_planner_public/blob/main/LICENSE" target="_blank">
+        <img alt="License" src="https://img.shields.io/github/license/SYS-zdk/robot_path_planner_public?style=flat-square" />
     </a>
-    <a href="https://github.com/SYS-zdk/robot_path_planner/commits/master" target="_blank">
-        <img alt="Last commit" src="https://img.shields.io/github/last-commit/SYS-zdk/robot_path_planner?style=flat-square&logo=git&logoColor=white" />
+    <a href="https://github.com/SYS-zdk/robot_path_planner_public/commits/main" target="_blank">
+        <img alt="Last commit" src="https://img.shields.io/github/last-commit/SYS-zdk/robot_path_planner_public?style=flat-square&logo=git&logoColor=white" />
     </a>
-    <a href="https://github.com/SYS-zdk/robot_path_planner" target="_blank">
-        <img alt="Top language" src="https://img.shields.io/github/languages/top/SYS-zdk/robot_path_planner?style=flat-square" />
+    <a href="https://github.com/SYS-zdk/robot_path_planner_public" target="_blank">
+        <img alt="Top language" src="https://img.shields.io/github/languages/top/SYS-zdk/robot_path_planner_public?style=flat-square" />
     </a>
-    <a href="https://github.com/SYS-zdk/robot_path_planner/stargazers" target="_blank">
-        <img alt="Stars" src="https://img.shields.io/github/stars/SYS-zdk/robot_path_planner?style=flat-square&logo=github" />
+    <a href="https://github.com/SYS-zdk/robot_path_planner_public/stargazers" target="_blank">
+        <img alt="Stars" src="https://img.shields.io/github/stars/SYS-zdk/robot_path_planner_public?style=flat-square&logo=github" />
     </a>
-    <a href="https://github.com/SYS-zdk/robot_path_planner/forks" target="_blank">
-        <img alt="Forks" src="https://img.shields.io/github/forks/SYS-zdk/robot_path_planner?style=flat-square&logo=github" />
+    <a href="https://github.com/SYS-zdk/robot_path_planner_public/forks" target="_blank">
+        <img alt="Forks" src="https://img.shields.io/github/forks/SYS-zdk/robot_path_planner_public?style=flat-square&logo=github" />
     </a>
-    <a href="https://github.com/SYS-zdk/robot_path_planner/issues" target="_blank">
-        <img alt="Issues" src="https://img.shields.io/github/issues/SYS-zdk/robot_path_planner?style=flat-square" />
+    <a href="https://github.com/SYS-zdk/robot_path_planner_public/issues" target="_blank">
+        <img alt="Issues" src="https://img.shields.io/github/issues/SYS-zdk/robot_path_planner_public?style=flat-square" />
     </a>
-    <a href="https://github.com/SYS-zdk/robot_path_planner/pulls" target="_blank">
-        <img alt="PRs" src="https://img.shields.io/github/issues-pr/SYS-zdk/robot_path_planner?style=flat-square" />
+    <a href="https://github.com/SYS-zdk/robot_path_planner_public/pulls" target="_blank">
+        <img alt="PRs" src="https://img.shields.io/github/issues-pr/SYS-zdk/robot_path_planner_public?style=flat-square" />
     </a>
 </p>
 
@@ -79,7 +79,7 @@ In addition, it includes a set of engineering-driven extensions at both the **mo
 
 The overall goal is to provide a LEGO-like toolbox that makes it easy to (1) build your own stacks from reusable pieces, (2) reproduce and compare algorithms under the same wiring, and (3) keep accumulating improvements as modular components.
 
-直白点说：在这里，你可以通过搭积木的形式，创造属于你自己更大的积木。
+Plainly: here you can snap small blocks together to create your own bigger blocks.
 
 **Roadmap (planned)**
 - Real-robot deployment notes and reproducible bring-up configs (hardware/time sync, sensor drivers, frames).
@@ -742,7 +742,7 @@ For a detailed description of algorithms, cost design and parameterization, see 
 ## 5. Repository Structure (accurate and annotated)
 
 ```
-robot_path_planner/
+robot_path_planner_public/
 ├── src/
 │   ├── core/
 │   │   ├── controller/                           # local planners / controllers
@@ -890,7 +890,7 @@ Plugin registries (one per algorithm package): `src/core/path_planner/global_pla
 #### 6.1 Install [ROS](http://wiki.ros.org/ROS/Installation) (Desktop-Full *suggested*).
 
 #### 6.2 Install git.
-    sudo apt install git
+    sudo apt install -y git
 
 #### 6.3 Install dependencies
 
@@ -913,25 +913,31 @@ Plugin registries (one per algorithm package): `src/core/path_planner/global_pla
 - Conan (1.x) for third-party libraries under `3rd/`
     ```
     python3 -m pip install --user "conan<2"
-    conan profile new default --detect --force
+    # Conan >= 1.59
+    conan profile detect --force
+    # If your Conan is older and doesn't have `profile detect`, use:
+    # conan profile new default --detect --force
     ```
 
 - Resolve ROS package dependencies via rosdep
     ```
     sudo rosdep init || true
     rosdep update
-    cd /path/to/robot_path_planner
+    cd /path/to/robot_path_planner_public
     rosdep install --from-paths src --ignore-src -r -y
     ```
 
 #### 6.4 Clone the repository
 ```
-git clone https://github.com/SYS-zdk/robot_path_planner.git
+git clone https://github.com/SYS-zdk/robot_path_planner_public.git
 ```
 
 #### 6.5 Compile the code.
 
-    cd robot_path_planner/scripts/
+    # Make sure your ROS environment is loaded before building.
+    source /opt/ros/noetic/setup.bash
+
+    cd robot_path_planner_public/scripts/
     ./build.sh
     # First-time build (and recommended): use ./build.sh (runs Conan + catkin_make).
     # For subsequent incremental builds you can run catkin_make.
@@ -1003,9 +1009,9 @@ This repository contains many parameters across planners, controllers, costmaps,
 
 ## 9. Citation
 If you want to learn more about the detailed mathematical derivation of this project or if this project helps your research, please refer to the following citation formats:
-- Global Planning Part: 张定坤，梁海朝。基于动态走廊膨胀与凸优化的移动机器人分层运动规划 [J/OL]. 系统仿真学报，1-21 [2026-01-13]. https://link.cnki.net/urlid/11.3092.V.20250916.1349.002.
-- Local Planning Part: 张定坤，吴兴涛，梁海朝。基于动态状态图的自主移动机器人混合局部规划方法 [J]. 机器人技术与应用，2025, (05): 20-34.
-- Environment Modeling Part: Zhang Dingkun. robot_path_planner. [EB/OL]. https://github.com/SYS-zdk/robot_path_planner, 2026.
+- Global Planning Part: Dingkun Zhang, Haichao Liang. Hierarchical motion planning for mobile robots via dynamic corridor inflation and convex optimization. *Journal of System Simulation*, 2026. https://link.cnki.net/urlid/11.3092.V.20250916.1349.002.
+- Local Planning Part: Dingkun Zhang, Xingtao Wu, Haichao Liang. Hybrid local planning for autonomous mobile robots based on a dynamic state graph. *Robot Technology and Application*, 2025.
+- Repository: Dingkun Zhang. robot_path_planner_public. GitHub repository, 2026. https://github.com/SYS-zdk/robot_path_planner_public
 
 ## 10. License
 This project is licensed under the GNU General Public License v3.0 (GPL-3.0) — see the LICENSE file for details.
