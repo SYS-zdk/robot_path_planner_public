@@ -1,10 +1,6 @@
 <div align="center">
     <h1>robot_path_planner_public</h1>
-    <pre>
-┌──────────────────────────────────┐
-│  PLAN BY BLOCKS — SNAP &amp; GO      │
-└──────────────────────────────────┘
-    </pre>
+    <h2><code>【 PLAN BY BLOCKS — SNAP &amp; GO 】</code></h2>
     <img src="./images/video.gif" width="200" alt="Program Logo GIF" />
     <br />
     <em>Figure 1: Program Logo GIF</em>
