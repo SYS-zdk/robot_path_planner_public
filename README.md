@@ -1,6 +1,6 @@
 <div align="center">
-    <img src="./images/title.png" width="400" />
-    <img src="./images/kouhao.png" width="600" />
+    <img src="./images/title.png" width="400" /><br>
+    <img src="./images/kouhao.png" width="600" /><br>
     <img src="./images/video.gif" width="200" alt="Program Logo GIF" />
     <br />
     <em>Figure 1: Program Logo GIF</em>
