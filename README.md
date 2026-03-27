@@ -1,9 +1,13 @@
-# robot_path_planner_public
+# robot_path_planner
+
+<h2 align="center">
+    <kbd><b>规划积木，一拼就跑</b></kbd>
+</h2>
 
 <p align="center">
-  <img src="./images/video.gif" width="300" alt="Program Logo GIF" />
-  <br />
-  <em>Figure 1: Program Logo GIF</em>
+    <img src="./images/video.gif" width="200" alt="Program Logo GIF" />
+    <br />
+    <em>Figure 1: Program Logo GIF</em>
 </p>
 
 <p align="center">
@@ -13,46 +17,42 @@
     <a href="http://wiki.ros.org/noetic" target="_blank">
         <img alt="ROS Noetic" src="https://img.shields.io/badge/ROS-Noetic-blue?style=flat-square&logo=ros&logoColor=white" />
     </a>
-    <a href="https://github.com/SYS-zdk/robot_path_planner_public/actions/workflows/ci-noetic.yml" target="_blank">
-        <img alt="CI (Noetic)" src="https://img.shields.io/github/actions/workflow/status/SYS-zdk/robot_path_planner_public/ci-noetic.yml?branch=main&style=flat-square&logo=githubactions&logoColor=white" />
+    <a href="https://github.com/SYS-zdk/robot_path_planner/actions/workflows/ci-noetic.yml" target="_blank">
+        <img alt="CI (Noetic)" src="https://img.shields.io/github/actions/workflow/status/SYS-zdk/robot_path_planner/ci-noetic.yml?branch=master&style=flat-square&logo=githubactions&logoColor=white" />
     </a>
-    <a href="https://github.com/SYS-zdk/robot_path_planner_public/blob/main/LICENSE" target="_blank">
-        <img alt="License" src="https://img.shields.io/github/license/SYS-zdk/robot_path_planner_public?style=flat-square" />
+    <a href="https://github.com/SYS-zdk/robot_path_planner/blob/master/LICENSE" target="_blank">
+        <img alt="License" src="https://img.shields.io/github/license/SYS-zdk/robot_path_planner?style=flat-square" />
     </a>
-    <a href="https://github.com/SYS-zdk/robot_path_planner_public/commits/main" target="_blank">
-        <img alt="Last commit" src="https://img.shields.io/github/last-commit/SYS-zdk/robot_path_planner_public?style=flat-square&logo=git&logoColor=white" />
+    <a href="https://github.com/SYS-zdk/robot_path_planner/commits/master" target="_blank">
+        <img alt="Last commit" src="https://img.shields.io/github/last-commit/SYS-zdk/robot_path_planner?style=flat-square&logo=git&logoColor=white" />
     </a>
-    <a href="https://github.com/SYS-zdk/robot_path_planner_public" target="_blank">
-        <img alt="Top language" src="https://img.shields.io/github/languages/top/SYS-zdk/robot_path_planner_public?style=flat-square" />
+    <a href="https://github.com/SYS-zdk/robot_path_planner" target="_blank">
+        <img alt="Top language" src="https://img.shields.io/github/languages/top/SYS-zdk/robot_path_planner?style=flat-square" />
     </a>
-    <a href="https://github.com/SYS-zdk/robot_path_planner_public/stargazers" target="_blank">
-        <img alt="Stars" src="https://img.shields.io/github/stars/SYS-zdk/robot_path_planner_public?style=flat-square&logo=github" />
+    <a href="https://github.com/SYS-zdk/robot_path_planner/stargazers" target="_blank">
+        <img alt="Stars" src="https://img.shields.io/github/stars/SYS-zdk/robot_path_planner?style=flat-square&logo=github" />
     </a>
-    <a href="https://github.com/SYS-zdk/robot_path_planner_public/forks" target="_blank">
-        <img alt="Forks" src="https://img.shields.io/github/forks/SYS-zdk/robot_path_planner_public?style=flat-square&logo=github" />
+    <a href="https://github.com/SYS-zdk/robot_path_planner/forks" target="_blank">
+        <img alt="Forks" src="https://img.shields.io/github/forks/SYS-zdk/robot_path_planner?style=flat-square&logo=github" />
     </a>
-    <a href="https://github.com/SYS-zdk/robot_path_planner_public/issues" target="_blank">
-        <img alt="Issues" src="https://img.shields.io/github/issues/SYS-zdk/robot_path_planner_public?style=flat-square" />
+    <a href="https://github.com/SYS-zdk/robot_path_planner/issues" target="_blank">
+        <img alt="Issues" src="https://img.shields.io/github/issues/SYS-zdk/robot_path_planner?style=flat-square" />
     </a>
-    <a href="https://github.com/SYS-zdk/robot_path_planner_public/pulls" target="_blank">
-        <img alt="PRs" src="https://img.shields.io/github/issues-pr/SYS-zdk/robot_path_planner_public?style=flat-square" />
+    <a href="https://github.com/SYS-zdk/robot_path_planner/pulls" target="_blank">
+        <img alt="PRs" src="https://img.shields.io/github/issues-pr/SYS-zdk/robot_path_planner?style=flat-square" />
     </a>
 </p>
 
 ## 1. Environment Requirements
 
 - Ubuntu 20.04 LTS (Recommended)
-- ROS Noetic 
-- Dependencies:`ros-noetic-osqp`, `ros-noetic-gmapping`, `ros-noetic-map-server`, `ros-noetic-rviz`, `libeigen3-dev`
+- ROS Noetic (Desktop-Full recommended)
+- Toolchain: GCC/G++ (>=9), CMake (>=3.16), Python 3
+- Package managers:
+    - `rosdep` for ROS package dependencies
+    - Conan (1.x) for third-party C/C++ libraries under `3rd/` (e.g., OSQP, Ceres, and transitive glog/gflags/libunwind)
 
-## 1.1 Build (Conan + catkin)
-
-Third-party libraries are managed via Conan (`3rd/`). On a fresh build or a new machine, run the Conan install step first to generate `3rd/conanbuildinfo.cmake` and related files; otherwise you may see missing dependency errors (e.g., `find_package(osqp)` cannot be resolved). Detailed steps are provided below.
-
-```bash
-cd /path/to/robot_path_planner_public
-./scripts/build.sh
-```
+> Most ROS dependencies are resolved via `rosdep install --from-paths src --ignore-src -r -y` (see Section 6).
 
 ## 2. Project Overview
 
@@ -64,7 +64,13 @@ cd /path/to/robot_path_planner_public
 
 > Note: This repository is developed for experiments and secondary development on top of the open-source framework [ros_motion_planning](https://github.com/ai-winter/ros_motion_planning). It is maintained in the open following community best practices and is still under active development; issues and PRs are welcome.
 
-This repository is a modular, reproducible workspace for mobile robot navigation and motion planning (ROS1/Noetic). It provides a LEGO-like set of interchangeable building blocks—costmap plugins, global/local planners, controllers, and trajectory optimizers—together with simulation assets and configuration templates. The focus is to reduce environment/setup friction so you can spend time on algorithm understanding, reproduction, secondary development, and apples-to-apples comparisons by swapping modules and tuning parameters within the same ROS navigation stack.
+This repository is a modular, reproducible workspace for mobile robot navigation and motion planning (ROS1/Noetic). Its core design is **“modules as building blocks”**: global planners, local planners/controllers, costmap layers, and trajectory optimizers are packaged as interchangeable components with unified wiring, configuration templates, and simulation assets.
+
+Instead of spending time re-implementing the same wheels (or hunting for scattered resources), you can **assemble**, **swap**, and **benchmark** algorithms inside one consistent platform:
+
+- Build bigger systems by composing smaller modules ("LEGO-like" navigation stack assembly).
+- Run apples-to-apples comparisons by changing a single ID + YAML, keeping the rest of the stack constant.
+- Reproduce experiments and iterate on secondary development with less setup friction.
 
 In addition, it includes a set of engineering-driven extensions at both the **module** level and the **system** level (see **Module Gallery** and **Core Innovations** below):
 
@@ -72,6 +78,8 @@ In addition, it includes a set of engineering-driven extensions at both the **mo
 - System-level (reference stacks): representative integrated pipelines and case studies such as HPCC, HLP/HLPMPC(+Corridor), reachability-aware planning & control (Reachability Layer + A* + MPPI/MPPI-like), Sunshine (ray sampling + MINCO + iLQR), ST-Planner (space–time Hybrid A* + probability layer + iLQR), and a socially-aware planning/control stack with SocialLayer.
 
 The overall goal is to provide a LEGO-like toolbox that makes it easy to (1) build your own stacks from reusable pieces, (2) reproduce and compare algorithms under the same wiring, and (3) keep accumulating improvements as modular components.
+
+直白点说：在这里，你可以通过搭积木的形式，创造属于你自己更大的积木。
 
 **Roadmap (planned)**
 - Real-robot deployment notes and reproducible bring-up configs (hardware/time sync, sensor drivers, frames).
@@ -94,22 +102,62 @@ This section is a catalog of the core modules in the repository (planners / cont
 <table>
     <tr>
         <td align="center" width="33%">
-            <b>rhcf_planner</b><br/>
+            <b>rhcf_global_planner</b><br/>
             <em>Voronoi multi-homotopy global planner (RHCF-style).</em><br/>
-            <code>src/core/path_planner/path_planner/src/graph_planner/</code><br/>
+            <code>src/core/path_planner/global_planner_plugins/rhcf_global_planner/</code><br/>
             <img src="./images/rhcf_planner.gif" width="260" height="212" alt="rhcf_planner demo" />
         </td>
         <td align="center" width="33%">
-            <b>bdrp_planner</b><br/>
+            <b>bdrp_global_planner</b><br/>
             <em>Sampling-based global planner with lightweight refinement.</em><br/>
-            <code>src/core/path_planner/path_planner/src/sample_planner/</code><br/>
+            <code>src/core/path_planner/global_planner_plugins/bdrp_global_planner/</code><br/>
             <img src="./images/bdrp_planner.gif" width="260" height="212" alt="bdrp_planner demo" />
         </td>
         <td align="center" width="33%">
-            <b>sunshine_planner</b><br/>
+            <b>sunshine_global_planner</b><br/>
             <em>Sunshine ray sampling + LOS graph search global planner.</em><br/>
-            <code>src/core/path_planner/path_planner/src/sample_planner/</code><br/>
+            <code>src/core/path_planner/global_planner_plugins/sunshine_global_planner/</code><br/>
             <img src="./images/sunshaine_planner.gif" width="260" height="212" alt="sunshine_planner demo" />
+        </td>
+    </tr>
+    <tr>
+        <td align="center" width="33%">
+            <b>raystar_global_planner</b><br/>
+            <em>Ray-star style global planner (fast sparse visibility search).</em><br/>
+            <code>src/core/path_planner/global_planner_plugins/raystar_global_planner/</code><br/>
+            <img src="./images/raystar.gif" width="260" height="212" alt="raystar_global_planner demo" />
+        </td>
+        <td align="center" width="33%">
+            <b>gkvm_global_planner</b><br/>
+            <em>GKVM-style global planning.</em><br/>
+            <code>src/core/path_planner/global_planner_plugins/gkvm_global_planner/</code><br/>
+            <img src="./images/gkvm_global_planner.gif" width="260" height="212" alt="gkvm_global_planner demo" />
+        </td>
+        <td align="center" width="33%">
+            <b>rolling_circle_center_global_planner</b><br/>
+            <em>Rolling-circle-center style global planner.</em><br/>
+            <code>src/core/path_planner/global_planner_plugins/rolling_circle_center_global_planner/</code><br/>
+            <img src="./images/rolling_circle_center.gif" width="260" height="212" alt="rolling_circle_center_global_planner demo" />
+        </td>
+    </tr>
+    <tr>
+        <td align="center" width="33%">
+            <b>parallelcurves_global_planner</b><br/>
+            <em>Parallel-curves based global planner.</em><br/>
+            <code>src/core/path_planner/global_planner_plugins/parallelcurves_global_planner/</code><br/>
+            <img src="./images/parallel_curves.gif" width="260" height="212" alt="parallelcurves_global_planner demo" />
+        </td>
+        <td align="center" width="33%">
+            <b>nag_global_planner</b><br/>
+            <em>NAG-style global planner.</em><br/>
+            <code>src/core/path_planner/global_planner_plugins/nag_global_planner/</code><br/>
+            <img src="./images/nag.gif" width="260" height="212" alt="nag_global_planner demo" />
+        </td>
+        <td align="center" width="33%">
+            <b>reachability_global_planner</b><br/>
+            <em>Reachability-aware global planning.</em><br/>
+            <code>src/core/path_planner/global_planner_plugins/reachability_global_planner/</code><br/>
+            <img src="./images/reachability_planner.gif" width="260" height="212" alt="reachability_global_planner demo" />
         </td>
     </tr>
 </table>
@@ -130,7 +178,7 @@ This section is a catalog of the core modules in the repository (planners / cont
         <td align="center" width="33%">
             <b>bubble_local_planner</b><br/>
             <em>Reactive local planner (bubble-style obstacle avoidance).</em><br/>
-            <code>src/core/controller/bubble_local_planner/</code><br/>
+            <code>src/core/controller/bubble_local_planner/bubble_local_planner/</code><br/>
             <img src="./images/bubble_local_planner.gif" width="260" height="212" alt="bubble_local_planner demo" />
         </td>
         <td align="center" width="33%">
@@ -174,10 +222,10 @@ This section is a catalog of the core modules in the repository (planners / cont
             <img src="./images/st_hybrid_a_star_local_planner.gif" width="260" height="212" alt="st_hybrid_astar_local_planner demo" />
         </td>
         <td align="center" width="33%">
-            <b>tangent_local_planner</b><br/>
-            <em>Tangent graph / tangent sampling local planner.</em><br/>
-            <code>src/core/controller/tangent_local_planner/</code><br/>
-            <img src="./images/video.gif" width="260" height="212" alt="tangent_local_planner demo" />
+            <b>guidance_planner_local_planner</b><br/>
+            <em>Guidance-planner style local planning.</em><br/>
+            <code>src/core/controller/guidance_planner_local_planner/</code><br/>
+            <img src="./images/guidence.gif" width="260" height="212" alt="guidance_planner_local_planner demo" />
         </td>
     </tr>
     <tr>
@@ -187,8 +235,18 @@ This section is a catalog of the core modules in the repository (planners / cont
             <code>src/core/controller/vfh_local_planner/</code><br/>
             <img src="./images/vfh_local_planner.gif" width="260" height="212" alt="vfh_local_planner demo" />
         </td>
-        <td align="center" width="33%"></td>
-        <td align="center" width="33%"></td>
+        <td align="center" width="33%">
+            <b>mppircesdf_local_planner</b><br/>
+            <em>MPPI-style local planner with RC-ESDF coupling.</em><br/>
+            <code>src/core/controller/mppircesdf_local_planner/</code><br/>
+            <img src="./images/mppircesdf.gif" width="260" height="212" alt="mppircesdf_local_planner demo" />
+        </td>
+        <td align="center" width="33%">
+            <b>mincorcesdf_controller</b><br/>
+            <em>MINCO + RC-ESDF based controller/tracker.</em><br/>
+            <code>src/core/controller/mincorcesdf_controller/</code><br/>
+            <img src="./images/mincorcesdf.gif" width="260" height="212" alt="mincorcesdf_controller demo" />
+        </td>
     </tr>
 </table>
 
@@ -254,13 +312,19 @@ This section is a catalog of the core modules in the repository (planners / cont
             <img src="./images/localreachability_layer.gif" width="260" height="212" alt="localreachability_layer demo" />
         </td>
         <td align="center" width="33%">
+            <b>uncertainty_layer</b><br/>
+            <em>Uncertainty-aware costmap layer.</em><br/>
+            <code>src/plugins/map_plugins/uncertainty_layer/</code><br/>
+            <img src="./images/uncertainty_layer.gif" width="260" height="212" alt="uncertainty_layer demo" />
+        </td>
+    </tr>
+    <tr>
+        <td align="center" width="33%">
             <b>social_layer</b><br/>
             <em>Pedestrian social comfort cost layer.</em><br/>
             <code>src/plugins/map_plugins/social_layer/</code><br/>
             <img src="./images/social_layer.gif" width="260" height="212" alt="social_layer demo" />
         </td>
-    </tr>
-    <tr>
         <td align="center" width="33%">
             <b>rc_esdf_layer</b><br/>
             <em>ESDF-like distance / cost field layer.</em><br/>
@@ -273,21 +337,20 @@ This section is a catalog of the core modules in the repository (planners / cont
             <code>src/plugins/map_plugins/pseudodistance_layer/</code><br/>
             <img src="./images/pseudodistance_layer.gif" width="260" height="212" alt="pseudodistance_layer demo" />
         </td>
+    </tr>
+    <tr>
         <td align="center" width="33%">
             <b>distance_layer</b><br/>
             <em><b>[Upstream: ros_motion_planning]</b> ESDF / distance utilities & costmap layer.</em><br/>
             <code>src/plugins/map_plugins/distance_layer/</code><br/>
             <img src="./images/distance_layer.gif" width="260" height="212" alt="distance_layer (upstream) demo" />
         </td>
-    </tr>
-    <tr>
         <td align="center" width="33%">
             <b>voronoi_layer</b><br/>
             <em><b>[Upstream: ros_motion_planning]</b> Voronoi costmap layer (dynamic voronoi).</em><br/>
             <code>src/plugins/map_plugins/voronoi_layer/</code><br/>
             <img src="./images/voronoi_layer.gif" width="260" height="212" alt="voronoi_layer (upstream) demo" />
         </td>
-        <td align="center" width="33%"></td>
         <td align="center" width="33%"></td>
     </tr>
 </table>
@@ -309,7 +372,7 @@ This section is a catalog of the core modules in the repository (planners / cont
 **Third-party dependencies (text-only)**
 
 - `3rd/`: vendored dependencies and upstream references (e.g., LBFGS-Lite, MINCO upstream).
-- Third-party builds are managed via Conan; see `scripts/build.sh` and the notes in **1.1 Build (Conan + catkin)**.
+- Third-party builds are managed via Conan; see `scripts/build.sh` and Section 6.
 
 ### 3.6 Maps / Simulation Scenes (text-only)
 
@@ -679,16 +742,19 @@ For a detailed description of algorithms, cost design and parameterization, see 
 ## 5. Repository Structure (accurate and annotated)
 
 ```
-robot_path_planner_public/
+robot_path_planner/
 ├── src/
 │   ├── core/
 │   │   ├── controller/                           # local planners / controllers
 │   │   │   ├── hlpmpccorridor_local_planner/
 │   │   │   ├── bubble_local_planner/
+│   │   │   ├── guidance_planner_local_planner/
 │   │   │   ├── ilqr_controller/
 │   │   │   ├── karcher_local_planner/
 │   │   │   ├── minco_local_planner/
 │   │   │   ├── mppi_local_planner/
+│   │   │   ├── mppircesdf_local_planner/
+│   │   │   ├── mincorcesdf_controller/
 │   │   │   ├── reachability_controller/
 │   │   │   ├── st_hybrid_astar_local_planner/
 │   │   │   ├── tangent_local_planner/
@@ -698,9 +764,8 @@ robot_path_planner_public/
 │   │   │   └── safety_corridor/                  # RemovedCorridor utilities
 │   │   ├── path_planner/
 │   │   │   ├── path_planner/                     # global-planning core library (pipeline + algorithms)
-│   │   │   │   ├── src/graph_planner/            # e.g. rhcf_planner, rolling_circle_center_planner
-│   │   │   │   └── src/sample_planner/           # e.g. bdrp_planner, sunshine_planner
-│   │   │   ├── path_planner_global_plugin_common/ # header-only wrapper base for nav_core global-planner plugins
+│   │   │   ├── path_simplify/                   # path post-processing utilities (RDP, smoothing, etc.)
+│   │   │   ├── path_planner_global_plugin_common/ # wrapper base for nav_core global-planner plugins
 │   │   │   └── global_planner_plugins/           # per-algorithm plugin packages (one catkin pkg per algorithm)
 │   │   │       ├── astar_global_planner/
 │   │   │       ├── bdrp_global_planner/
@@ -738,11 +803,16 @@ Note: these global-planner plugin packages live under `src/core/path_planner/` f
 │   │   ├── gazebo_plugins/                       # simulation / pedestrian-related plugins
 │   │   └── rviz_plugins/
 │   ├── sim_env/                                  # simulation configs / launch / RViz
+│   ├── user_config/                               # module selection & scenario configs
+│   ├── send_goals/                                # helper nodes / scripts
+│   ├── third_party/                               # third-party catkin packages / upstream code
 │   └── ...
-├── 3rd/                                          # vendored third-party dependencies
+├── 3rd/                                          # Conan recipe + generated CMake files (+ some vendored upstream libs)
 ├── scripts/                                      # helper scripts (build/run/stop)
 ├── docs/                                         # implementation-level notes
 ├── images/                                       # documentation images / demos
+├── _artifacts/                                   # validation outputs / reports
+├── bag_record/                                   # rosbag recordings
 ├── build/  devel/                                # catkin build outputs (ignored)
 ├── LICENSE
 └── README.md
@@ -754,26 +824,35 @@ Note: these global-planner plugin packages live under `src/core/path_planner/` f
 
 Plugin registries (one per algorithm package): `src/core/path_planner/global_planner_plugins/*_global_planner/plugin.xml`.
 
-| Method | Entry path | Main files |
+| ID (in `src/user_config/user_config.yaml`) | Plugin package | Main files |
 |---|---|---|
-| `rhcf_planner` | `src/core/path_planner/path_planner/src/graph_planner/` | `rhcf_planner.{h,cpp}` |
-| `bdrp_planner` | `src/core/path_planner/path_planner/src/sample_planner/` | `bdrp_planner.{h,cpp}` |
-| `sunshine_planner` | `src/core/path_planner/path_planner/src/sample_planner/` | `sunshine_planner.{h,cpp}` |
+| `rhcf` | `src/core/path_planner/global_planner_plugins/rhcf_global_planner/` | `src/rhcf_global_planner.cpp`, `src/rhcf_planner.cpp` |
+| `bdrp` | `src/core/path_planner/global_planner_plugins/bdrp_global_planner/` | `src/bdrp_global_planner.cpp`, `src/bdrp_planner.cpp` |
+| `sunshine` | `src/core/path_planner/global_planner_plugins/sunshine_global_planner/` | `src/sunshine_global_planner.cpp`, `src/sunshine_planner.cpp` |
+| `raystar` | `src/core/path_planner/global_planner_plugins/raystar_global_planner/` | `src/raystar_global_planner.cpp`, `src/raystar_planner.cpp` |
+| `gkvm` | `src/core/path_planner/global_planner_plugins/gkvm_global_planner/` | `src/gkvm_global_planner.cpp`, `src/gkvm_planner.cpp` |
+| `rolling_circle_center` / `rcc` | `src/core/path_planner/global_planner_plugins/rolling_circle_center_global_planner/` | `src/rolling_circle_center_global_planner.cpp`, `src/rolling_circle_center_planner.cpp` |
+| `parallel_curves` | `src/core/path_planner/global_planner_plugins/parallelcurves_global_planner/` | `src/parallelcurves_global_planner.cpp`, `src/parallelcurves_planner.cpp` |
+| `nag` | `src/core/path_planner/global_planner_plugins/nag_global_planner/` | `src/nag_global_planner.cpp`, `src/nag_planner.cpp` |
+| `reachability` | `src/core/path_planner/global_planner_plugins/reachability_global_planner/` | `src/reachability_global_planner.cpp`, `src/reachability_planner.cpp` |
 
 #### Local planning / control
 
-| Method | Package path | Main entry points |
+| ID (in `src/user_config/user_config.yaml`) | Package path | Main entry points |
 |---|---|---|
-| `hlpmpccorridor_local_planner` | `src/core/controller/hlpmpccorridor_local_planner/` | `src/hybrid_planner_ros.cpp`, `src/hybrid_planner.cpp`, `hlpmpccorridor_plugin.xml` |
-| `bubble_local_planner` | `src/core/controller/bubble_local_planner/bubble_local_planner/` | `src/bubble_local_planner.cpp`, `bublp_plugin.xml` |
-| `ilqr_controller` | `src/core/controller/ilqr_controller/` | `src/ilqr_controller.cpp`, `ilqr_controller_plugin.xml` |
-| `karcher_local_planner` | `src/core/controller/karcher_local_planner/` | `src/karcher_local_planner_ros.cpp`, `karcher_local_planner_plugin.xml` |
-| `minco_local_planner` | `src/core/controller/minco_local_planner/` | `src/minco_local_planner.cpp`, `minco_local_planner_plugin.xml` |
-| `mppi_local_planner` | `src/core/controller/mppi_local_planner/` | `src/mppi_local_planner_ros.cpp`, `mppi_local_planner_plugin.xml` |
-| `reachability_controller` | `src/core/controller/reachability_controller/` | `src/reachability_controller.cpp`, `reachability_controller_plugin.xml` |
-| `st_hybrid_astar_local_planner` | `src/core/controller/st_hybrid_astar_local_planner/` | `src/st_hybrid_astar_local_planner.cpp`, `st_hybrid_astar_local_planner_plugin.xml` |
-| `tangent_local_planner` | `src/core/controller/tangent_local_planner/` | `src/tangent_planner.cpp`, `tangent_local_planner_plugin.xml` |
-| `vfh_local_planner` | `src/core/controller/vfh_local_planner/` | `src/vfh_local_planner_ros.cpp`, `VFHlp_plugin.xml` |
+| `hybridmpccorridor` | `src/core/controller/hlpmpccorridor_local_planner/` | `src/hybrid_planner_ros.cpp`, `src/hybrid_planner.cpp`, `hlpmpccorridor_plugin.xml` |
+| `bubble` | `src/core/controller/bubble_local_planner/bubble_local_planner/` | `src/bubble_local_planner.cpp`, `bublp_plugin.xml` |
+| `ilqr` | `src/core/controller/ilqr_controller/` | `src/ilqr_controller.cpp`, `ilqr_controller_plugin.xml` |
+| `karcher` | `src/core/controller/karcher_local_planner/` | `src/karcher_local_planner_ros.cpp`, `karcher_local_planner_plugin.xml` |
+| `minco` | `src/core/controller/minco_local_planner/` | `src/minco_local_planner.cpp`, `minco_local_planner_plugin.xml` |
+| `mppi` | `src/core/controller/mppi_local_planner/` | `src/mppi_local_planner_ros.cpp`, `mppi_local_planner_plugin.xml` |
+| `reachability` | `src/core/controller/reachability_controller/` | `src/reachability_controller.cpp`, `reachability_controller_plugin.xml` |
+| `st_hybrid_astar` | `src/core/controller/st_hybrid_astar_local_planner/` | `src/st_hybrid_astar_local_planner.cpp`, `st_hybrid_astar_local_planner_plugin.xml` |
+| `guidance_planner` | `src/core/controller/guidance_planner_local_planner/` | `src/guidance_planner_local_planner.cpp`, `guidance_planner_local_planner_plugin.xml` |
+| `mppircesdf` | `src/core/controller/mppircesdf_local_planner/` | `src/mppircesdf_local_planner_ros.cpp`, `mppircesdf_local_planner_plugin.xml` |
+| `mincorcesdf` | `src/core/controller/mincorcesdf_controller/` | `src/mincorcesdf_controller.cpp`, `mincorcesdf_controller_plugin.xml` |
+| `tangent` | `src/core/controller/tangent_local_planner/` | `src/tangent_planner.cpp`, `tangent_local_planner_plugin.xml` |
+| `vfh` | `src/core/controller/vfh_local_planner/` | `src/vfh_local_planner_ros.cpp`, `VFHlp_plugin.xml` |
 
 #### Trajectory optimization
 
@@ -792,6 +871,7 @@ Plugin registries (one per algorithm package): `src/core/path_planner/global_pla
 | `globalreachability_layer` | `src/plugins/map_plugins/globalreachability_layer/` | `src/globalreachability_layer.cpp`, `include/globalreachability_layer/globalreachability_layer.h`, `globalreachability_layer_costmap_plugin.xml` |
 | `localreachability_layer` | `src/plugins/map_plugins/localreachability_layer/` | `src/localreachability_layer.cpp`, `include/localreachability_layer/localreachability_layer.h`, `localreachability_layer_costmap_plugin.xml` |
 | `social_layer` | `src/plugins/map_plugins/social_layer/` | `src/social_layer.cpp`, `include/social_layer/social_layer.h`, `social_layer_costmap_plugin.xml` |
+| `uncertainty_layer` | `src/plugins/map_plugins/uncertainty_layer/` | `src/uncertainty_layer.cpp`, `include/uncertainty_layer/uncertainty_layer.h`, `uncertainty_layer_costmap_plugin.xml` |
 | `distance_layer` *(upstream: ros_motion_planning)* | `src/plugins/map_plugins/distance_layer/` | `src/distance_layer.cpp`, `include/distance_layer.h`, `distance_layer_costmap_plugin.xml` |
 | `voronoi_layer` *(upstream: ros_motion_planning)* | `src/plugins/map_plugins/voronoi_layer/` | `src/voronoi_layer.cpp`, `include/voronoi_layer.h`, `costmap_plugins.xml` |
 | `rc_esdf_layer` | `src/plugins/map_plugins/rc_esdf_layer/` | `src/rc_esdf_layer.cpp`, `include/rc_esdf_layer/rc_esdf_layer.h`, `rc_esdf_layer_costmap_plugin.xml` |
@@ -814,43 +894,47 @@ Plugin registries (one per algorithm package): `src/core/path_planner/global_pla
 
 #### 6.3 Install dependencies
 
-- OSQP
+- System tools
     ```
-    git clone -b release-0.6.3 --recursive https://github.com/oxfordcontrol/osqp
-    cd osqp && mkdir build && cd build
-    cmake .. -DBUILD_SHARED_LIBS=ON
-    make -j6
-    sudo make install
-    sudo cp /usr/local/include/osqp/* /usr/local/include
+    sudo apt update
+    sudo apt install -y build-essential cmake python3-pip python-is-python3 libeigen3-dev
     ```
-- OSQP-Eigen
+
+- ROS navigation stack (minimum set for simulation + move_base)
     ```
-    git clone https://github.com/robotology/osqp-eigen.git
-    cd osqp-eigen && mkdir build && cd build
-    cmake ..
-    make
-    sudo make install
+    sudo apt install -y \
+      ros-noetic-navigation \
+      ros-noetic-amcl \
+      ros-noetic-map-server \
+      ros-noetic-gmapping \
+      ros-noetic-rviz
     ```
-- Other dependencies.
+
+- Conan (1.x) for third-party libraries under `3rd/`
     ```
-    sudo apt install python-is-python3 \
-    ros-noetic-amcl \
-    ros-noetic-base-local-planner \
-    ros-noetic-map-server \
-    ros-noetic-move-base \
-    ros-noetic-navfn
+    python3 -m pip install --user "conan<2"
+    conan profile new default --detect --force
+    ```
+
+- Resolve ROS package dependencies via rosdep
+    ```
+    sudo rosdep init || true
+    rosdep update
+    cd /path/to/robot_path_planner
+    rosdep install --from-paths src --ignore-src -r -y
     ```
 
 #### 6.4 Clone the repository
 ```
-git clone https://github.com/SYS-zdk/robot_path_planner_public.git
+git clone https://github.com/SYS-zdk/robot_path_planner.git
 ```
 
 #### 6.5 Compile the code.
 
-    cd robot_path_planner_public/scripts/
+    cd robot_path_planner/scripts/
     ./build.sh
-    # First-time build: use ./build.sh. For subsequent builds you can run catkin_make.
+    # First-time build (and recommended): use ./build.sh (runs Conan + catkin_make).
+    # For subsequent incremental builds you can run catkin_make.
     # Or use catkin build (you may need: sudo apt install python-catkin-tools).
     # Note: since many dependencies are vendored (not installed via apt) and are built from source,
     # build-order issues can happen during incremental rebuilds.
@@ -919,9 +1003,9 @@ This repository contains many parameters across planners, controllers, costmaps,
 
 ## 9. Citation
 If you want to learn more about the detailed mathematical derivation of this project or if this project helps your research, please refer to the following citation formats:
-- Global Planning Part:  [J/OL]. 系统仿真学报，1-21 [2026-01-13]. https://link.cnki.net/urlid/11.3092.V.20250916.1349.002.
-- Local Planning Part:  [J]. 机器人技术与应用，2025, (05): 20-34.
-- Environment Modeling Part: Zhang Dingkun. robot_path_planner_public. [EB/OL]. https://github.com/SYS-zdk/robot_path_planner_public, 2026.
+- Global Planning Part: 张定坤，梁海朝。基于动态走廊膨胀与凸优化的移动机器人分层运动规划 [J/OL]. 系统仿真学报，1-21 [2026-01-13]. https://link.cnki.net/urlid/11.3092.V.20250916.1349.002.
+- Local Planning Part: 张定坤，吴兴涛，梁海朝。基于动态状态图的自主移动机器人混合局部规划方法 [J]. 机器人技术与应用，2025, (05): 20-34.
+- Environment Modeling Part: Zhang Dingkun. robot_path_planner. [EB/OL]. https://github.com/SYS-zdk/robot_path_planner, 2026.
 
 ## 10. License
 This project is licensed under the GNU General Public License v3.0 (GPL-3.0) — see the LICENSE file for details.
