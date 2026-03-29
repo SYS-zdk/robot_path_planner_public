@@ -13,7 +13,7 @@
 // planning pipeline (concrete algorithm is injected by each plugin package)
 #include "path_planner/path_planner_engine.h"
 
-// path processor
+// path simplify
 #include "path_planner/path_simplify/rdp_path_simplifier.h"
 
 // optimizer
@@ -312,10 +312,10 @@ bool PathPlannerEngine::makePlan(const geometry_msgs::PoseStamped& start, const 
 
       debug_data_.origin_plan_world = origin_plan;
 
-      // 根据配置决定是否应用RDP
-      if (pruner_)
+      // 根据配置决定是否应用RDP简化
+      if (rdp_simplify_enabled_)
       {
-        pruner_->process(origin_plan, prune_plan);
+        rdpSimplify2d(origin_plan, rdp_epsilon_, prune_plan);
         R_DEBUG << "[makePlan] RDP applied: " << origin_plan.size() << " -> " << prune_plan.size() << " points";
       }
       else
@@ -385,7 +385,7 @@ bool PathPlannerEngine::makePlan(const geometry_msgs::PoseStamped& start, const 
       else
       {
         // 如果禁用优化，但启用了RDP，需要用 prune_plan 更新 plan
-        if (pruner_)
+        if (rdp_simplify_enabled_)
         {
           R_INFO << "[makePlan] Optimization disabled, using RDP path: " << prune_plan.size() << " points";
           plan.clear();
@@ -471,7 +471,7 @@ bool PathPlannerEngine::_getPlanFromPath(PathPlanner::Points3d& path, std::vecto
  * @brief 根据全局规划方法配置对应的工具链
  * 
  * 为不同的全局规划器分别配置：
- *  1. RDP路径剪枝 (pruner_)
+ *  1. RDP路径简化
  *  2. 轨迹优化器 (optimizer_)
  *  3. 安全走廊约束 (use_safety_corridor_)
  * 
@@ -574,9 +574,10 @@ void PathPlannerEngine::configurePlannerToolchain()
     // ========== A* 及其变种 ==========
     R_INFO << "[PlannerToolchain] Configuring for A* variant...";
 
-    // 启用RDP路径剪枝
-    pruner_ = std::make_shared<RDPPathSimplifier>(0.22);  //lbfgs 0.035 
-    R_INFO << "  ✓ RDP Path Processor ENABLED (threshold=0.22)";
+    // 启用RDP路径简化
+    rdp_simplify_enabled_ = true;
+    rdp_epsilon_ = 0.22;  // lbfgs 0.035
+    R_INFO << "  ✓ RDP Simplify ENABLED (epsilon=0.22m)";
 
     if (!optimizer_forced)
     {
@@ -611,8 +612,9 @@ void PathPlannerEngine::configurePlannerToolchain()
     // ✅ FIX: 启用RDP路径剪枝，但使用较小的delta（0.1m）
     // 原问题：混合A*输出225个密集点，导致LBFGS有450个优化变量，Line Search失败
     // 解决方案：用RDP将225个点简化为80-120个关键点，LBFGS优化200-240个变量，正好在最优范围内
-    pruner_ = std::make_shared<RDPPathSimplifier>(0.03);
-    R_INFO << "  ✓ RDP Path Processor ENABLED (threshold=0.1m)";
+    rdp_simplify_enabled_ = true;
+    rdp_epsilon_ = 0.03;
+    R_INFO << "  ✓ RDP Simplify ENABLED (epsilon=0.03m)";
 
     if (!optimizer_forced)
     {
@@ -644,8 +646,8 @@ void PathPlannerEngine::configurePlannerToolchain()
     R_INFO << "[PlannerToolchain] Configuring for Sunshine...";
 
     // 禁用RDP
-    pruner_ = nullptr;
-    R_INFO << "  ✓ RDP Path Processor DISABLED";
+    rdp_simplify_enabled_ = false;
+    R_INFO << "  ✓ RDP Simplify DISABLED";
 
     if (!optimizer_forced)
     {
@@ -678,8 +680,9 @@ void PathPlannerEngine::configurePlannerToolchain()
 
     // RHCF 输出通常是 Voronoi 骨架上的折线（cell-by-cell），点数偏多且转折生硬。
     // 使用 RDP 先做关键点提取，再交给优化器做平滑/避障，可得到更“可执行”的全局参考路径。
-    pruner_ = std::make_shared<RDPPathSimplifier>(0.05);
-    R_INFO << "  ✓ RDP Path Processor ENABLED (threshold=0.05m)";
+    rdp_simplify_enabled_ = true;
+    rdp_epsilon_ = 0.05;
+    R_INFO << "  ✓ RDP Simplify ENABLED (epsilon=0.05m)";
 
     if (!optimizer_forced)
     {
@@ -712,8 +715,8 @@ void PathPlannerEngine::configurePlannerToolchain()
     R_INFO << "[PlannerToolchain] Configuring for NAG...";
 
     // 为贴近论文中 geodesic 搜索过程，默认不做额外剪枝与轨迹优化
-    pruner_ = nullptr;
-    R_INFO << "  ✓ RDP Path Processor DISABLED";
+    rdp_simplify_enabled_ = false;
+    R_INFO << "  ✓ RDP Simplify DISABLED";
 
     // Default: keep NAG output as-is (geodesic polyline) unless the user explicitly forces an optimizer.
     if (!optimizer_forced)
@@ -740,8 +743,8 @@ void PathPlannerEngine::configurePlannerToolchain()
     R_INFO << "[PlannerToolchain] Configuring for sampling planner (" << planner_name_ << ")...";
 
     // 禁用RDP (采样规划器输出已经是点集，无需进一步剪枝)
-    pruner_ = nullptr;
-    R_INFO << "  ✓ RDP Path Processor DISABLED";
+    rdp_simplify_enabled_ = false;
+    R_INFO << "  ✓ RDP Simplify DISABLED";
 
     // 禁用优化器 (采样规划器通常已内置路径优化)
     if (!optimizer_forced)
@@ -763,8 +766,8 @@ void PathPlannerEngine::configurePlannerToolchain()
     R_INFO << "[PlannerToolchain] Configuring for graph planner (" << planner_name_ << ")...";
 
     // 禁用RDP
-    pruner_ = nullptr;
-    R_INFO << "  ✓ RDP Path Processor DISABLED";
+    rdp_simplify_enabled_ = false;
+    R_INFO << "  ✓ RDP Simplify DISABLED";
 
     // 禁用优化器
     if (!optimizer_forced)
@@ -787,8 +790,8 @@ void PathPlannerEngine::configurePlannerToolchain()
 
     // Keep native parallel-curves graph result untouched by default.
     // Segment densification is already handled by planner parameter line_splits.
-    pruner_ = nullptr;
-    R_INFO << "  ✓ RDP Path Processor DISABLED";
+    rdp_simplify_enabled_ = false;
+    R_INFO << "  ✓ RDP Simplify DISABLED";
 
     if (!optimizer_forced)
     {
@@ -808,8 +811,8 @@ void PathPlannerEngine::configurePlannerToolchain()
     R_INFO << "[PlannerToolchain] Configuring for ITP (Interactive Topological Planner)...";
 
     // ITP 输出是一条由拓扑图插值生成的参考折线；默认不做额外剪枝与轨迹优化。
-    pruner_ = nullptr;
-    R_INFO << "  ✓ RDP Path Processor DISABLED";
+    rdp_simplify_enabled_ = false;
+    R_INFO << "  ✓ RDP Simplify DISABLED";
 
     if (!optimizer_forced)
     {
@@ -829,8 +832,9 @@ void PathPlannerEngine::configurePlannerToolchain()
     R_INFO << "[PlannerToolchain] Configuring for Rolling Circle Center (RCC)...";
 
     // RCC 输出通常是密集折线，建议轻度 RDP 提取关键点（默认可关/由用户覆盖）
-    pruner_ = std::make_shared<RDPPathSimplifier>(0.05);
-    R_INFO << "  ✓ RDP Path Processor ENABLED (threshold=0.05m)";
+    rdp_simplify_enabled_ = true;
+    rdp_epsilon_ = 0.05;
+    R_INFO << "  ✓ RDP Simplify ENABLED (epsilon=0.05m)";
 
     // 默认不强制启用优化器，用户可通过 /move_base/<planner_instance>/optimizer_name 覆盖
     if (!optimizer_forced)
@@ -848,7 +852,7 @@ void PathPlannerEngine::configurePlannerToolchain()
   else
   {
     R_WARN << "[PlannerToolchain] Unknown planner (" << planner_name_ << "), using minimal config";
-    pruner_ = nullptr;
+    rdp_simplify_enabled_ = false;
     if (!optimizer_forced)
     {
       optimizer_ = nullptr;

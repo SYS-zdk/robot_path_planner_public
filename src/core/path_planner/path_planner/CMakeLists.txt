@@ -17,7 +17,6 @@ find_package(catkin REQUIRED COMPONENTS
   tf2_ros
   trajectory_planner
   common
-  path_simplify
   std_msgs
   visualization_msgs
   voronoi_layer
@@ -36,7 +35,6 @@ catkin_package(
    tf2_geometry_msgs
    tf2_ros
    common
-   path_simplify
    trajectory_planner
    std_msgs
    visualization_msgs

@@ -10,7 +10,6 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   costmap_2d
   common
-  path_simplify
   distance_layer
 )
 
@@ -19,7 +18,7 @@ find_package(Eigen3 REQUIRED)
 catkin_package(
  INCLUDE_DIRS include
 #  LIBRARIES ${PROJECT_NAME}
- CATKIN_DEPENDS common path_simplify distance_layer
+ CATKIN_DEPENDS common distance_layer
 )
 
 get_filename_component(WORKSPACE_ROOT_DIR "${CMAKE_CURRENT_LIST_DIR}/../../.." ABSOLUTE)

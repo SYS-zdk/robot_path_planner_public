@@ -173,8 +173,7 @@ bool SplineTrajectoryOptimizer::run(const Points3d& waypoints)
 
   // Prune points to reduce conditioning issues and runtime.
   Points3d key_points;
-  auto pruner = std::make_shared<rpp::path_planner::RDPPathSimplifier>(kPruneDelta);
-  pruner->process(waypoints, key_points);
+  rpp::path_planner::rdpSimplify2d(waypoints, kPruneDelta, key_points);
   if (key_points.size() < 2)
   {
     key_points = waypoints;

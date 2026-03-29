@@ -20,7 +20,6 @@
   <depend>tf2_ros</depend>
   <depend>visualization_msgs</depend>
   <depend>common</depend>
-  <depend>path_simplify</depend>
   <depend>trajectory_planner</depend>
   <depend>std_msgs</depend>
   <depend>voronoi_layer</depend>

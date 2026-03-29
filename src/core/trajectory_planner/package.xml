@@ -14,7 +14,6 @@
   <depend>roscpp</depend>
   <depend>costmap_2d</depend>
   <depend>common</depend>
-  <depend>path_simplify</depend>
   <depend>distance_layer</depend>
 
 </package>

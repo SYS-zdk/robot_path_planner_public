@@ -339,7 +339,7 @@ This section is a catalog of the core modules in the repository (planners / cont
             <b>distance_layer</b><br/>
             <em><b>[Upstream: ros_motion_planning]</b> ESDF / distance utilities & costmap layer.</em><br/>
             <code>src/plugins/map_plugins/distance_layer/</code><br/>
-            <img src="./images/distance_layer.gif" width="260" height="212" alt="distance_layer (upstream) demo" />
+            <img src="./images/pseudodistance_layer.gif" width="260" height="212" alt="distance_layer demo" />
         </td>
         <td align="center" width="33%">
             <b>voronoi_layer</b><br/>
@@ -737,25 +737,13 @@ robot_path_planner_public/
 ├── src/
 │   ├── core/
 │   │   ├── controller/                           # local planners / controllers
-│   │   │   ├── hlpmpccorridor_local_planner/
-│   │   │   ├── bubble_local_planner/
-│   │   │   ├── guidance_planner_local_planner/
-│   │   │   ├── ilqr_controller/
-│   │   │   ├── karcher_local_planner/
-│   │   │   ├── minco_local_planner/
-│   │   │   ├── mppi_local_planner/
-│   │   │   ├── mppircesdf_local_planner/
-│   │   │   ├── mincorcesdf_controller/
+│   │   │   ├── controller/
 │   │   │   ├── reachability_controller/
-│   │   │   ├── st_hybrid_astar_local_planner/
-│   │   │   ├── tangent_local_planner/
-│   │   │   ├── vfh_local_planner/
 │   │   │   └── ...
 │   │   ├── common/
-│   │   │   └── safety_corridor/                  # RemovedCorridor utilities
+│   │   │   └── ...
 │   │   ├── path_planner/
 │   │   │   ├── path_planner/                     # global-planning core library (pipeline + algorithms)
-│   │   │   ├── path_simplify/                   # path post-processing utilities (RDP, smoothing, etc.)
 │   │   │   ├── path_planner_global_plugin_common/ # wrapper base for nav_core global-planner plugins
 │   │   │   └── global_planner_plugins/           # per-algorithm plugin packages (one catkin pkg per algorithm)
 │   │   │       ├── astar_global_planner/
@@ -780,7 +768,7 @@ robot_path_planner_public/
 
 Note: these global-planner plugin packages live under `src/core/path_planner/` for subsystem grouping only; catkin does not care about the physical folder as long as package names and exports are correct.
 │   │   └── trajectory_planner/
-│   │       └── src/trajectory_optimization/      # lbfgs / minco / minimum-snap / spline-trajectory
+│   │       └── src/trajectory_optimization/      # lbfgs / minco / spline-trajectory
 │   ├── plugins/
 │   │   ├── map_plugins/                          # costmap layers
 │   │   │   ├── globalreachability_layer/

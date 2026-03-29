@@ -17,7 +17,6 @@
 #include "common/geometry/point.h"
 #include "path_planner/path_planner.h"
 #include "path_planner/debug_data.h"
-#include "path_planner/path_simplify/path_simplify.h"
 #include "trajectory_planner/trajectory_optimization/optimizer.h"
 
 namespace rpp
@@ -117,7 +116,8 @@ private:
   double factor_;              // obstacle inflation factor
 
 private:
-  std::shared_ptr<PathSimplifier> pruner_;
+  bool rdp_simplify_enabled_{ false };
+  double rdp_epsilon_{ 0.0 };
   std::shared_ptr<rpp::trajectory_optimization::Optimizer> optimizer_;
 };
 
