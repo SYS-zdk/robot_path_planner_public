@@ -63,15 +63,9 @@
                 or arg('optimizer')=='minco_spline'
                 or arg('optimizer')=='minco_spline_opt')" />
 
-        <!-- local planner plugin (public repo keeps only a small curated set) -->
-        <param name="base_local_planner" value="hlpmpccorridor_local_planner/HybridMpcCorridorPlannerROS" if="$(eval arg('local_planner')=='hybridmpccorridor')" />
-        <rosparam file="$(find sim_env)/config/controller/hlpmpccorridor_local_planner.yaml" command="load" if="$(eval arg('local_planner')=='hybridmpccorridor')" />
-
-        <param name="base_local_planner" value="reachability_controller/ReachabilityController" if="$(eval arg('local_planner')=='reachability')" />
-        <rosparam file="$(find sim_env)/config/controller/reachability_controller_params.yaml" command="load" if="$(eval arg('local_planner')=='reachability')" />
-
-        <param name="base_local_planner" value="ilqr_controller/ILQRController" if="$(eval arg('local_planner')=='ilqr')" />
-        <rosparam file="$(find sim_env)/config/controller/ilqr_controller_params.yaml" command="load" if="$(eval arg('local_planner')=='ilqr')" />
+        <!-- local planner plugin -->
+        <param name="base_local_planner" value="reachability_controller/ReachabilityController" />
+        <rosparam file="$(find sim_env)/config/controller/reachability_controller_params.yaml" command="load" />
 
 <!-- loading navigation parameters -->
         <rosparam file="$(eval find('sim_env') + '/config/robots/' + arg('robot') + '/global_costmap_params_' + arg('robot') + '.yaml')"
