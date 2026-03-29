@@ -11,8 +11,6 @@
 
 #include "common/util/visualizer.h"
 #include "common/geometry/polygon2d.h"
-#include "common/removed_corridor/removed_config.h"
-#include "common/removed_corridor/convex_safety_corridor.h"
 
 namespace rpp
 {
@@ -785,36 +783,15 @@ void PathPlannerRosIO::publish()
   }
 
   // Safety corridor visualization
-  if (engine_->shouldShowSafetyCorridor() && !dbg.prune_plan_world.empty())
+  if (engine_->shouldShowSafetyCorridor())
   {
-    std::vector<rpp::common::geometry::Polygon2d> polygons;
-
-    rpp::RemovedConfig ackermann_cfg;
-    ackermann_cfg.wheelbase = 0.5278;
-    ackermann_cfg.max_steer_angle = 0.4143;
-    ackermann_cfg.track_width = 0.5908;
-
-    auto* costmap_ros = engine_->costmapRos();
-    if (costmap_ros)
-    {
-      auto safety_corridor =
-          std::make_unique<rpp::common::safety_corridor::RemovedCorridor>(costmap_ros, 0.6, ackermann_cfg);
-
-      safety_corridor->decompose(dbg.prune_plan_world, polygons);
-
-      Visualizer::Lines2d lines;
-      for (const auto& polygon : polygons)
-      {
-        for (int i = 0; i < polygon.num_points(); i++)
-        {
-          const auto& pt = polygon.points()[i];
-          const auto& next_pt = polygon.points()[polygon.next(i)];
-          lines.emplace_back(std::make_pair<Visualizer::Point2d, Visualizer::Point2d>({ pt.x(), pt.y() },
-                                                                                      { next_pt.x(), next_pt.y() }));
-        }
-      }
-      visualizer->publishLines2d(lines, lines_pub_, frame_id, "safety_corridor", Visualizer::BLUE, 0.1);
-    }
+    // Safety corridor feature is not available in this repository variant.
+    // Publish a DELETEALL marker to clear any previously displayed corridor in RViz.
+    visualization_msgs::MarkerArray arr;
+    visualization_msgs::Marker m;
+    m.action = visualization_msgs::Marker::DELETEALL;
+    arr.markers.push_back(m);
+    lines_pub_.publish(arr);
   }
 }
 

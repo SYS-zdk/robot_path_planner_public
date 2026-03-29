@@ -4,8 +4,8 @@
 	<arg name="agent_id" default="1" />
 	<arg name="robot1_type" default="turtlebot3_waffle" />
 	<arg name="robot1_global_planner" default="a_star" />
-	<arg name="robot1_local_planner" default="hybridmpccorridor" />
-	<arg name="robot1_optimizer" default="removed_optimizer" />
+	<arg name="robot1_local_planner" default="reachability" />
+	<arg name="robot1_optimizer" default="" />
 	<arg name="robot1_x_pos" default="0.0" />
 	<arg name="robot1_y_pos" default="0.0" />
 	<arg name="robot1_z_pos" default="0.0" />

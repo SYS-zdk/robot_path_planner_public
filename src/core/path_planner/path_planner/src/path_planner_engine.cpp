@@ -14,13 +14,10 @@
 #include "path_planner/path_planner_engine.h"
 
 // path processor
-#include "path_planner/removed_prune/removed_rdp.h"
+#include "path_planner/path_simplify/rdp_path_simplifier.h"
 
 // optimizer
 #include "trajectory_planner/trajectory_optimization/optimizer_core.h"
-
-// Required for RemovedOptimizer (unique_ptr<RemovedCorridor> needs complete type)
-#include "common/removed_corridor/convex_safety_corridor.h"
 
 #include "common/util/log.h"
 
@@ -479,9 +476,9 @@ bool PathPlannerEngine::_getPlanFromPath(PathPlanner::Points3d& path, std::vecto
  *  3. 安全走廊约束 (use_safety_corridor_)
  * 
  * 例如：
- *  - A*: RDP=ON + removed_snap优化 + 走廊=ON
+ *  - A*: RDP=ON + LBFGS优化 + 走廊=OFF
  *  - Hybrid A*: RDP=OFF + LBFGS优化 + 走廊=OFF
- *  - Sunshine: RDP=OFF + conjugate梯度优化 + 走廊=OFF
+ *  - Sunshine: RDP=OFF + LBFGS优化 + 走廊=OFF
  *  - 采样规划器: RDP=OFF + 无优化 + 走廊=OFF
  */
 void PathPlannerEngine::configurePlannerToolchain()
@@ -512,47 +509,7 @@ void PathPlannerEngine::configurePlannerToolchain()
   if (!forced_optimizer.empty())
   {
     R_INFO << "[PlannerToolchain] Forced optimizer param detected: " << forced_optimizer;
-    if (forced_optimizer == "removed_optimizer")
-    {
-      int max_iter;
-      double alpha, obs_dist_max, k_max;
-      double w_obstacle, w_smooth, w_curvature;
-
-      // Choose defaults depending on upstream planner
-      // If planner is a_star, use values from removed_optimizer_params.yaml (more conservative)
-      // else use the larger/default values intended for other planners
-      if (planner_name_ == "a_star")
-      {
-        // defaults matching removed_optimizer_params.yaml
-        private_nh.param("/move_base/Optimizer/max_iter", max_iter, 100);
-        private_nh.param("/move_base/Optimizer/alpha", alpha, 0.1);
-        private_nh.param("/move_base/Optimizer/obs_dist_max", obs_dist_max, 0.3);
-        private_nh.param("/move_base/Optimizer/k_max", k_max, 0.15);
-        private_nh.param("/move_base/Optimizer/w_obstacle", w_obstacle, 0.5);
-        private_nh.param("/move_base/Optimizer/w_smooth", w_smooth, 0.25);
-        private_nh.param("/move_base/Optimizer/w_curvature", w_curvature, 0.25);
-        R_INFO << "[PlannerToolchain] Using removed_optimizer defaults for A* (from removed_optimizer_params.yaml)";
-      }
-      else
-      {
-        // defaults for non-A* planners (larger/looser defaults)
-        private_nh.param("/move_base/Optimizer/max_iter", max_iter, 100);
-        private_nh.param("/move_base/Optimizer/alpha", alpha, 1.0);
-        private_nh.param("/move_base/Optimizer/obs_dist_max", obs_dist_max, 2.0);
-        private_nh.param("/move_base/Optimizer/k_max", k_max, 4.0);
-        private_nh.param("/move_base/Optimizer/w_obstacle", w_obstacle, 1.0);
-        private_nh.param("/move_base/Optimizer/w_smooth", w_smooth, 2.0);
-        private_nh.param("/move_base/Optimizer/w_curvature", w_curvature, 4.0);
-        R_INFO << "[PlannerToolchain] Using removed_optimizer defaults for non-A* planner";
-      }
-
-        optimizer_ = std::make_shared<rpp::trajectory_optimization::RemovedOptimizer>(
-          costmap_ros_, max_iter, alpha, obs_dist_max, k_max, w_obstacle, w_smooth, w_curvature);
-      optimizer_name_ = "removed_optimizer";
-      R_INFO << "  ✓ Optimizer (forced): removed_optimizer";
-      optimizer_forced = true;
-    }
-    else if (forced_optimizer == "lbfgs" || forced_optimizer == "lbfgs_optimizer")
+    if (forced_optimizer == "lbfgs" || forced_optimizer == "lbfgs_optimizer")
     {
       int max_iter;
       double obs_dist_max, k_max;
@@ -567,25 +524,6 @@ void PathPlannerEngine::configurePlannerToolchain()
           costmap_ros_, max_iter, obs_dist_max, k_max, w_obstacle, w_smooth, w_curvature);
       optimizer_name_ = "lbfgs";
       R_INFO << "  ✓ Optimizer (forced): lbfgs";
-      optimizer_forced = true;
-    }
-    else if (forced_optimizer == "removed_optimizer" || forced_optimizer == "minimumsnap")
-    {
-      int max_iter;
-      double vel_max, acc_max, jerk_max;
-      rpp::RemovedConfig ackermann_cfg;
-      ackermann_cfg.wheelbase = 0.5278;
-      ackermann_cfg.max_steer_angle = 0.4143;
-      ackermann_cfg.track_width = 0.5908;
-      double safety_range = 0.6;
-      private_nh.param("/move_base/Optimizer/max_iter", max_iter, 100);
-      private_nh.param("/move_base/Optimizer/vel_max", vel_max, 1.0);
-      private_nh.param("/move_base/Optimizer/acc_max", acc_max, 2.0);
-      private_nh.param("/move_base/Optimizer/jerk_max", jerk_max, 4.0);
-        optimizer_ = std::make_shared<rpp::trajectory_optimization::RemovedOptimizer>(
-          costmap_ros_, max_iter, vel_max, acc_max, jerk_max, safety_range, ackermann_cfg);
-      optimizer_name_ = "removed_optimizer";
-      R_INFO << "  ✓ Optimizer (forced): removed_optimizer";
       optimizer_forced = true;
     }
     else if (forced_optimizer == "splinetrajectory" || forced_optimizer == "splinetrajectory_optimizer" ||
@@ -642,31 +580,28 @@ void PathPlannerEngine::configurePlannerToolchain()
 
     if (!optimizer_forced)
     {
-      // // 启用removed_snap优化器
+      // Default to LBFGS smoothing (minimum-snap implementation removed from this repository).
       int max_iter;
-      double vel_max, acc_max, jerk_max;
-      rpp::RemovedConfig ackermann_cfg;
-      ackermann_cfg.wheelbase = 0.5278;
-      ackermann_cfg.max_steer_angle = 0.4143;
-      ackermann_cfg.track_width = 0.5908;
-      double safety_range = 0.6;
-
-      private_nh.param("/move_base/Optimizer/max_iter", max_iter, 100);
-      private_nh.param("/move_base/Optimizer/vel_max", vel_max, 1.0);
-      private_nh.param("/move_base/Optimizer/acc_max", acc_max, 2.0);
-      private_nh.param("/move_base/Optimizer/jerk_max", jerk_max, 4.0);
-      optimizer_ = std::make_shared<rpp::trajectory_optimization::RemovedOptimizer>(
-        costmap_ros_, max_iter, vel_max, acc_max, jerk_max, safety_range, ackermann_cfg);
-      optimizer_name_ = "removed_optimizer";
-      R_INFO << "  ✓ Optimizer: removed_optimizer";
+      double obs_dist_max, k_max;
+      double w_obstacle, w_smooth, w_curvature;
+      private_nh.param("/move_base/Optimizer/max_iter", max_iter, 200);
+      private_nh.param("/move_base/Optimizer/obs_dist_max", obs_dist_max, 1.4);
+      private_nh.param("/move_base/Optimizer/k_max", k_max, 0.2);
+      private_nh.param("/move_base/Optimizer/w_obstacle", w_obstacle, 1.0);
+      private_nh.param("/move_base/Optimizer/w_smooth", w_smooth, 10.0);
+      private_nh.param("/move_base/Optimizer/w_curvature", w_curvature, 10.0);
+      optimizer_ = std::make_shared<rpp::trajectory_optimization::LBFGSOptimizer>(
+        costmap_ros_, max_iter, obs_dist_max, k_max, w_obstacle, w_smooth, w_curvature);
+      optimizer_name_ = "lbfgs";
+      R_INFO << "  ✓ Optimizer: lbfgs";
     }
 
     // 走廊约束（当前未接入优化器约束项，保持关闭）
     use_safety_corridor_ = false;
     R_INFO << "  ✓ Safety Corridor CONSTRAINT DISABLED";
 
-    // 可视化走廊：A* 变种默认开启（可在 YAML 中设置 auto_safety_corridor:=false 手动覆盖）
-    apply_safety_corridor_vis(true);
+    // Safety corridor visualization is disabled by default in this repo variant.
+    apply_safety_corridor_vis(false);
   }
   else if (planner_name_ == "hybrid_astar")
   {
@@ -714,21 +649,20 @@ void PathPlannerEngine::configurePlannerToolchain()
 
     if (!optimizer_forced)
     {
-      // 启用conjugate梯度优化器
+      // Default to LBFGS smoothing (conjugate-gradient implementation removed from this repository).
       int max_iter;
-      double alpha, obs_dist_max, k_max;
+      double obs_dist_max, k_max;
       double w_obstacle, w_smooth, w_curvature;
-      private_nh.param("/move_base/Optimizer/max_iter", max_iter, 100);
-      private_nh.param("/move_base/Optimizer/alpha", alpha, 1.0);
-      private_nh.param("/move_base/Optimizer/obs_dist_max", obs_dist_max, 2.0);
-      private_nh.param("/move_base/Optimizer/k_max", k_max, 4.0);
+      private_nh.param("/move_base/Optimizer/max_iter", max_iter, 200);
+      private_nh.param("/move_base/Optimizer/obs_dist_max", obs_dist_max, 1.4);
+      private_nh.param("/move_base/Optimizer/k_max", k_max, 0.2);
       private_nh.param("/move_base/Optimizer/w_obstacle", w_obstacle, 1.0);
-      private_nh.param("/move_base/Optimizer/w_smooth", w_smooth, 2.0);
-      private_nh.param("/move_base/Optimizer/w_curvature", w_curvature, 4.0);
-      optimizer_ = std::make_shared<rpp::trajectory_optimization::RemovedOptimizer>(
-        costmap_ros_, max_iter, alpha, obs_dist_max, k_max, w_obstacle, w_smooth, w_curvature);
-      optimizer_name_ = "removed_optimizer";
-      R_INFO << "  ✓ Optimizer: removed_optimizer";
+      private_nh.param("/move_base/Optimizer/w_smooth", w_smooth, 10.0);
+      private_nh.param("/move_base/Optimizer/w_curvature", w_curvature, 10.0);
+      optimizer_ = std::make_shared<rpp::trajectory_optimization::LBFGSOptimizer>(
+        costmap_ros_, max_iter, obs_dist_max, k_max, w_obstacle, w_smooth, w_curvature);
+      optimizer_name_ = "lbfgs";
+      R_INFO << "  ✓ Optimizer: lbfgs";
     }
 
     // 禁用安全走廊

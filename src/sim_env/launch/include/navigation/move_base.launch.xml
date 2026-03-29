@@ -1,13 +1,6 @@
-<!-- 
-******************************************************************************************
-*  Copyright (c) 2023 REMOVED, All Rights Reserved                                  *
-*                                                                                        *
-*  @brief    move base module parameter configure.                                       *
-*  @author   REMOVED,                                                               *
-*  @version  1.0.0                                                                       *
-*  @date     2022.06.30                                                                  *
-*  @license  GNU General Public License (GPL)                                            *
-******************************************************************************************
+<!--
+    move_base configuration for this workspace.
+    Note: some optimizers/controllers have been removed from this repository variant.
 -->
 
 <launch>
@@ -23,7 +16,7 @@
     <!-- global path planner name -->
     <arg name="global_planner" default="sunshine" />
     <!-- local planner name -->
-    <arg name="local_planner" default="hybridmpccorridor" />
+    <arg name="local_planner" default="reachability" />
     <!-- NOTE: leave empty ("") to let PathPlannerNode choose a suitable optimizer per global_planner. -->
     <arg name="optimizer" default="" />
 
@@ -54,12 +47,6 @@
 
         <!-- rhcf search (per-plugin namespace) -->
         <rosparam ns="RhcfPlanner" file="$(find sim_env)/config/planner/rhcf_planner_params_ns.yaml" command="load" if="$(eval arg('global_planner')=='rhcf')" />
-
-        <!-- conjugate gradient -->
-        <rosparam file="$(find sim_env)/config/trajectory_optimization/removed_optimizer_params.yaml" command="load" if="$(eval arg('optimizer')=='removed_optimizer')" />
-
-        <!-- minimumsnap -->
-        <rosparam file="$(find sim_env)/config/trajectory_optimization/minimumsnap_params.yaml" command="load" if="$(eval arg('optimizer')=='removed_optimizer')" />
 
         <!-- lbfgs -->
         <rosparam file="$(find sim_env)/config/trajectory_optimization/lbfgs_params.yaml" command="load" if="$(eval arg('optimizer')=='lbfgs')" />

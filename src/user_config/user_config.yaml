@@ -86,18 +86,15 @@ robots_config:
     # - 或者显式指定一个优化器（强制覆盖默认选择）
     # 已支持的优化器（见 PathPlannerEngine::configurePlannerToolchain）：
     # - "" / 不填            : 自动选择（推荐）
-    # - removed_optimizer : Minimum-snap（默认用于 a_star/dijkstra/gbfs）
     # - lbfgs                 : LBFGS 平滑避障（默认用于 hybrid_astar / rhcf）
-    # - removed_optimizer    : 共轭梯度（默认用于 sunshine）
     # - splinetrajectory_optimizer : 五次样条（min-jerk）
     # - minco_spline_optimizer      : MINCO 样条（min-jerk）
     # - none / disabled       : 显式禁用优化器
     # 兼容别名：
-    # - minimumsnap
     # - lbfgs_optimizer
     # - splinetrajectory / spline_trajectory / spline_trajectory_optimizer
     # - minco / minco_spline / minco_spline_opt
-    robot1_optimizer: "removed_optimizer"
+    robot1_optimizer: ""
     robot1_x_pos: "0.0"
     robot1_y_pos: "0.0"
     robot1_z_pos: "0.0"

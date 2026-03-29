@@ -36,8 +36,6 @@ include_directories(
 
 # optimization
 file(GLOB trajectory_optimization_src_files src/trajectory_optimization/*.cpp)
-file(GLOB trajectory_removed_optimizer_src_files src/trajectory_optimization/removed_optimizer/*.cpp)
-file(GLOB trajectory_removed_optimizer_src_files src/trajectory_optimization/removed_optimizer/*.cpp)
 file(GLOB trajectory_lbfgs_optimizer_src_files src/trajectory_optimization/lbfgs_optimizer/*.cpp)
 file(GLOB trajectory_splinetrajectory_optimizer_src_files src/trajectory_optimization/splinetrajectory_optimizer/*.cpp)
 file(GLOB trajectory_minco_spline_optimizer_src_files src/trajectory_optimization/minco_spline_optimizer/*.cpp)
@@ -45,8 +43,6 @@ file(GLOB trajectory_minco_spline_optimizer_src_files src/trajectory_optimizatio
 # trajectory optimization
 add_library(trajectory_optimization
   ${trajectory_optimization_src_files}
-  ${trajectory_removed_optimizer_src_files}
-  ${trajectory_removed_optimizer_src_files}
   ${trajectory_lbfgs_optimizer_src_files}
   ${trajectory_splinetrajectory_optimizer_src_files}
   ${trajectory_minco_spline_optimizer_src_files}

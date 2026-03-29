@@ -8,8 +8,8 @@
 #include <ros/param.h>
 #include <xmlrpcpp/XmlRpcValue.h>
 
-#include "path_planner/removed_prune/removed_rdp.h"
-#include "trajectory_planner/trajectory_optimization/removed_optimizer/time_allocation.h"
+#include "path_planner/path_simplify/rdp_path_simplifier.h"
+#include "trajectory_planner/trajectory_optimization/time_allocation.h"
 
 namespace
 {
