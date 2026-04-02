@@ -37,6 +37,9 @@
     <a href="https://github.com/SYS-zdk/robot_path_planner_public/pulls" target="_blank">
         <img alt="PRs" src="https://img.shields.io/github/issues-pr/SYS-zdk/robot_path_planner_public?style=flat-square" />
     </a>
+    <a href="https://space.bilibili.com/17052261" target="_blank">
+        <img alt="Bilibili" src="https://img.shields.io/badge/Bilibili-个人主页-00A1D6?style=flat-square&logo=bilibili&logoColor=white" />
+    </a>
 </p>
 
 ## 1. Environment Requirements
@@ -347,7 +350,12 @@ This section is a catalog of the core modules in the repository (planners / cont
             <code>src/plugins/map_plugins/voronoi_layer/</code><br/>
             <img src="./images/voronoi_layer.gif" width="260" height="212" alt="voronoi_layer (upstream) demo" />
         </td>
-        <td align="center" width="33%"></td>
+        <td align="center" width="33%">
+            <b>st_probability_layer</b><br/>
+            <em>Space–time occupancy probability layer for dynamic obstacle prediction.</em><br/>
+            <code>src/plugins/map_plugins/st_probability_layer/</code><br/>
+            <img src="./images/STProbabilityLayer.gif" width="260" height="212" alt="st_probability_layer demo" />
+        </td>
     </tr>
 </table>
 
@@ -988,8 +996,6 @@ This repository contains many parameters across planners, controllers, costmaps,
 
 ## 9. Citation
 If you want to learn more about the detailed mathematical derivation of this project or if this project helps your research, please refer to the following citation formats:
-- Global Planning Part: Dingkun Zhang, Haichao Liang. Hierarchical motion planning for mobile robots via dynamic corridor inflation and convex optimization. *Journal of System Simulation*, 2026. https://link.cnki.net/urlid/11.3092.V.20250916.1349.002.
-- Local Planning Part: Dingkun Zhang, Xingtao Wu, Haichao Liang. Hybrid local planning for autonomous mobile robots based on a dynamic state graph. *Robot Technology and Application*, 2025.
 - Repository: Zhang Dingkun. robot_path_planner_public[EB/OL]. GitHub, 2026[2026-03-27]. Available: https://github.com/SYS-zdk/robot_path_planner_public
 
 ## 10. License
